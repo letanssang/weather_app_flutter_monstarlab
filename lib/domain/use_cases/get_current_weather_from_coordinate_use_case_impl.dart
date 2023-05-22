@@ -9,16 +9,14 @@ class GetCurrentWeatherFromCoordinateUseCaseImpl
   GetCurrentWeatherFromCoordinateUseCaseImpl(this._weatherRepository);
 
   @override
-  Future<Weather> run(
-      {double? lat, double? lon, String? lang, String? units}) async {
+  Future<List<Weather>> run({double? lat, double? lon, String? units}) async {
     final weatherResponse =
         await _weatherRepository.getCurrentWeatherFromCoordinate(
       lat: lat,
       lon: lon,
-      lang: lang,
       units: units,
     );
-    final weather = weatherResponse.data[0];
+    final weather = weatherResponse.data;
     return weather;
   }
 }

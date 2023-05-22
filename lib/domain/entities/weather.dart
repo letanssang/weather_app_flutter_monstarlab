@@ -13,8 +13,6 @@ class Weather {
   String cityName;
   int clouds;
   double? gust;
-  double lat;
-  double lon;
   @JsonKey(name: 'ob_time')
   String obTime;
   @JsonKey(name: 'pod')
@@ -48,8 +46,6 @@ class Weather {
       this.cityName,
       this.clouds,
       this.gust,
-      this.lat,
-      this.lon,
       this.obTime,
       this.sunrise,
       this.sunset,

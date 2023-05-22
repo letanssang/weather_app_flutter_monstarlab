@@ -12,26 +12,23 @@ class WeatherRepositoryImpl implements WeatherRepository {
     String? city,
     double? lat,
     double? lon,
-    String? lang,
     String? units,
   }) {
     return _weatherApiClient.getCurrentWeatherFromCoordinate(
       lat,
       lon,
       apiKey,
-      lang,
       units,
     );
   }
 
   @override
-  Future<WeatherResponse> getCurrentWeatherFromCityName(
-      {String? city, String? cities, String? lang, String? units}) {
-    return _weatherApiClient.getCurrentWeatherFromCityName(
+  Future<WeatherResponse> getCurrentWeatherFromCityList(
+      {String? city, String? cities, String? units}) {
+    return _weatherApiClient.getCurrentWeatherFromCityList(
       city,
       cities,
       apiKey,
-      lang,
       units,
     );
   }

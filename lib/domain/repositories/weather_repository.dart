@@ -4,13 +4,11 @@ abstract class WeatherRepository {
   Future<WeatherResponse> getCurrentWeatherFromCoordinate({
     double? lat,
     double? lon,
-    String? lang,
     String? units,
   });
-  Future<WeatherResponse> getCurrentWeatherFromCityName({
+  Future<WeatherResponse> getCurrentWeatherFromCityList({
     String? city,
     String? cities,
-    String? lang,
     String? units,
   });
 }

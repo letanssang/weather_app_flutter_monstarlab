@@ -34,10 +34,13 @@ dependencies:
   # UI
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.5
+  dots_indicator: ^2.1.1
   freezed_annotation: ^2.2.0
   get_it: ^7.6.0
   retrofit: ^4.0.1
   dio: ^5.1.2
+  flutter_riverpod: ^2.3.6
+  geolocator: ^9.0.2
 
 
 dev_dependencies:

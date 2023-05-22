@@ -1,9 +1,9 @@
 import '../entities/weather.dart';
 
-abstract class GetCurrentWeatherFromCityNameUseCase {
+abstract class GetCurrentWeatherFromCityListUseCase {
   Future<List<Weather>> run({
     String? city,
-    String? lang,
+    String? cities,
     String? units,
   });
 }

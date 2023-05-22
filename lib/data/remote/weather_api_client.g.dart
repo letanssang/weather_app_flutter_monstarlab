@@ -25,7 +25,6 @@ class _WeatherApiClient implements WeatherApiClient {
     double? lat,
     double? lon,
     String? key,
-    String? lang,
     String? units,
   ) async {
     const _extra = <String, dynamic>{};
@@ -33,7 +32,6 @@ class _WeatherApiClient implements WeatherApiClient {
       r'lat': lat,
       r'lon': lon,
       r'key': key,
-      r'lang': lang,
       r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
@@ -57,11 +55,10 @@ class _WeatherApiClient implements WeatherApiClient {
   }
 
   @override
-  Future<WeatherResponse> getCurrentWeatherFromCityName(
+  Future<WeatherResponse> getCurrentWeatherFromCityList(
     String? city,
     String? cities,
     String? key,
-    String? lang,
     String? units,
   ) async {
     const _extra = <String, dynamic>{};
@@ -69,7 +66,6 @@ class _WeatherApiClient implements WeatherApiClient {
       r'city': city,
       r'cities': cities,
       r'key': key,
-      r'lang': lang,
       r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);

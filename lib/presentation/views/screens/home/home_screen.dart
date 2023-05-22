@@ -1,96 +1,179 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../di/dependency_injection.dart';
+import '../../../../domain/enums/fetching_state.dart';
+import '../../../../domain/use_cases/get_current_weather_from_city_list_use_case.dart';
+import '../../../../domain/use_cases/get_current_weather_from_coordinate_use_case.dart';
+import '../../../base/base_state.dart';
+import '../../../base/base_view_model.dart';
 import '../../widgets/custom_container.dart';
 import 'components/hour_forecast.dart';
 import 'components/next_forecast.dart';
+import 'home_state.dart';
+import 'home_view_model.dart';
 
-class HomeScreen extends StatelessWidget {
+final baseViewModelProvider =
+    StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel());
+final homeViewModelProvider =
+    StateNotifierProvider<HomeViewModel, HomeState>((ref) => HomeViewModel(
+          ref,
+          getIt<GetCurrentWeatherFromCoordinateUseCase>(),
+          getIt<GetCurrentWeatherFromCityListUseCase>(),
+        ));
+
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  @override
+  void didChangeDependencies() async {
+    // TODO: implement didChangeDependencies
+    await ref.read(baseViewModelProvider.notifier).init();
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeViewModel = ref.read(homeViewModelProvider.notifier);
+      homeViewModel.fetchWeathers();
+    });
+    final state = ref.watch(homeViewModelProvider);
+    state.pageController.addListener(() {
+      ref
+          .read(homeViewModelProvider.notifier)
+          .onPageChanged(state.pageController.page!);
+    });
+  }
+
+  @override
+  void dispose() {
+    ref.watch(homeViewModelProvider).pageController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: .0,
-        backgroundColor: const Color(0xFF29B2DD),
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.add, size: 32),
-        ),
-        title: Center(
-          child: Text('Hanoi',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-              )),
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert, size: 32),
-          ),
-        ],
-      ),
-      body: Container(
-        padding: const EdgeInsets.only(
-          top: 24,
-          left: 40,
-          right: 40,
-        ),
-        decoration: const BoxDecoration(
-          color: Color(0xFF29B2DD),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Column(
-                children: const [
-                  Image(image: AssetImage('assets/images/sun.png')),
-                  Text(
-                    '28\u00b0',
-                    style: TextStyle(
-                      fontSize: 64,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    'Clear',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
-                  Text(
-                    'Max: 31\u00b0 Min: 20\u00b0',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+    final state = ref.watch(homeViewModelProvider);
+    return state.fetchingState != FetchingState.success
+        ? Container(
+            color: const Color(0xFF29B2DD),
+            child: const Center(child: CircularProgressIndicator()))
+        : Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: const Color(0xFF29B2DD),
+              leading: IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.add, size: 32),
               ),
-              CustomContainer(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    buildWeatherInfoItem('assets/images/icons/rain.svg', '6%'),
-                    buildWeatherInfoItem(
-                        'assets/images/icons/humidity.svg', '67%'),
-                    buildWeatherInfoItem(
-                        'assets/images/icons/wind.svg', '25 km/h')
-                  ],
+              title: Column(children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Center(
+                    child:
+                        Text(state.weathers[state.currentPage.toInt()].cityName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            )),
+                  ),
                 ),
-              ),
-              const HourForecast(),
-              const NextForecast(),
-            ],
-          ),
-        ),
-      ),
-    );
+                DotsIndicator(
+                  dotsCount: state.weathers.length,
+                  position: state.currentPage,
+                  decorator: DotsDecorator(
+                    size: const Size.square(9.0),
+                    activeSize: const Size(15.0, 9.0),
+                    activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    activeColor: Colors.white,
+                    color: Colors.white.withOpacity(.5),
+                    spacing: const EdgeInsets.symmetric(horizontal: 4.0),
+                  ),
+                )
+              ]),
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.more_vert, size: 32),
+                ),
+              ],
+            ),
+            body: PageView.builder(
+              controller: state.pageController,
+              itemCount: state.weathers.length,
+              itemBuilder: (context, index) {
+                final weather = state.weathers[index];
+                return Container(
+                  padding: const EdgeInsets.only(
+                    top: 24,
+                    left: 40,
+                    right: 40,
+                  ),
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF29B2DD),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Column(
+                          children: [
+                            const Image(
+                                image: AssetImage('assets/images/sun.png')),
+                            Text(
+                              '${weather.temperature}\u00b0',
+                              style: const TextStyle(
+                                fontSize: 64,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              weather.weather.description,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                              ),
+                            ),
+                            Text(
+                              'Feel like ${weather.feelLike}\u00b0',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                        CustomContainer(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              buildWeatherInfoItem(
+                                  'assets/images/icons/rain.svg', '6%'),
+                              buildWeatherInfoItem(
+                                  'assets/images/icons/humidity.svg',
+                                  '${weather.humidity}%'),
+                              buildWeatherInfoItem(
+                                  'assets/images/icons/wind.svg',
+                                  '${weather.windSpd} m/s'),
+                            ],
+                          ),
+                        ),
+                        const HourForecast(),
+                        const NextForecast(),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ));
   }
 
   Row buildWeatherInfoItem(

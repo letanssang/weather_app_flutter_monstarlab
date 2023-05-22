@@ -14,15 +14,13 @@ abstract class WeatherApiClient {
     @Query('lat') double? lat,
     @Query('lon') double? lon,
     @Query('key') String? key,
-    @Query('lang') String? lang,
     @Query('units') String? units,
   );
   @GET('current')
-  Future<WeatherResponse> getCurrentWeatherFromCityName(
+  Future<WeatherResponse> getCurrentWeatherFromCityList(
     @Query('city') String? city,
     @Query('cities') String? cities,
     @Query('key') String? key,
-    @Query('lang') String? lang,
     @Query('units') String? units,
   );
 }
