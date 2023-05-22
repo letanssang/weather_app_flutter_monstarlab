@@ -1,3 +1,5 @@
+import 'package:weather_app_flutter_monstarlab/data/remote/models/response/daily_response.dart';
+import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_response.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/string.dart';
 
 import '../../domain/repositories/weather_repository.dart';
@@ -6,7 +8,9 @@ import '../remote/weather_api_client.dart';
 
 class WeatherRepositoryImpl implements WeatherRepository {
   final WeatherApiClient _weatherApiClient;
+
   WeatherRepositoryImpl(this._weatherApiClient);
+
   @override
   Future<WeatherResponse> getCurrentWeatherFromCoordinate({
     String? city,
@@ -28,6 +32,28 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return _weatherApiClient.getCurrentWeatherFromCityList(
       city,
       cities,
+      apiKey,
+      units,
+    );
+  }
+
+  @override
+  Future<DailyResponse> getDailyForecast(
+      {String? city, int? days, String? units}) {
+    return _weatherApiClient.getDailyForecast(
+      city,
+      days,
+      apiKey,
+      units,
+    );
+  }
+
+  @override
+  Future<HourlyResponse> getHourlyForecast(
+      {String? city, int? hours, String? units}) {
+    return _weatherApiClient.getHourlyForecast(
+      city,
+      hours,
       apiKey,
       units,
     );

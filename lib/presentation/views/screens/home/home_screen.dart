@@ -11,9 +11,9 @@ import '../../../base/base_state.dart';
 import '../../../base/base_view_model.dart';
 import '../../widgets/custom_container.dart';
 import 'components/aqi_container.dart';
+import 'components/daily_container.dart';
 import 'components/detail_weather_information.dart';
-import 'components/hour_forecast.dart';
-import 'components/next_forecast.dart';
+import 'components/hourly_container.dart';
 import 'home_state.dart';
 import 'home_view_model.dart';
 
@@ -116,8 +116,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 return Container(
                   padding: const EdgeInsets.only(
                     top: 24,
-                    left: 20,
-                    right: 20,
+                    left: 10,
+                    right: 10,
                   ),
                   decoration: const BoxDecoration(
                     color: Color(0xFF29B2DD),
@@ -167,8 +167,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             ],
                           ),
                         ),
-                        const HourForecast(),
-                        const NextForecast(),
+                        HourForecast(
+                            hourlyForecasts: weather.hourlyForecasts,
+                            date: weather.obTime),
+                        DailyContainer(dailyForecasts: weather.dailyForecasts),
                         DetailWeatherInformation(weather: weather),
                         AQIContainer(aqi: weather.aqi),
                       ],

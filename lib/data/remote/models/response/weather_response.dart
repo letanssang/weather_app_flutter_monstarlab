@@ -13,5 +13,4 @@ class WeatherResponse {
 
   factory WeatherResponse.fromJson(Map<String, dynamic> json) =>
       _$WeatherResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$WeatherResponseToJson(this);
 }

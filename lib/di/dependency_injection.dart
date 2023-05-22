@@ -10,6 +10,7 @@ import '../domain/use_cases/get_current_weather_from_coordinate_use_case.dart';
 import '../domain/use_cases/get_current_weather_from_coordinate_use_case_impl.dart';
 
 final getIt = GetIt.instance;
+
 void setupDependencies() {
   //register services
   getIt.registerLazySingleton<Dio>(() => Dio());

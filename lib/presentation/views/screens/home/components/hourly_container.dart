@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app_flutter_monstarlab/domain/entities/hourly_forecast.dart';
 
 import '../../../widgets/custom_container.dart';
 
 class HourForecast extends StatelessWidget {
+  final List<HourlyForecast> hourlyForecasts;
+  final DateTime date;
   const HourForecast({
     super.key,
+    required this.hourlyForecasts,
+    required this.date,
   });
 
   @override
@@ -17,8 +22,8 @@ class HourForecast extends StatelessWidget {
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'Today',
                 style: TextStyle(
                   color: Colors.white,
@@ -27,8 +32,8 @@ class HourForecast extends StatelessWidget {
                 ),
               ),
               Text(
-                'Mar, 10',
-                style: TextStyle(
+                DateFormat('MMM, d').format(date),
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 18,
@@ -40,22 +45,18 @@ class HourForecast extends StatelessWidget {
             height: 16,
           ),
           Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                buildCardWeather(
-                    '31\u00b0C', 'assets/images/weather_icon.svg', '12:00'),
-                buildCardWeather(
-                    '31\u00b0C', 'assets/images/weather_icon.svg', '12:00'),
-                buildCardWeather(
-                    '31\u00b0C', 'assets/images/weather_icon.svg', '12:00'),
-                buildCardWeather(
-                    '31\u00b0C', 'assets/images/weather_icon.svg', '12:00'),
-                buildCardWeather(
-                    '31\u00b0C', 'assets/images/weather_icon.svg', '12:00'),
-              ],
-            ),
-          ),
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: hourlyForecasts.length,
+                  itemExtent: 100,
+                  itemBuilder: (context, index) {
+                    return buildCardWeather(
+                      '${hourlyForecasts[index].temperature}\u00b0',
+                      'assets/images/weather_state/${hourlyForecasts[index].weather.icon}.png',
+                      hourlyForecasts[index].windSpd,
+                      DateFormat('HH:mm').format(hourlyForecasts[index].time),
+                    );
+                  })),
         ],
       ),
     );
@@ -64,10 +65,11 @@ class HourForecast extends StatelessWidget {
   Column buildCardWeather(
     String temperature,
     String iconPath,
+    double windSpd,
     String hour,
   ) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text(temperature,
             style: const TextStyle(
@@ -75,8 +77,18 @@ class HourForecast extends StatelessWidget {
               fontWeight: FontWeight.w400,
               fontSize: 18,
             )),
-        SvgPicture.asset(
+        Image.asset(
           iconPath,
+          width: 50,
+          height: 50,
+        ),
+        Text(
+          '${windSpd} m/s',
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+          ),
         ),
         Text(hour,
             style: const TextStyle(

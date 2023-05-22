@@ -24,7 +24,7 @@ class DetailWeatherInformation extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomContainer(
-                  margin: const EdgeInsets.only(right: 10, bottom: 10),
+                  margin: const EdgeInsets.only(right: 5, bottom: 5),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -33,7 +33,7 @@ class DetailWeatherInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                '${weather.windDirection}',
+                                weather.windDirection,
                                 maxLines: 1,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -43,7 +43,7 @@ class DetailWeatherInformation extends StatelessWidget {
                               ),
                               Text(
                                 '${weather.windSpd} m/s',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
@@ -63,19 +63,19 @@ class DetailWeatherInformation extends StatelessWidget {
               ),
               Expanded(
                 child: CustomContainer(
-                    margin: const EdgeInsets.only(right: 10, top: 10),
+                    margin: const EdgeInsets.only(right: 5, top: 5),
                     child: Row(children: [
                       Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text('${weather.sunrise}',
+                            Text(weather.sunrise,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                 )),
-                            Text('${weather.sunset}',
+                            Text(weather.sunset,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -141,7 +141,7 @@ Column buildRowDetailInformation(String title, String value, String unit) =>
                 )),
           ],
         ),
-        Divider(
+        const Divider(
           color: Colors.white70,
           thickness: 1,
         ),

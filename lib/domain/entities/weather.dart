@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'daily_forecast.dart';
+import 'hourly_forecast.dart';
 import 'weather_description.dart';
 
 part 'weather.g.dart';
@@ -14,7 +16,7 @@ class Weather {
   int clouds;
   double? gust;
   @JsonKey(name: 'ob_time')
-  String obTime;
+  DateTime obTime;
   @JsonKey(name: 'pod')
   String partOfDay;
   @JsonKey(name: 'pres')
@@ -34,6 +36,10 @@ class Weather {
   String windDirection;
   @JsonKey(name: 'wind_spd')
   double windSpd;
+  @JsonKey(includeFromJson: false)
+  List<HourlyForecast> hourlyForecasts;
+  @JsonKey(includeFromJson: false)
+  List<DailyForecast> dailyForecasts;
 
   Weather(
       this.feelLike,
@@ -53,9 +59,10 @@ class Weather {
       this.uv,
       this.weather,
       this.windDirection,
-      this.windSpd);
+      this.windSpd,
+      {this.hourlyForecasts = const [],
+      this.dailyForecasts = const []});
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
-  Map<String, dynamic> toJson() => _$WeatherToJson(this);
 }
