@@ -10,6 +10,8 @@ import '../../../../domain/use_cases/get_current_weather_from_coordinate_use_cas
 import '../../../base/base_state.dart';
 import '../../../base/base_view_model.dart';
 import '../../widgets/custom_container.dart';
+import 'components/aqi_container.dart';
+import 'components/detail_weather_information.dart';
 import 'components/hour_forecast.dart';
 import 'components/next_forecast.dart';
 import 'home_state.dart';
@@ -114,8 +116,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 return Container(
                   padding: const EdgeInsets.only(
                     top: 24,
-                    left: 40,
-                    right: 40,
+                    left: 20,
+                    right: 20,
                   ),
                   decoration: const BoxDecoration(
                     color: Color(0xFF29B2DD),
@@ -125,8 +127,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       children: [
                         Column(
                           children: [
-                            const Image(
-                                image: AssetImage('assets/images/sun.png')),
+                            Image.asset(
+                              'assets/images/weather_state/${weather.weather.icon}.png',
+                              width: 125,
+                              fit: BoxFit.fitWidth,
+                            ),
                             Text(
                               '${weather.temperature}\u00b0',
                               style: const TextStyle(
@@ -135,18 +140,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 color: Colors.white,
                               ),
                             ),
-                            Text(
-                              weather.weather.description,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                              ),
-                            ),
-                            Text(
-                              'Feel like ${weather.feelLike}\u00b0',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 30),
+                              child: Text(
+                                weather.weather.description,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                ),
                               ),
                             ),
                           ],
@@ -168,6 +169,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                         const HourForecast(),
                         const NextForecast(),
+                        DetailWeatherInformation(weather: weather),
+                        AQIContainer(aqi: weather.aqi),
                       ],
                     ),
                   ),

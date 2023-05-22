@@ -72,11 +72,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/sun.png
-     - assets/images/icons/humidity.svg
-     - assets/images/icons/rain.svg
-     - assets/images/icons/wind.svg
-     - assets/images/weather_icon.svg
+    - assets/images/
+    - assets/images/weather_state/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
