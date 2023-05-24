@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:weather_app_flutter_monstarlab/data/local/database_helper/database_helper.dart';
+import 'package:weather_app_flutter_monstarlab/data/local/database_helper/database_helper_impl.dart';
+import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
+import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper_impl.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/weather_api_client.dart';
 
 import '../data/repositories/weather_repository_impl.dart';
@@ -16,6 +20,9 @@ void setupDependencies() {
   getIt.registerLazySingleton<Dio>(() => Dio());
   getIt.registerLazySingleton<WeatherApiClient>(
       () => WeatherApiClient(getIt<Dio>()));
+  getIt.registerLazySingleton<SharedPreferencesHelper>(
+      () => SharedPreferencesHelperImpl());
+  getIt.registerLazySingleton<DatabaseHelper>(() => DatabaseHelperImpl());
   //register repositories
   getIt.registerLazySingleton<WeatherRepository>(
       () => WeatherRepositoryImpl(getIt<WeatherApiClient>()));

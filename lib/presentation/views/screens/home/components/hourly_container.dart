@@ -7,16 +7,19 @@ import '../../../widgets/custom_container.dart';
 class HourForecast extends StatelessWidget {
   final List<HourlyForecast> hourlyForecasts;
   final DateTime date;
+  final Color? color;
   const HourForecast({
     super.key,
     required this.hourlyForecasts,
     required this.date,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     return CustomContainer(
+      color: color,
       height: screenHeight * 0.3,
       child: Column(
         children: [
@@ -83,7 +86,7 @@ class HourForecast extends StatelessWidget {
           height: 50,
         ),
         Text(
-          '${windSpd} m/s',
+          '$windSpd m/s',
           style: const TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,

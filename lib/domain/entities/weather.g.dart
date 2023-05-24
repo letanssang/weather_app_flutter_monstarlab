@@ -25,6 +25,14 @@ Weather _$WeatherFromJson(Map<String, dynamic> json) => Weather(
       WeatherDescription.fromJson(json['weather'] as Map<String, dynamic>),
       json['wind_cdir_full'] as String,
       (json['wind_spd'] as num).toDouble(),
+      hourlyForecasts: (json['hourlyForecasts'] as List<dynamic>?)
+              ?.map((e) => HourlyForecast.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
+      dailyForecasts: (json['dailyForecasts'] as List<dynamic>?)
+              ?.map((e) => DailyForecast.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
@@ -46,4 +54,6 @@ Map<String, dynamic> _$WeatherToJson(Weather instance) => <String, dynamic>{
       'weather': instance.weather,
       'wind_cdir_full': instance.windDirection,
       'wind_spd': instance.windSpd,
+      'hourlyForecasts': instance.hourlyForecasts,
+      'dailyForecasts': instance.dailyForecasts,
     };

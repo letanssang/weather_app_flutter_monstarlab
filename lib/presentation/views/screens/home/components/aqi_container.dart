@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../widgets/custom_container.dart';
 
 class AQIContainer extends StatelessWidget {
-  const AQIContainer({
-    super.key,
-    required this.aqi,
-  });
+  const AQIContainer({super.key, required this.aqi, this.color});
 
   final int aqi;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+      color: color,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

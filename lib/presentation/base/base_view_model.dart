@@ -50,8 +50,6 @@ class BaseViewModel extends StateNotifier<BaseState> {
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
     final location = await Geolocator.getCurrentPosition();
-    print(location.latitude);
-    print(location.longitude);
     state = state.copyWith(
       currentLatitude: location.latitude,
       currentLongitude: location.longitude,

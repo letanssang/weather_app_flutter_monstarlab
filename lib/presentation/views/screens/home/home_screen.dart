@@ -1,7 +1,9 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/components/detail_weather_information.dart';
+import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../../../domain/enums/fetching_state.dart';
@@ -9,11 +11,11 @@ import '../../../../domain/use_cases/get_current_weather_from_city_list_use_case
 import '../../../../domain/use_cases/get_current_weather_from_coordinate_use_case.dart';
 import '../../../base/base_state.dart';
 import '../../../base/base_view_model.dart';
-import '../../widgets/custom_container.dart';
 import 'components/aqi_container.dart';
 import 'components/daily_container.dart';
-import 'components/detail_weather_information.dart';
 import 'components/hourly_container.dart';
+import 'components/main_weather_information.dart';
+import 'components/more_weather_information.dart';
 import 'home_state.dart';
 import 'home_view_model.dart';
 
@@ -24,9 +26,11 @@ final homeViewModelProvider =
           ref,
           getIt<GetCurrentWeatherFromCoordinateUseCase>(),
           getIt<GetCurrentWeatherFromCityListUseCase>(),
+          getIt<SharedPreferencesHelper>(),
         ));
 
 class HomeScreen extends ConsumerStatefulWidget {
+  static const routeName = '/home';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -68,9 +72,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: const Color(0xFF29B2DD),
+              backgroundColor: weatherColors[
+                      state.weathers[state.currentPage.toInt()].weather.code ~/
+                          100]
+                  .startColor,
               leading: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/city-manager');
+                },
                 icon: const Icon(Icons.add, size: 32),
               ),
               title: Column(children: [
@@ -113,94 +122,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               itemCount: state.weathers.length,
               itemBuilder: (context, index) {
                 final weather = state.weathers[index];
+                final colorIndex = weather.weather.code ~/ 100;
                 return Container(
                   padding: const EdgeInsets.only(
-                    top: 24,
                     left: 10,
                     right: 10,
                   ),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF29B2DD),
-                  ),
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                        weatherColors[colorIndex].startColor,
+                        weatherColors[colorIndex].midColor,
+                        weatherColors[colorIndex].endColor,
+                      ])),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        Column(
-                          children: [
-                            Image.asset(
-                              'assets/images/weather_state/${weather.weather.icon}.png',
-                              width: 125,
-                              fit: BoxFit.fitWidth,
-                            ),
-                            Text(
-                              '${weather.temperature}\u00b0',
-                              style: const TextStyle(
-                                fontSize: 64,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 30),
-                              child: Text(
-                                weather.weather.description,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ),
-                          ],
+                        MainWeatherInformation(
+                          icon: weather.weather.icon,
+                          temp: weather.temperature,
+                          description: weather.weather.description,
                         ),
-                        CustomContainer(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              buildWeatherInfoItem(
-                                  'assets/images/icons/rain.svg', '6%'),
-                              buildWeatherInfoItem(
-                                  'assets/images/icons/humidity.svg',
-                                  '${weather.humidity}%'),
-                              buildWeatherInfoItem(
-                                  'assets/images/icons/wind.svg',
-                                  '${weather.windSpd} m/s'),
-                            ],
-                          ),
+                        DetailWeatherInformation(
+                          humidity: weather.humidity,
+                          windSpd: weather.windSpd,
+                          color: weatherColors[colorIndex].foregroundColor,
                         ),
                         HourForecast(
-                            hourlyForecasts: weather.hourlyForecasts,
-                            date: weather.obTime),
-                        DailyContainer(dailyForecasts: weather.dailyForecasts),
-                        DetailWeatherInformation(weather: weather),
-                        AQIContainer(aqi: weather.aqi),
+                          hourlyForecasts: weather.hourlyForecasts,
+                          date: weather.obTime,
+                          color: weatherColors[colorIndex].foregroundColor,
+                        ),
+                        DailyContainer(
+                          dailyForecasts: weather.dailyForecasts,
+                          color: weatherColors[colorIndex].foregroundColor,
+                          buttonColor: weatherColors[colorIndex].endColor,
+                        ),
+                        MoreWeatherInformation(
+                            weather: weather,
+                            color: weatherColors[colorIndex].foregroundColor),
+                        AQIContainer(
+                            aqi: weather.aqi,
+                            color: weatherColors[colorIndex].foregroundColor),
                       ],
                     ),
                   ),
                 );
               },
             ));
-  }
-
-  Row buildWeatherInfoItem(
-    String assetPath,
-    String title,
-  ) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          assetPath,
-          width: 24,
-          height: 24,
-        ),
-        Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-        )
-      ],
-    );
   }
 }

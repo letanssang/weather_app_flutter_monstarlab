@@ -17,4 +17,5 @@ class HourlyForecast {
   HourlyForecast(this.temperature, this.time, this.weather, this.windSpd);
   factory HourlyForecast.fromJson(Map<String, dynamic> json) =>
       _$HourlyForecastFromJson(json);
+  Map<String, dynamic> toJson() => _$HourlyForecastToJson(this);
 }

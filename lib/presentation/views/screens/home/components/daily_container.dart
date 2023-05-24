@@ -6,14 +6,18 @@ import '../../../widgets/custom_container.dart';
 
 class DailyContainer extends StatelessWidget {
   final List<DailyForecast> dailyForecasts;
-  const DailyContainer({
-    super.key,
-    required this.dailyForecasts,
-  });
+  final Color? color;
+  final Color buttonColor;
+  const DailyContainer(
+      {super.key,
+      required this.dailyForecasts,
+      this.color,
+      required this.buttonColor});
 
   @override
   Widget build(BuildContext context) {
     return CustomContainer(
+      color: color,
       child: Column(
         children: [
           const Row(
@@ -39,7 +43,7 @@ class DailyContainer extends StatelessWidget {
               dailyForecasts[i].minTemperature,
             ),
           ActionChip(
-              backgroundColor: const Color(0xFF29B2DD),
+              backgroundColor: buttonColor,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               label: const Text(
                 '7-day forecast',

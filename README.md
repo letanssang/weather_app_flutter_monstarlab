@@ -1,17 +1,15 @@
 # weather_app_flutter_monstarlab
 
-A new Flutter project.
+Weather App is a mobile application that allows users to look up current weather information and forecast for different locations.
 
-## Getting Started
+## Feature
+Display current weather information including temperature, humidity, wind speed, pressure, and weather description.
+Provide daily weather forecast for the upcoming days.
 
-This project is a starting point for a Flutter application.
+Look up weather information based on user's geographical coordinates.
 
-A few resources to get you started if this is your first Flutter project:
+Search for weather information by location name.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+User-friendly interface, easy to use, and compatible with mobile devices.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
 # weather_app_flutter_monstarlab

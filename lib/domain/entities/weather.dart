@@ -36,9 +36,7 @@ class Weather {
   String windDirection;
   @JsonKey(name: 'wind_spd')
   double windSpd;
-  @JsonKey(includeFromJson: false)
   List<HourlyForecast> hourlyForecasts;
-  @JsonKey(includeFromJson: false)
   List<DailyForecast> dailyForecasts;
 
   Weather(
@@ -65,4 +63,6 @@ class Weather {
 
   factory Weather.fromJson(Map<String, dynamic> json) =>
       _$WeatherFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WeatherToJson(this);
 }

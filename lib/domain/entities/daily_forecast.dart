@@ -26,4 +26,5 @@ class DailyForecast {
   );
   factory DailyForecast.fromJson(Map<String, dynamic> json) =>
       _$DailyForecastFromJson(json);
+  Map<String, dynamic> toJson() => _$DailyForecastToJson(this);
 }
