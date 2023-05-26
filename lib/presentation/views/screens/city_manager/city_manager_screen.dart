@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
+import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
-class CityManagerScreen extends StatelessWidget {
+import 'components/city_weather_card.dart';
+
+class CityManagerScreen extends ConsumerWidget {
   static const routeName = '/city-manager';
 
   const CityManagerScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(baseViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -64,47 +70,31 @@ class CityManagerScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: 5,
+              child: ReorderableListView.builder(
+                padding: const EdgeInsets.only(top: 10),
+                onReorder: (oldIndex, newIndex) {
+                  ref
+                      .read(baseViewModelProvider.notifier)
+                      .reorderCity(oldIndex, newIndex);
+                },
+                itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    height: 100,
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.cyan,
-                    ),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'City Name',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 22,
-                              ),
-                            ),
-                            Text(
-                              'API 24 Clear',
-                              style: TextStyle(
-                                  color: Colors.white70, fontSize: 16),
-                            )
-                          ],
-                        ),
-                        Text(
-                          '30\u00b0',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
+                  return CityWeatherCard(
+                      key: UniqueKey(),
+                      cityName: state.citiesWeather[index].cityName,
+                      aqi: state.citiesWeather[index].aqi,
+                      description:
+                          state.citiesWeather[index].weather.description,
+                      temperature: state.citiesWeather[index].temperature,
+                      colorStart: weatherColors[
+                              state.citiesWeather[index].weather.code ~/ 100]
+                          .startColor,
+                      colorMid: weatherColors[
+                              state.citiesWeather[index].weather.code ~/ 100]
+                          .midColor,
+                      colorEnd: weatherColors[
+                              state.citiesWeather[index].weather.code ~/ 100]
+                          .endColor);
                 },
               ),
             )

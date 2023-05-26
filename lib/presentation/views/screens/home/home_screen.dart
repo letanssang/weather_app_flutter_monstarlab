@@ -24,13 +24,12 @@ final baseViewModelProvider =
     StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel(
           ref,
           getIt<SharedPreferencesHelper>(),
+          getIt<GetCurrentWeatherFromCityListUseCase>(),
         ));
 final homeViewModelProvider =
     StateNotifierProvider<HomeViewModel, HomeState>((ref) => HomeViewModel(
           ref,
           getIt<GetCurrentWeatherFromCoordinateUseCase>(),
-          getIt<GetCurrentWeatherFromCityListUseCase>(),
-          getIt<SharedPreferencesHelper>(),
         ));
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -48,7 +47,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     await ref.read(baseViewModelProvider.notifier).init();
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    final state = ref.watch(homeViewModelProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(homeViewModelProvider.notifier).fetchWeathers();
     });
@@ -64,7 +62,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
-    final weathers = [...state.locationWeather, ...state.citiesWeather];
+    final citiesWeather = ref.watch(baseViewModelProvider).citiesWeather;
+    final weathers = [...state.locationWeather, ...citiesWeather];
     return state.fetchingState != FetchingState.success
         ? Container(
             color: const Color(0xFF29B2DD),
@@ -109,9 +108,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 )
               ]),
               actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.more_vert, size: 32),
+                PopupMenuButton<String>(
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  onSelected: (String item) {
+                    if (item == 'Setting') {
+                      Navigator.of(context).pushNamed('/setting');
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'Share',
+                      child: Text('Share'),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'Setting',
+                      child: Text('Setting'),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -131,7 +146,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         weatherColors[colorIndex].midColor,
                         weatherColors[colorIndex].endColor,
                       ])),
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     left: 10,
                     right: 10,
                   ),
@@ -142,6 +157,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           icon: weather.weather.icon,
                           temp: weather.temperature,
                           description: weather.weather.description,
+                          maxTemp: weather.dailyForecasts[0].maxTemperature,
+                          minTemp: weather.dailyForecasts[0].minTemperature,
                         ),
                         DetailWeatherInformation(
                           humidity: weather.humidity,

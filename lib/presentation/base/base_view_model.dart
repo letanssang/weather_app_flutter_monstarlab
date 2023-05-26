@@ -1,18 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
+import 'package:weather_app_flutter_monstarlab/domain/use_cases/get_current_weather_from_city_list_use_case.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/base/base_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 
 import '../../data/local/shared_preferences_helper/shared_preferences_helper.dart';
+import '../../domain/entities/weather.dart';
 import '../../domain/enums/weather_units.dart';
 
 class BaseViewModel extends StateNotifier<BaseState> {
   final Ref _ref;
   final SharedPreferencesHelper _sharedPreferencesHelper;
+  final GetCurrentWeatherFromCityListUseCase
+      _getCurrentWeatherFromCityListUseCase;
   BaseViewModel(
     this._ref,
     this._sharedPreferencesHelper,
+    this._getCurrentWeatherFromCityListUseCase,
   ) : super(const BaseState());
 
   void updateUnits(WeatherUnits units) {
@@ -23,10 +28,18 @@ class BaseViewModel extends StateNotifier<BaseState> {
     await determinePosition();
     final cities = await _sharedPreferencesHelper.getCities();
     state = state.copyWith(cities: cities);
+    final bool isCitiesAvailable =
+        await _sharedPreferencesHelper.isCitiesWeatherAvailable(state.cities);
+    if (isCitiesAvailable) {
+      final citiesWeather = await _sharedPreferencesHelper.getWeatherCities();
+      state = state.copyWith(citiesWeather: citiesWeather);
+    } else {
+      _sharedPreferencesHelper.clearCitiesWeather();
+      await fetchCitiesWeather();
+    }
   }
 
   Future<void> determinePosition() async {
-    Ref ref;
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -80,7 +93,7 @@ class BaseViewModel extends StateNotifier<BaseState> {
   Future<void> updateCities(List<City> cities) async {
     await _sharedPreferencesHelper.saveCities(cities);
     state = state.copyWith(cities: cities);
-    await _ref.read(homeViewModelProvider.notifier).fetchWeathers();
+    _ref.read(homeViewModelProvider.notifier).fetchWeathers();
   }
 
   String getCitiesIdsString() {
@@ -93,5 +106,43 @@ class BaseViewModel extends StateNotifier<BaseState> {
 
   bool isCityIdDuplicated(List<City> cities, int cityId) {
     return cities.any((city) => city.id == cityId);
+  }
+
+  void updateCitiesWeather(List<Weather> citiesWeather, List<City> cities) {
+    state = state.copyWith(citiesWeather: citiesWeather);
+    _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
+    updateCities(cities);
+  }
+
+  Future<void> fetchCitiesWeather() async {
+    final citiesIdString = getCitiesIdsString();
+    if (citiesIdString.isEmpty) return;
+    final weatherCities = await _getCurrentWeatherFromCityListUseCase.run(
+      cities: _ref.read(baseViewModelProvider.notifier).getCitiesIdsString(),
+      units: 'metric',
+    );
+    state = state.copyWith(citiesWeather: weatherCities);
+    await _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
+  }
+
+  void reorderCity(int oldIndex, int newIndex) {
+    final citiesWeather = state.citiesWeather;
+    final cities = state.cities;
+    if (newIndex > oldIndex) {
+      newIndex -= 1;
+    }
+    final item = citiesWeather.removeAt(oldIndex);
+    final itemCities = cities.removeAt(oldIndex);
+    citiesWeather.insert(newIndex, item);
+    cities.insert(newIndex, itemCities);
+    updateCitiesWeather(citiesWeather, cities);
+  }
+
+  void removeCity(int index) {
+    final citiesWeather = state.citiesWeather;
+    final cities = state.cities;
+    citiesWeather.removeAt(index);
+    cities.removeAt(index);
+    updateCitiesWeather(citiesWeather, cities);
   }
 }

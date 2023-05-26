@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/weather_units.dart';
 
 import '../../domain/entities/city.dart';
+import '../../domain/entities/weather.dart';
 
 part 'base_state.freezed.dart';
 
@@ -9,6 +10,7 @@ part 'base_state.freezed.dart';
 class BaseState with _$BaseState {
   const factory BaseState({
     @Default(WeatherUnits.metric) WeatherUnits units,
+    @Default([]) List<Weather> citiesWeather,
     @Default(0) double currentLatitude,
     @Default(0) double currentLongitude,
     @Default([]) List<City> cities,

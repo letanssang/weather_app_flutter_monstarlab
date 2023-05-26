@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 
 import 'di/dependency_injection.dart';
 import 'presentation/views/screens/city_manager/city_manager_screen.dart';
@@ -34,9 +36,11 @@ class MyApp extends StatelessWidget {
       ),
       home: const HomeScreen(),
       routes: {
+        DailyForecastScreen.routeName: (context) => const DailyForecastScreen(),
         CityManagerScreen.routeName: (context) => const CityManagerScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
         SearchScreen.routeName: (context) => const SearchScreen(),
+        SettingScreen.routeName: (context) => const SettingScreen(),
       },
     );
   }

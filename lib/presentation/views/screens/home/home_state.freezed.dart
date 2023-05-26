@@ -17,7 +17,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$HomeState {
   List<Weather> get locationWeather => throw _privateConstructorUsedError;
-  List<Weather> get citiesWeather => throw _privateConstructorUsedError;
   FetchingState get fetchingState => throw _privateConstructorUsedError;
   PageController get pageController => throw _privateConstructorUsedError;
   double get currentPage => throw _privateConstructorUsedError;
@@ -34,7 +33,6 @@ abstract class $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Weather> locationWeather,
-      List<Weather> citiesWeather,
       FetchingState fetchingState,
       PageController pageController,
       double currentPage});
@@ -54,7 +52,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @override
   $Res call({
     Object? locationWeather = null,
-    Object? citiesWeather = null,
     Object? fetchingState = null,
     Object? pageController = null,
     Object? currentPage = null,
@@ -63,10 +60,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       locationWeather: null == locationWeather
           ? _value.locationWeather
           : locationWeather // ignore: cast_nullable_to_non_nullable
-              as List<Weather>,
-      citiesWeather: null == citiesWeather
-          ? _value.citiesWeather
-          : citiesWeather // ignore: cast_nullable_to_non_nullable
               as List<Weather>,
       fetchingState: null == fetchingState
           ? _value.fetchingState
@@ -93,7 +86,6 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
   @useResult
   $Res call(
       {List<Weather> locationWeather,
-      List<Weather> citiesWeather,
       FetchingState fetchingState,
       PageController pageController,
       double currentPage});
@@ -111,7 +103,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? locationWeather = null,
-    Object? citiesWeather = null,
     Object? fetchingState = null,
     Object? pageController = null,
     Object? currentPage = null,
@@ -120,10 +111,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
       locationWeather: null == locationWeather
           ? _value._locationWeather
           : locationWeather // ignore: cast_nullable_to_non_nullable
-              as List<Weather>,
-      citiesWeather: null == citiesWeather
-          ? _value._citiesWeather
-          : citiesWeather // ignore: cast_nullable_to_non_nullable
               as List<Weather>,
       fetchingState: null == fetchingState
           ? _value.fetchingState
@@ -146,12 +133,10 @@ class __$$_HomeStateCopyWithImpl<$Res>
 class _$_HomeState implements _HomeState {
   const _$_HomeState(
       {final List<Weather> locationWeather = const [],
-      final List<Weather> citiesWeather = const [],
       this.fetchingState = FetchingState.init,
       required this.pageController,
       this.currentPage = 0})
-      : _locationWeather = locationWeather,
-        _citiesWeather = citiesWeather;
+      : _locationWeather = locationWeather;
 
   final List<Weather> _locationWeather;
   @override
@@ -160,15 +145,6 @@ class _$_HomeState implements _HomeState {
     if (_locationWeather is EqualUnmodifiableListView) return _locationWeather;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_locationWeather);
-  }
-
-  final List<Weather> _citiesWeather;
-  @override
-  @JsonKey()
-  List<Weather> get citiesWeather {
-    if (_citiesWeather is EqualUnmodifiableListView) return _citiesWeather;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_citiesWeather);
   }
 
   @override
@@ -182,7 +158,7 @@ class _$_HomeState implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(locationWeather: $locationWeather, citiesWeather: $citiesWeather, fetchingState: $fetchingState, pageController: $pageController, currentPage: $currentPage)';
+    return 'HomeState(locationWeather: $locationWeather, fetchingState: $fetchingState, pageController: $pageController, currentPage: $currentPage)';
   }
 
   @override
@@ -192,8 +168,6 @@ class _$_HomeState implements _HomeState {
             other is _$_HomeState &&
             const DeepCollectionEquality()
                 .equals(other._locationWeather, _locationWeather) &&
-            const DeepCollectionEquality()
-                .equals(other._citiesWeather, _citiesWeather) &&
             (identical(other.fetchingState, fetchingState) ||
                 other.fetchingState == fetchingState) &&
             (identical(other.pageController, pageController) ||
@@ -206,7 +180,6 @@ class _$_HomeState implements _HomeState {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(_locationWeather),
-      const DeepCollectionEquality().hash(_citiesWeather),
       fetchingState,
       pageController,
       currentPage);
@@ -221,15 +194,12 @@ class _$_HomeState implements _HomeState {
 abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final List<Weather> locationWeather,
-      final List<Weather> citiesWeather,
       final FetchingState fetchingState,
       required final PageController pageController,
       final double currentPage}) = _$_HomeState;
 
   @override
   List<Weather> get locationWeather;
-  @override
-  List<Weather> get citiesWeather;
   @override
   FetchingState get fetchingState;
   @override

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../../../../../domain/entities/weather.dart';
 import '../../../widgets/custom_container.dart';
@@ -32,31 +31,22 @@ class MoreWeatherInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                weather.windDirection,
-                                maxLines: 1,
+                                'Feels like',
                                 style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
-                                '${weather.windSpd} m/s',
+                                '${weather.feelLike}\u00b0',
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 24,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Expanded(
-                            child: Image.asset(
-                          'assets/images/compass.png',
-                          width: 50,
-                          height: 50,
-                        )),
                       ]),
                 ),
               ),
@@ -64,49 +54,58 @@ class MoreWeatherInformation extends StatelessWidget {
                 child: CustomContainer(
                     color: color,
                     margin: const EdgeInsets.only(right: 5, top: 5),
-                    child: Row(children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(weather.sunrise,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                )),
-                            Text(weather.sunset,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                ))
-                          ],
-                        ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(weather.sunrise,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  )),
+                              Text('Sunrise',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white70,
+                                  )),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(weather.sunset,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                  )),
+                              Text('Sunset',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white70,
+                                  )),
+                            ],
+                          ),
+                        ],
                       ),
-                      Expanded(
-                        child: SvgPicture.asset(
-                          'assets/images/sunrise.svg',
-                          width: 50,
-                          height: 50,
-                          colorFilter: const ColorFilter.mode(
-                              Colors.white, BlendMode.srcIn),
-                        ),
-                      ),
-                    ])),
+                    )),
               ),
             ],
           ),
         )),
         Expanded(
           child: CustomContainer(
+            padding: const EdgeInsets.all(20),
             color: color,
             height: MediaQuery.of(context).size.height * 0.3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildRowDetailInformation(
-                    'Feel like', weather.feelLike.toString(), '\u00b0'),
                 buildRowDetailInformation(
                     'Visibility', weather.visibility.toString(), 'km'),
                 buildRowDetailInformation(

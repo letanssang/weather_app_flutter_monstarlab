@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
 
 import '../../../../../domain/entities/daily_forecast.dart';
 import '../../../widgets/custom_container.dart';
@@ -20,10 +21,10 @@ class DailyContainer extends StatelessWidget {
       color: color,
       child: Column(
         children: [
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'Next Forecast',
                 style: TextStyle(
                   color: Colors.white,
@@ -31,20 +32,29 @@ class DailyContainer extends StatelessWidget {
                   fontSize: 20,
                 ),
               ),
-              Icon(Icons.calendar_month, color: Colors.white),
+              IconButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(
+                        DailyForecastScreen.routeName,
+                        arguments: dailyForecasts);
+                  },
+                  icon: Icon(Icons.calendar_month, color: Colors.white)),
             ],
           ),
           for (int i = 1; i < 4; i++)
             buildNextForecastItem(
-              DateFormat('EEEE').format(dailyForecasts[i].date),
+              i == 1
+                  ? 'Tomorrow'
+                  : DateFormat('EEEE').format(dailyForecasts[i].date),
               dailyForecasts[i].weather.icon,
               dailyForecasts[i].weather.description,
               dailyForecasts[i].maxTemperature,
               dailyForecasts[i].minTemperature,
             ),
           ActionChip(
+              elevation: 3,
               backgroundColor: buttonColor,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               label: const Text(
                 '7-day forecast',
                 style: TextStyle(
@@ -52,7 +62,10 @@ class DailyContainer extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
-              onPressed: () {}),
+              onPressed: () {
+                Navigator.of(context).pushNamed(DailyForecastScreen.routeName,
+                    arguments: dailyForecasts);
+              }),
         ],
       ),
     );

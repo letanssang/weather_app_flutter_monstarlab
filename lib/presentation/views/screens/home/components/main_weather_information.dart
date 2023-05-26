@@ -4,11 +4,15 @@ class MainWeatherInformation extends StatelessWidget {
   final String icon;
   final double temp;
   final String description;
+  final double maxTemp;
+  final double minTemp;
   const MainWeatherInformation({
     super.key,
     required this.icon,
     required this.temp,
     required this.description,
+    required this.maxTemp,
+    required this.minTemp,
   });
 
   @override
@@ -32,12 +36,22 @@ class MainWeatherInformation extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
             description,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 24,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            'Max: ${maxTemp.toStringAsFixed(0)}\u00b0 Min: ${minTemp.toStringAsFixed(0)}\u00b0',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 20,
             ),
           ),
         ),

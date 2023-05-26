@@ -65,41 +65,44 @@ class HourForecast extends StatelessWidget {
     );
   }
 
-  Column buildCardWeather(
+  Padding buildCardWeather(
     String temperature,
     String iconPath,
     double windSpd,
     String hour,
   ) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(temperature,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
-              fontSize: 18,
-            )),
-        Image.asset(
-          iconPath,
-          width: 50,
-          height: 50,
-        ),
-        Text(
-          '$windSpd m/s',
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(temperature,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+          Image.asset(
+            iconPath,
+            width: 50,
+            height: 50,
           ),
-        ),
-        Text(hour,
+          Text(
+            '$windSpd m/s',
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w400,
               fontSize: 18,
-            )),
-      ],
+            ),
+          ),
+          Text(hour,
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              )),
+        ],
+      ),
     );
   }
 }
