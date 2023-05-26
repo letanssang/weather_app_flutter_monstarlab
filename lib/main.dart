@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
 
@@ -7,6 +10,13 @@ import 'presentation/views/screens/city_manager/city_manager_screen.dart';
 import 'presentation/views/screens/home/home_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  ByteData data =
+      await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
+  SecurityContext.defaultContext
+      .setTrustedCertificatesBytes(data.buffer.asUint8List());
+
   setupDependencies();
   runApp(const ProviderScope(child: MyApp()));
 }

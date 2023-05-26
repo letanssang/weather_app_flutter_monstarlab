@@ -6,20 +6,36 @@ import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_state.dart';
 
 import '../../../../di/dependency_injection.dart';
+import '../../widgets/custom_loading_indicator.dart';
 
 final searchViewModelProvider =
     StateNotifierProvider<SearchViewModel, SearchState>(
-        (ref) => SearchViewModel(getIt<DatabaseHelper>()));
+        (ref) => SearchViewModel(ref, getIt<DatabaseHelper>()));
 
-class SearchScreen extends ConsumerWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   static const routeName = '/search';
 
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends ConsumerState<SearchScreen> {
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(searchViewModelProvider.notifier).focusOnStart();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final state = ref.watch(searchViewModelProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(15),
@@ -48,18 +64,13 @@ class SearchScreen extends ConsumerWidget {
                             ),
                             Flexible(
                                 child: TextField(
+                              textCapitalization: TextCapitalization.words,
                               controller: state.textEditingController,
                               focusNode: state.focusNode,
                               onChanged: (_) {
                                 ref
                                     .read(searchViewModelProvider.notifier)
                                     .onChangedHandler();
-                              },
-                              onEditingComplete: () {
-                                ref
-                                    .read(searchViewModelProvider.notifier)
-                                    .getSuggestCities();
-                                print(state.fetchingState);
                               },
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -69,9 +80,15 @@ class SearchScreen extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    TextButton(
-                        onPressed: Navigator.of(context).pop,
-                        child: const Text('Cancel'))
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: TextButton(
+                          onPressed: Navigator.of(context).pop,
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(fontSize: 18),
+                          )),
+                    )
                   ],
                 ),
               ),
@@ -81,14 +98,34 @@ class SearchScreen extends ConsumerWidget {
                     child: state.fetchingState == FetchingState.success
                         ? ListView.builder(
                             itemCount: state.suggestions.length,
-                            itemBuilder: (context, index) =>
-                                Text(state.suggestions[index].name))
+                            itemBuilder: (context, index) => ListTile(
+                              title: Text(
+                                state.suggestions[index].name,
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 18),
+                              ),
+                              subtitle: Text(
+                                state.suggestions[index].country,
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 16),
+                              ),
+                              trailing: IconButton(
+                                icon: Icon(Icons.add, color: Colors.black54),
+                                onPressed: () {
+                                  ref
+                                      .read(searchViewModelProvider.notifier)
+                                      .addCityToList(state.suggestions[index]);
+                                },
+                              ),
+                            ),
+                          )
                         : state.fetchingState == FetchingState.loading
-                            ? const CircularProgressIndicator()
-                            : const Text(
-                                'No Results',
-                                style: TextStyle(
-                                  color: Colors.black,
+                            ? const CustomLoadingIndicator()
+                            : const Center(
+                                child: const Text(
+                                  'No Results',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 18),
                                 ),
                               ),
                   ),

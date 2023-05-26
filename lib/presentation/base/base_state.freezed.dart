@@ -19,6 +19,7 @@ mixin _$BaseState {
   WeatherUnits get units => throw _privateConstructorUsedError;
   double get currentLatitude => throw _privateConstructorUsedError;
   double get currentLongitude => throw _privateConstructorUsedError;
+  List<City> get cities => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BaseStateCopyWith<BaseState> get copyWith =>
@@ -31,7 +32,10 @@ abstract class $BaseStateCopyWith<$Res> {
       _$BaseStateCopyWithImpl<$Res, BaseState>;
   @useResult
   $Res call(
-      {WeatherUnits units, double currentLatitude, double currentLongitude});
+      {WeatherUnits units,
+      double currentLatitude,
+      double currentLongitude,
+      List<City> cities});
 }
 
 /// @nodoc
@@ -50,6 +54,7 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
     Object? units = null,
     Object? currentLatitude = null,
     Object? currentLongitude = null,
+    Object? cities = null,
   }) {
     return _then(_value.copyWith(
       units: null == units
@@ -64,6 +69,10 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
           ? _value.currentLongitude
           : currentLongitude // ignore: cast_nullable_to_non_nullable
               as double,
+      cities: null == cities
+          ? _value.cities
+          : cities // ignore: cast_nullable_to_non_nullable
+              as List<City>,
     ) as $Val);
   }
 }
@@ -76,7 +85,10 @@ abstract class _$$_BaseStateCopyWith<$Res> implements $BaseStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {WeatherUnits units, double currentLatitude, double currentLongitude});
+      {WeatherUnits units,
+      double currentLatitude,
+      double currentLongitude,
+      List<City> cities});
 }
 
 /// @nodoc
@@ -93,6 +105,7 @@ class __$$_BaseStateCopyWithImpl<$Res>
     Object? units = null,
     Object? currentLatitude = null,
     Object? currentLongitude = null,
+    Object? cities = null,
   }) {
     return _then(_$_BaseState(
       units: null == units
@@ -107,6 +120,10 @@ class __$$_BaseStateCopyWithImpl<$Res>
           ? _value.currentLongitude
           : currentLongitude // ignore: cast_nullable_to_non_nullable
               as double,
+      cities: null == cities
+          ? _value._cities
+          : cities // ignore: cast_nullable_to_non_nullable
+              as List<City>,
     ));
   }
 }
@@ -117,7 +134,9 @@ class _$_BaseState implements _BaseState {
   const _$_BaseState(
       {this.units = WeatherUnits.metric,
       this.currentLatitude = 0,
-      this.currentLongitude = 0});
+      this.currentLongitude = 0,
+      final List<City> cities = const []})
+      : _cities = cities;
 
   @override
   @JsonKey()
@@ -128,10 +147,18 @@ class _$_BaseState implements _BaseState {
   @override
   @JsonKey()
   final double currentLongitude;
+  final List<City> _cities;
+  @override
+  @JsonKey()
+  List<City> get cities {
+    if (_cities is EqualUnmodifiableListView) return _cities;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cities);
+  }
 
   @override
   String toString() {
-    return 'BaseState(units: $units, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude)';
+    return 'BaseState(units: $units, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude, cities: $cities)';
   }
 
   @override
@@ -143,12 +170,13 @@ class _$_BaseState implements _BaseState {
             (identical(other.currentLatitude, currentLatitude) ||
                 other.currentLatitude == currentLatitude) &&
             (identical(other.currentLongitude, currentLongitude) ||
-                other.currentLongitude == currentLongitude));
+                other.currentLongitude == currentLongitude) &&
+            const DeepCollectionEquality().equals(other._cities, _cities));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, units, currentLatitude, currentLongitude);
+  int get hashCode => Object.hash(runtimeType, units, currentLatitude,
+      currentLongitude, const DeepCollectionEquality().hash(_cities));
 
   @JsonKey(ignore: true)
   @override
@@ -161,7 +189,8 @@ abstract class _BaseState implements BaseState {
   const factory _BaseState(
       {final WeatherUnits units,
       final double currentLatitude,
-      final double currentLongitude}) = _$_BaseState;
+      final double currentLongitude,
+      final List<City> cities}) = _$_BaseState;
 
   @override
   WeatherUnits get units;
@@ -169,6 +198,8 @@ abstract class _BaseState implements BaseState {
   double get currentLatitude;
   @override
   double get currentLongitude;
+  @override
+  List<City> get cities;
   @override
   @JsonKey(ignore: true)
   _$$_BaseStateCopyWith<_$_BaseState> get copyWith =>

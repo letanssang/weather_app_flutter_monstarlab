@@ -9,7 +9,8 @@ part 'home_state.freezed.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
-    @Default([]) List<Weather> weathers,
+    @Default([]) List<Weather> locationWeather,
+    @Default([]) List<Weather> citiesWeather,
     @Default(FetchingState.init) FetchingState fetchingState,
     required PageController pageController,
     @Default(0) double currentPage,

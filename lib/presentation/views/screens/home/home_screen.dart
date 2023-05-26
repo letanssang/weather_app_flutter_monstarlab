@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/components/detail_weather_information.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/widgets/custom_loading_indicator.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
 import '../../../../di/dependency_injection.dart';
@@ -20,7 +21,10 @@ import 'home_state.dart';
 import 'home_view_model.dart';
 
 final baseViewModelProvider =
-    StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel());
+    StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel(
+          ref,
+          getIt<SharedPreferencesHelper>(),
+        ));
 final homeViewModelProvider =
     StateNotifierProvider<HomeViewModel, HomeState>((ref) => HomeViewModel(
           ref,
@@ -31,6 +35,7 @@ final homeViewModelProvider =
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = '/home';
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -40,18 +45,12 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   void didChangeDependencies() async {
-    // TODO: implement didChangeDependencies
     await ref.read(baseViewModelProvider.notifier).init();
+    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final homeViewModel = ref.read(homeViewModelProvider.notifier);
-      homeViewModel.fetchWeathers();
-    });
     final state = ref.watch(homeViewModelProvider);
-    state.pageController.addListener(() {
-      ref
-          .read(homeViewModelProvider.notifier)
-          .onPageChanged(state.pageController.page!);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(homeViewModelProvider.notifier).fetchWeathers();
     });
   }
 
@@ -65,16 +64,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
+    final weathers = [...state.locationWeather, ...state.citiesWeather];
     return state.fetchingState != FetchingState.success
         ? Container(
             color: const Color(0xFF29B2DD),
-            child: const Center(child: CircularProgressIndicator()))
+            child: const CustomLoadingIndicator())
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
               backgroundColor: weatherColors[
-                      state.weathers[state.currentPage.toInt()].weather.code ~/
-                          100]
+                      weathers[state.currentPage.toInt()].weather.code ~/ 100]
                   .startColor,
               leading: IconButton(
                 onPressed: () {
@@ -86,17 +85,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Center(
-                    child:
-                        Text(state.weathers[state.currentPage.toInt()].cityName,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w600,
-                            )),
+                    child: Text(weathers[state.currentPage.toInt()].cityName,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                        )),
                   ),
                 ),
                 DotsIndicator(
-                  dotsCount: state.weathers.length,
+                  dotsCount: weathers.length,
                   position: state.currentPage,
                   decorator: DotsDecorator(
                     size: const Size.square(9.0),
@@ -119,15 +117,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             body: PageView.builder(
               controller: state.pageController,
-              itemCount: state.weathers.length,
+              itemCount: weathers.length,
               itemBuilder: (context, index) {
-                final weather = state.weathers[index];
+                final weather = weathers[index];
                 final colorIndex = weather.weather.code ~/ 100;
                 return Container(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(
                           begin: Alignment.topCenter,
@@ -137,6 +131,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         weatherColors[colorIndex].midColor,
                         weatherColors[colorIndex].endColor,
                       ])),
+                  padding: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -171,6 +169,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 );
               },
-            ));
+            ),
+          );
   }
 }

@@ -1,11 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/base/base_state.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 
+import '../../data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import '../../domain/enums/weather_units.dart';
 
 class BaseViewModel extends StateNotifier<BaseState> {
-  BaseViewModel() : super(const BaseState());
+  final Ref _ref;
+  final SharedPreferencesHelper _sharedPreferencesHelper;
+  BaseViewModel(
+    this._ref,
+    this._sharedPreferencesHelper,
+  ) : super(const BaseState());
 
   void updateUnits(WeatherUnits units) {
     state = state.copyWith(units: units);
@@ -13,9 +21,12 @@ class BaseViewModel extends StateNotifier<BaseState> {
 
   Future<void> init() async {
     await determinePosition();
+    final cities = await _sharedPreferencesHelper.getCities();
+    state = state.copyWith(cities: cities);
   }
 
   Future<void> determinePosition() async {
+    Ref ref;
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -54,5 +65,33 @@ class BaseViewModel extends StateNotifier<BaseState> {
       currentLatitude: location.latitude,
       currentLongitude: location.longitude,
     );
+  }
+
+  bool addCityToList(City city) {
+    final cities = List<City>.from(state.cities);
+    if (!isCityIdDuplicated(cities, city.id)) {
+      cities.add(city);
+      updateCities(cities);
+      return true;
+    }
+    return false;
+  }
+
+  Future<void> updateCities(List<City> cities) async {
+    await _sharedPreferencesHelper.saveCities(cities);
+    state = state.copyWith(cities: cities);
+    await _ref.read(homeViewModelProvider.notifier).fetchWeathers();
+  }
+
+  String getCitiesIdsString() {
+    String citiesIds = '';
+    state.cities.forEach((city) {
+      citiesIds += '${city.id},';
+    });
+    return citiesIds;
+  }
+
+  bool isCityIdDuplicated(List<City> cities, int cityId) {
+    return cities.any((city) => city.id == cityId);
   }
 }
