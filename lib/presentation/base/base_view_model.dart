@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
-import 'package:weather_app_flutter_monstarlab/domain/use_cases/get_current_weather_from_city_list_use_case.dart';
+import 'package:weather_app_flutter_monstarlab/domain/use_cases/get_weather_from_city_list_use_case.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/base/base_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 
@@ -12,8 +12,7 @@ import '../../domain/enums/weather_units.dart';
 class BaseViewModel extends StateNotifier<BaseState> {
   final Ref _ref;
   final SharedPreferencesHelper _sharedPreferencesHelper;
-  final GetCurrentWeatherFromCityListUseCase
-      _getCurrentWeatherFromCityListUseCase;
+  final GetWeatherFromCityListUseCase _getCurrentWeatherFromCityListUseCase;
   BaseViewModel(
     this._ref,
     this._sharedPreferencesHelper,

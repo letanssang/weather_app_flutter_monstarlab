@@ -27,9 +27,9 @@ class DailyForecastScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: const Text(
+            const Padding(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
                 '7-day forecast',
                 style: TextStyle(
                   color: Colors.black,
@@ -71,7 +71,7 @@ class DailyForecastScreen extends StatelessWidget {
                               color: Colors.black26.withOpacity(0.5),
                               spreadRadius: 2,
                               blurRadius: 5,
-                              offset: Offset(0,
+                              offset: const Offset(0,
                                   3), // Điều chỉnh vị trí đổ bóng (ngang, dọc)
                             ),
                           ]),

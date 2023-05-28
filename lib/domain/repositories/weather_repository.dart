@@ -1,6 +1,8 @@
+import 'package:weather_app_flutter_monstarlab/data/remote/models/response/aqi_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/daily_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_response.dart';
 
+import '../../data/remote/models/response/hourly_aqi_response.dart';
 import '../../data/remote/models/response/weather_response.dart';
 
 abstract class WeatherRepository {
@@ -23,6 +25,19 @@ abstract class WeatherRepository {
   });
 
   Future<HourlyResponse> getHourlyForecast({
+    String? city,
+    int? hours,
+    String? units,
+  });
+  Future<AQIResponse> getCurrentAQI({
+    double? lat,
+    double? lon,
+    String? city,
+    String? units,
+  });
+  Future<HourlyAQIResponse> getHourlyAQI({
+    double? lat,
+    double? lon,
     String? city,
     int? hours,
     String? units,

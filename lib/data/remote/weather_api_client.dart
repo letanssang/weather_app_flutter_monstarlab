@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:weather_app_flutter_monstarlab/data/remote/models/response/aqi_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/daily_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_response.dart';
 
+import 'models/response/hourly_aqi_response.dart';
 import 'models/response/weather_response.dart';
 
 part 'weather_api_client.g.dart';
@@ -37,6 +39,23 @@ abstract class WeatherApiClient {
 
   @GET('forecast/hourly')
   Future<HourlyResponse> getHourlyForecast(
+    @Query('city') String? city,
+    @Query('hours') int? hours,
+    @Query('key') String? key,
+    @Query('units') String? units,
+  );
+  @GET('current/airquality')
+  Future<AQIResponse> getCurrentAQI(
+    @Query('lat') double? lat,
+    @Query('lon') double? lon,
+    @Query('city') String? city,
+    @Query('key') String? key,
+    @Query('units') String? units,
+  );
+  @GET('forecast/airquality')
+  Future<HourlyAQIResponse> getHourlyAQI(
+    @Query('lat') double? lat,
+    @Query('lon') double? lon,
     @Query('city') String? city,
     @Query('hours') int? hours,
     @Query('key') String? key,

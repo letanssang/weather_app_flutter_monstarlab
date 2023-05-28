@@ -1,12 +1,12 @@
 import '../entities/weather.dart';
 import '../repositories/weather_repository.dart';
-import 'get_current_weather_from_city_list_use_case.dart';
+import 'get_weather_from_city_list_use_case.dart';
 
-class GetCurrentWeatherFromCityListUseCaseImpl
-    implements GetCurrentWeatherFromCityListUseCase {
+class GetWeatherFromCityListUseCaseImpl
+    implements GetWeatherFromCityListUseCase {
   final WeatherRepository _weatherRepository;
 
-  GetCurrentWeatherFromCityListUseCaseImpl(this._weatherRepository);
+  GetWeatherFromCityListUseCaseImpl(this._weatherRepository);
 
   @override
   Future<List<Weather>> run(

@@ -10,7 +10,7 @@ class SettingScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          leading: BackButton(color: Colors.black),
+          leading: const BackButton(color: Colors.black),
           title: const Text(
             'Setting',
             style: TextStyle(color: Colors.black),
@@ -24,7 +24,7 @@ class SettingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Unit'),
+              const Text('Unit'),
               buildUnitListTile(
                 'Temperature',
                 ['\u00b0C', '\u00b0F'],
@@ -48,7 +48,7 @@ class SettingScreen extends StatelessWidget {
   ) {
     return ListTile(
       title: Text(title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -61,7 +61,7 @@ class SettingScreen extends StatelessWidget {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black54,
                   fontSize: 18,
                 )),

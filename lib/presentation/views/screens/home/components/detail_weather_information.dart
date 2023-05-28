@@ -6,9 +6,14 @@ import '../../../widgets/custom_container.dart';
 class DetailWeatherInformation extends StatelessWidget {
   final int humidity;
   final double windSpd;
+  final int pop;
   final Color? color;
   const DetailWeatherInformation(
-      {Key? key, required this.humidity, required this.windSpd, this.color})
+      {Key? key,
+      required this.humidity,
+      required this.windSpd,
+      required this.pop,
+      this.color})
       : super(key: key);
 
   @override
@@ -18,7 +23,7 @@ class DetailWeatherInformation extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          buildWeatherInfoItem('assets/images/icons/rain.svg', '6%'),
+          buildWeatherInfoItem('assets/images/icons/rain.svg', '$pop%'),
           buildWeatherInfoItem(
               'assets/images/icons/humidity.svg', '$humidity%'),
           buildWeatherInfoItem('assets/images/icons/wind.svg', '$windSpd m/s'),

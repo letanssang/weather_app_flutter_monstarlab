@@ -8,8 +8,8 @@ import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../../../domain/enums/fetching_state.dart';
-import '../../../../domain/use_cases/get_current_weather_from_city_list_use_case.dart';
-import '../../../../domain/use_cases/get_current_weather_from_coordinate_use_case.dart';
+import '../../../../domain/use_cases/get_weather_from_city_list_use_case.dart';
+import '../../../../domain/use_cases/get_weather_from_coordinate_use_case.dart';
 import '../../../base/base_state.dart';
 import '../../../base/base_view_model.dart';
 import 'components/aqi_container.dart';
@@ -24,12 +24,12 @@ final baseViewModelProvider =
     StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel(
           ref,
           getIt<SharedPreferencesHelper>(),
-          getIt<GetCurrentWeatherFromCityListUseCase>(),
+          getIt<GetWeatherFromCityListUseCase>(),
         ));
 final homeViewModelProvider =
     StateNotifierProvider<HomeViewModel, HomeState>((ref) => HomeViewModel(
           ref,
-          getIt<GetCurrentWeatherFromCoordinateUseCase>(),
+          getIt<GetWeatherFromCoordinateUseCase>(),
         ));
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -65,9 +65,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final citiesWeather = ref.watch(baseViewModelProvider).citiesWeather;
     final weathers = [...state.locationWeather, ...citiesWeather];
     return state.fetchingState != FetchingState.success
-        ? Container(
-            color: const Color(0xFF29B2DD),
-            child: const CustomLoadingIndicator())
+        ? state.fetchingState == FetchingState.failure
+            ? Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Something went wrong'),
+                      TextButton(
+                        onPressed: () {
+                          ref
+                              .read(homeViewModelProvider.notifier)
+                              .fetchWeathers();
+                        },
+                        child: const Text('Retry'),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            : Container(
+                color: const Color(0xFF29B2DD),
+                child: const CustomLoadingIndicator())
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -80,16 +99,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 icon: const Icon(Icons.add, size: 32),
               ),
+              centerTitle: true,
               title: Column(children: [
                 Padding(
                   padding: const EdgeInsets.all(5.0),
                   child: Center(
-                    child: Text(weathers[state.currentPage.toInt()].cityName,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w600,
-                        )),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (state.currentPage.toInt() == 0)
+                          const Icon(Icons.location_on, size: 20),
+                        Text(weathers[state.currentPage.toInt()].cityName,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                            )),
+                      ],
+                    ),
                   ),
                 ),
                 DotsIndicator(
@@ -136,52 +163,62 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               itemBuilder: (context, index) {
                 final weather = weathers[index];
                 final colorIndex = weather.weather.code ~/ 100;
-                return Container(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                        weatherColors[colorIndex].startColor,
-                        weatherColors[colorIndex].midColor,
-                        weatherColors[colorIndex].endColor,
-                      ])),
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        MainWeatherInformation(
-                          icon: weather.weather.icon,
-                          temp: weather.temperature,
-                          description: weather.weather.description,
-                          maxTemp: weather.dailyForecasts[0].maxTemperature,
-                          minTemp: weather.dailyForecasts[0].minTemperature,
-                        ),
-                        DetailWeatherInformation(
-                          humidity: weather.humidity,
-                          windSpd: weather.windSpd,
-                          color: weatherColors[colorIndex].foregroundColor,
-                        ),
-                        HourForecast(
-                          hourlyForecasts: weather.hourlyForecasts,
-                          date: weather.obTime,
-                          color: weatherColors[colorIndex].foregroundColor,
-                        ),
-                        DailyContainer(
-                          dailyForecasts: weather.dailyForecasts,
-                          color: weatherColors[colorIndex].foregroundColor,
-                          buttonColor: weatherColors[colorIndex].endColor,
-                        ),
-                        MoreWeatherInformation(
-                            weather: weather,
-                            color: weatherColors[colorIndex].foregroundColor),
-                        AQIContainer(
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await ref
+                        .read(homeViewModelProvider.notifier)
+                        .fetchWeathers();
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                          weatherColors[colorIndex].startColor,
+                          weatherColors[colorIndex].midColor,
+                          weatherColors[colorIndex].endColor,
+                        ])),
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          MainWeatherInformation(
+                            icon: weather.weather.icon,
+                            temp: weather.temperature,
+                            description: weather.weather.description,
+                            maxTemp: weather.dailyForecasts[0].maxTemperature,
+                            minTemp: weather.dailyForecasts[0].minTemperature,
+                          ),
+                          DetailWeatherInformation(
+                            humidity: weather.humidity,
+                            windSpd: weather.windSpd,
+                            pop: weather.hourlyForecasts.first.pop,
+                            color: weatherColors[colorIndex].foregroundColor,
+                          ),
+                          HourForecast(
+                            hourlyForecasts: weather.hourlyForecasts,
+                            date: weather.obTime,
+                            color: weatherColors[colorIndex].foregroundColor,
+                          ),
+                          DailyContainer(
+                            dailyForecasts: weather.dailyForecasts,
+                            color: weatherColors[colorIndex].foregroundColor,
+                            buttonColor: weatherColors[colorIndex].endColor,
+                          ),
+                          MoreWeatherInformation(
+                              weather: weather,
+                              color: weatherColors[colorIndex].foregroundColor),
+                          AQIContainer(
                             aqi: weather.aqi,
-                            color: weatherColors[colorIndex].foregroundColor),
-                      ],
+                            color: weatherColors[colorIndex].foregroundColor,
+                            cityName: weather.cityName,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

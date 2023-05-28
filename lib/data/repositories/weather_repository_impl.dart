@@ -1,8 +1,10 @@
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/daily_response.dart';
+import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_aqi_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_response.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/string.dart';
 
 import '../../domain/repositories/weather_repository.dart';
+import '../remote/models/response/aqi_response.dart';
 import '../remote/models/response/weather_response.dart';
 import '../remote/weather_api_client.dart';
 
@@ -52,6 +54,31 @@ class WeatherRepositoryImpl implements WeatherRepository {
   Future<HourlyResponse> getHourlyForecast(
       {String? city, int? hours, String? units}) {
     return _weatherApiClient.getHourlyForecast(
+      city,
+      hours,
+      apiKey,
+      units,
+    );
+  }
+
+  @override
+  Future<AQIResponse> getCurrentAQI(
+      {String? city, double? lat, double? lon, String? units}) {
+    return _weatherApiClient.getCurrentAQI(
+      lat,
+      lon,
+      city,
+      apiKey,
+      units,
+    );
+  }
+
+  @override
+  Future<HourlyAQIResponse> getHourlyAQI(
+      {double? lat, double? lon, String? city, int? hours, String? units}) {
+    return _weatherApiClient.getHourlyAQI(
+      lat,
+      lon,
       city,
       hours,
       apiKey,

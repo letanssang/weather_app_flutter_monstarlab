@@ -1,12 +1,12 @@
 import '../entities/weather.dart';
 import '../repositories/weather_repository.dart';
-import 'get_current_weather_from_coordinate_use_case.dart';
+import 'get_weather_from_coordinate_use_case.dart';
 
-class GetCurrentWeatherFromCoordinateUseCaseImpl
-    implements GetCurrentWeatherFromCoordinateUseCase {
+class GetWeatherFromCoordinateUseCaseImpl
+    implements GetWeatherFromCoordinateUseCase {
   final WeatherRepository _weatherRepository;
 
-  GetCurrentWeatherFromCoordinateUseCaseImpl(this._weatherRepository);
+  GetWeatherFromCoordinateUseCaseImpl(this._weatherRepository);
 
   @override
   Future<List<Weather>> run({double? lat, double? lon, String? units}) async {

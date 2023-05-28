@@ -13,8 +13,10 @@ class HourlyForecast {
   WeatherDescription weather;
   @JsonKey(name: 'wind_spd')
   double windSpd;
+  int pop;
 
-  HourlyForecast(this.temperature, this.time, this.weather, this.windSpd);
+  HourlyForecast(
+      this.temperature, this.time, this.weather, this.windSpd, this.pop);
   factory HourlyForecast.fromJson(Map<String, dynamic> json) =>
       _$HourlyForecastFromJson(json);
   Map<String, dynamic> toJson() => _$HourlyForecastToJson(this);

@@ -59,8 +59,8 @@ const List<WeatherColor> weatherColors = [
   //8 Clear Sky or Cloud
   WeatherColor(
     Color(0xFF29B2DD),
-    Color(0xFF33AADD),
-    Color(0xFF2DC8EA),
+    Color(0xFF5ACAE8),
+    Color(0xFF29B2DD),
     Color(0xFF008AC0),
   ),
   //9 Unknown Precipitation
