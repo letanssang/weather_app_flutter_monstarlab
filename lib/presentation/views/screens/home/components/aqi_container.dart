@@ -18,6 +18,7 @@ class AQIContainer extends StatelessWidget {
       },
       child: CustomContainer(
         color: color,
+        margin: const EdgeInsets.only(bottom: 40, top: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

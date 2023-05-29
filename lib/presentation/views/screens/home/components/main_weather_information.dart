@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
+
+import '../../../../../utils/functions/convert_unit.dart';
 
 class MainWeatherInformation extends StatelessWidget {
   final String icon;
@@ -6,6 +9,9 @@ class MainWeatherInformation extends StatelessWidget {
   final String description;
   final double maxTemp;
   final double minTemp;
+  final TemperatureUnit temperatureUnit;
+  final String temperatureUnitString;
+
   const MainWeatherInformation({
     super.key,
     required this.icon,
@@ -13,6 +19,8 @@ class MainWeatherInformation extends StatelessWidget {
     required this.description,
     required this.maxTemp,
     required this.minTemp,
+    required this.temperatureUnit,
+    required this.temperatureUnitString,
   });
 
   @override
@@ -27,28 +35,41 @@ class MainWeatherInformation extends StatelessWidget {
             fit: BoxFit.fitWidth,
           ),
         ),
-        Text(
-          '$temp\u00b0',
-          style: const TextStyle(
-            fontSize: 64,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            description,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(child: Container()),
+            Text(
+              getTemp(temp, temperatureUnit).toStringAsFixed(0),
+              style: const TextStyle(
+                fontSize: 64,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Text(
+                  temperatureUnitString,
+                  style: const TextStyle(color: Colors.white, fontSize: 30),
+                ),
+              ),
+            )
+          ],
+        ),
+        Text(
+          description,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Text(
-            'Max: ${maxTemp.toStringAsFixed(0)}\u00b0 Min: ${minTemp.toStringAsFixed(0)}\u00b0',
+            'Max: ${getTemp(maxTemp, temperatureUnit).toStringAsFixed(0)}\u00b0 Min: ${getTemp(minTemp, temperatureUnit).toStringAsFixed(0)}\u00b0',
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,

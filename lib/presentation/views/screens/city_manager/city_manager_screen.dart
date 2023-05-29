@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
 import 'components/city_weather_card.dart';
@@ -14,6 +15,7 @@ class CityManagerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(baseViewModelProvider);
+    final settingState = ref.watch(settingViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -80,21 +82,23 @@ class CityManagerScreen extends ConsumerWidget {
                 itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
                   return CityWeatherCard(
-                      key: UniqueKey(),
-                      cityName: state.citiesWeather[index].cityName,
-                      aqi: state.citiesWeather[index].aqi,
-                      description:
-                          state.citiesWeather[index].weather.description,
-                      temperature: state.citiesWeather[index].temperature,
-                      colorStart: weatherColors[
-                              state.citiesWeather[index].weather.code ~/ 100]
-                          .startColor,
-                      colorMid: weatherColors[
-                              state.citiesWeather[index].weather.code ~/ 100]
-                          .midColor,
-                      colorEnd: weatherColors[
-                              state.citiesWeather[index].weather.code ~/ 100]
-                          .endColor);
+                    key: UniqueKey(),
+                    cityName: state.citiesWeather[index].cityName,
+                    aqi: state.citiesWeather[index].aqi,
+                    description: state.citiesWeather[index].weather.description,
+                    temperature: state.citiesWeather[index].temperature,
+                    colorStart: weatherColors[
+                            state.citiesWeather[index].weather.code ~/ 100]
+                        .startColor,
+                    colorMid: weatherColors[
+                            state.citiesWeather[index].weather.code ~/ 100]
+                        .midColor,
+                    colorEnd: weatherColors[
+                            state.citiesWeather[index].weather.code ~/ 100]
+                        .endColor,
+                    temperatureUnit: settingState.temperatureUnit,
+                    temperatureUnitString: settingState.temperatureUnitString,
+                  );
                 },
               ),
             )

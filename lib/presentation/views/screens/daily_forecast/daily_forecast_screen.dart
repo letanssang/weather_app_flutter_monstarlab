@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
-class DailyForecastScreen extends StatelessWidget {
+import '../../../../utils/functions/convert_unit.dart';
+
+class DailyForecastScreen extends ConsumerWidget {
   static const routeName = '/daily-forecast';
 
   const DailyForecastScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final dailyForecasts =
         ModalRoute.of(context)!.settings.arguments as List<DailyForecast>;
+    final settingState = ref.watch(settingViewModelProvider);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -104,14 +109,14 @@ class DailyForecastScreen extends StatelessWidget {
                             height: 40,
                           ),
                           Text(
-                            '${dailyForecast.maxTemperature}\u00b0',
+                            '${getTemp(dailyForecast.maxTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                             style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
                             ),
                           ),
                           Text(
-                            '${dailyForecast.minTemperature}\u00b0',
+                            '${getTemp(dailyForecast.minTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                             style: const TextStyle(
                               fontSize: 20,
                               color: Colors.white,
@@ -126,7 +131,7 @@ class DailyForecastScreen extends StatelessWidget {
                                 height: 20,
                               ),
                               Text(
-                                '${dailyForecast.windSpd}m/s',
+                                '${getSpeed(dailyForecast.windSpd, settingState.speedUnit).toStringAsFixed(0)} ${settingState.speedUnitString}',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,

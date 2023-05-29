@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
 import '../../../../../domain/entities/daily_forecast.dart';
 import '../../../widgets/custom_container.dart';
@@ -9,11 +11,13 @@ class DailyContainer extends StatelessWidget {
   final List<DailyForecast> dailyForecasts;
   final Color? color;
   final Color buttonColor;
+  final TemperatureUnit temperatureUnit;
   const DailyContainer(
       {super.key,
       required this.dailyForecasts,
       this.color,
-      required this.buttonColor});
+      required this.buttonColor,
+      required this.temperatureUnit});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class DailyContainer extends StatelessWidget {
                         DailyForecastScreen.routeName,
                         arguments: dailyForecasts);
                   },
-                  icon: Icon(Icons.calendar_month, color: Colors.white)),
+                  icon: const Icon(Icons.calendar_month, color: Colors.white)),
             ],
           ),
           for (int i = 1; i < 4; i++)
@@ -48,8 +52,8 @@ class DailyContainer extends StatelessWidget {
                   : DateFormat('EEEE').format(dailyForecasts[i].date),
               dailyForecasts[i].weather.icon,
               dailyForecasts[i].weather.description,
-              dailyForecasts[i].maxTemperature,
-              dailyForecasts[i].minTemperature,
+              getTemp(dailyForecasts[i].maxTemperature, temperatureUnit),
+              getTemp(dailyForecasts[i].minTemperature, temperatureUnit),
             ),
           ActionChip(
               elevation: 3,
@@ -96,9 +100,9 @@ class DailyContainer extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: Text(
-              description,
+              description.length < 15 ? description : description.split(' ')[0],
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 16,

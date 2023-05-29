@@ -76,4 +76,64 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
     prefs.remove('weatherCities');
     prefs.remove('lastTimeCitiesFetched');
   }
+
+  @override
+  Future<String?> getPressureUnit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('pressureUnit');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<String?> getSpeedUnit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('speedUnit');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<String?> getTemperatureUnit() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('temperatureUnit');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> savePressureUnit(String unit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('pressureUnit', unit);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> saveSpeedUnit(String unit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('speedUnit', unit);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> saveTemperatureUnit(String unit) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('temperatureUnit', unit);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

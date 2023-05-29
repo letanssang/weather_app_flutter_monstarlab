@@ -52,7 +52,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
+                  Expanded(
                     flex: 2,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,10 +63,10 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700,
                               )),
-                          Text('$cityName',
+                          Text(cityName,
                               style: const TextStyle(
                                 color: Colors.black54,
-                                fontSize: 18,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w400,
                               )),
                           Row(
@@ -98,111 +98,47 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                        state.currentAQI.pm25
-                                            .toStringAsFixed(1),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'pm25', state.currentAQI.pm25),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('PM2.5',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                        state.currentAQI.pm10
-                                            .toStringAsFixed(1),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'pm10', state.currentAQI.pm10),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('PM10',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                        state.currentAQI.so2.toStringAsFixed(1),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'so2', state.currentAQI.so2),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('SO\u2082',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                        state.currentAQI.no2.toStringAsFixed(1),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'no2', state.currentAQI.no2),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('NO\u2082',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(state.currentAQI.o3.toStringAsFixed(1),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'o3', state.currentAQI.o3),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('O\u2083',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        )),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(state.currentAQI.co.toStringAsFixed(0),
-                                        style: TextStyle(
-                                          color: getColorLevel(
-                                              'co', state.currentAQI.co),
-                                          fontSize: 22,
-                                        )),
-                                    const Text('CO',
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 16,
-                                        )),
-                                  ],
-                                ),
-                              ]),
-                          const SizedBox(height: 16),
+                          GridView(
+                            padding: const EdgeInsets.all(16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1.5,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
+                            ),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              buildDetailAQIIndex(
+                                  state.currentAQI.pm25,
+                                  'PM2.5',
+                                  getColorLevel('pm25', state.currentAQI.pm25)),
+                              buildDetailAQIIndex(
+                                state.currentAQI.pm10,
+                                'PM10',
+                                getColorLevel('pm10', state.currentAQI.pm10),
+                              ),
+                              buildDetailAQIIndex(
+                                  state.currentAQI.so2,
+                                  'SO\u2082',
+                                  getColorLevel('so2', state.currentAQI.so2)),
+                              buildDetailAQIIndex(
+                                  state.currentAQI.no2,
+                                  'NO\u2082',
+                                  getColorLevel('no2', state.currentAQI.no2)),
+                              buildDetailAQIIndex(
+                                  state.currentAQI.o3,
+                                  'O\u2083',
+                                  getColorLevel('o3', state.currentAQI.o3)),
+                              buildDetailAQIIndex(state.currentAQI.co, 'CO',
+                                  getColorLevel('co', state.currentAQI.co)),
+                            ],
+                          ),
                         ]),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
                     child: Text('Hourly AQI',
                         style: TextStyle(
                           color: Colors.black87,
@@ -223,7 +159,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                     state.hourlyAQIs[index].aqi.toDouble()),
                                 fontSize: 22,
                               )),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                               '${DateFormat.H().format(state.hourlyAQIs[index].timestamp!)}:00',
                               style: const TextStyle(
@@ -240,6 +176,23 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                 ? const CustomLoadingIndicator()
                 : const Center(child: Text('Load AQI data failed')),
       ),
+    );
+  }
+
+  Column buildDetailAQIIndex(double value, String title, Color color) {
+    return Column(
+      children: [
+        Text(value.toStringAsFixed(1),
+            style: TextStyle(
+              color: color,
+              fontSize: 22,
+            )),
+        Text(title,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+            )),
+      ],
     );
   }
 }

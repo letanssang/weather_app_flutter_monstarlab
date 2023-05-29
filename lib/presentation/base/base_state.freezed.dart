@@ -16,7 +16,6 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BaseState {
-  WeatherUnits get units => throw _privateConstructorUsedError;
   List<Weather> get citiesWeather => throw _privateConstructorUsedError;
   double get currentLatitude => throw _privateConstructorUsedError;
   double get currentLongitude => throw _privateConstructorUsedError;
@@ -33,8 +32,7 @@ abstract class $BaseStateCopyWith<$Res> {
       _$BaseStateCopyWithImpl<$Res, BaseState>;
   @useResult
   $Res call(
-      {WeatherUnits units,
-      List<Weather> citiesWeather,
+      {List<Weather> citiesWeather,
       double currentLatitude,
       double currentLongitude,
       List<City> cities});
@@ -53,17 +51,12 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? units = null,
     Object? citiesWeather = null,
     Object? currentLatitude = null,
     Object? currentLongitude = null,
     Object? cities = null,
   }) {
     return _then(_value.copyWith(
-      units: null == units
-          ? _value.units
-          : units // ignore: cast_nullable_to_non_nullable
-              as WeatherUnits,
       citiesWeather: null == citiesWeather
           ? _value.citiesWeather
           : citiesWeather // ignore: cast_nullable_to_non_nullable
@@ -92,8 +85,7 @@ abstract class _$$_BaseStateCopyWith<$Res> implements $BaseStateCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {WeatherUnits units,
-      List<Weather> citiesWeather,
+      {List<Weather> citiesWeather,
       double currentLatitude,
       double currentLongitude,
       List<City> cities});
@@ -110,17 +102,12 @@ class __$$_BaseStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? units = null,
     Object? citiesWeather = null,
     Object? currentLatitude = null,
     Object? currentLongitude = null,
     Object? cities = null,
   }) {
     return _then(_$_BaseState(
-      units: null == units
-          ? _value.units
-          : units // ignore: cast_nullable_to_non_nullable
-              as WeatherUnits,
       citiesWeather: null == citiesWeather
           ? _value._citiesWeather
           : citiesWeather // ignore: cast_nullable_to_non_nullable
@@ -145,17 +132,13 @@ class __$$_BaseStateCopyWithImpl<$Res>
 
 class _$_BaseState implements _BaseState {
   const _$_BaseState(
-      {this.units = WeatherUnits.metric,
-      final List<Weather> citiesWeather = const [],
+      {final List<Weather> citiesWeather = const [],
       this.currentLatitude = 0,
       this.currentLongitude = 0,
       final List<City> cities = const []})
       : _citiesWeather = citiesWeather,
         _cities = cities;
 
-  @override
-  @JsonKey()
-  final WeatherUnits units;
   final List<Weather> _citiesWeather;
   @override
   @JsonKey()
@@ -182,7 +165,7 @@ class _$_BaseState implements _BaseState {
 
   @override
   String toString() {
-    return 'BaseState(units: $units, citiesWeather: $citiesWeather, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude, cities: $cities)';
+    return 'BaseState(citiesWeather: $citiesWeather, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude, cities: $cities)';
   }
 
   @override
@@ -190,7 +173,6 @@ class _$_BaseState implements _BaseState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BaseState &&
-            (identical(other.units, units) || other.units == units) &&
             const DeepCollectionEquality()
                 .equals(other._citiesWeather, _citiesWeather) &&
             (identical(other.currentLatitude, currentLatitude) ||
@@ -203,7 +185,6 @@ class _$_BaseState implements _BaseState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      units,
       const DeepCollectionEquality().hash(_citiesWeather),
       currentLatitude,
       currentLongitude,
@@ -218,14 +199,11 @@ class _$_BaseState implements _BaseState {
 
 abstract class _BaseState implements BaseState {
   const factory _BaseState(
-      {final WeatherUnits units,
-      final List<Weather> citiesWeather,
+      {final List<Weather> citiesWeather,
       final double currentLatitude,
       final double currentLongitude,
       final List<City> cities}) = _$_BaseState;
 
-  @override
-  WeatherUnits get units;
   @override
   List<Weather> get citiesWeather;
   @override

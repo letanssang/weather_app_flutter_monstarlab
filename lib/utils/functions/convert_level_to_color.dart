@@ -30,8 +30,6 @@ String getAQIStatus(int aqi) {
     return 'Good';
   } else if (aqi <= 100) {
     return 'Moderate';
-  } else if (aqi <= 150) {
-    return 'Unhealthy for Sensitive Groups';
   } else if (aqi <= 200) {
     return 'Unhealthy';
   } else if (aqi <= 300) {
@@ -43,16 +41,14 @@ String getAQIStatus(int aqi) {
 
 String getAQIDescription(int aqi) {
   if (aqi <= 50) {
-    return 'Air quality is good. A perfect day for a walk!';
+    return 'Air quality is good\nA perfect day for a walk!';
   } else if (aqi <= 100) {
-    return 'Air quality is moderate. You can go out for a walk!';
-  } else if (aqi <= 150) {
-    return 'Air quality is unhealthy for sensitive groups. You should wear a mask when going out!';
+    return 'Air quality is moderate.\nYou can go out for a walk!';
   } else if (aqi <= 200) {
-    return 'Air quality is unhealthy. You should wear a mask when going out!';
+    return 'Air quality is unhealthy.\nYou should wear a mask when going out!';
   } else if (aqi <= 300) {
-    return 'Air quality is very unhealthy. You should wear a mask when going out!';
+    return 'Air quality is very unhealthy.\nYou should wear a mask when going out!';
   } else {
-    return 'Air quality is hazardous. You should stay at home!';
+    return 'Air quality is hazardous.\nYou should stay at home!';
   }
 }

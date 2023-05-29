@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
 import '../../../widgets/custom_container.dart';
 
@@ -8,11 +10,15 @@ class DetailWeatherInformation extends StatelessWidget {
   final double windSpd;
   final int pop;
   final Color? color;
+  final SpeedUnit speedUnit;
+  final String speedUnitString;
   const DetailWeatherInformation(
       {Key? key,
       required this.humidity,
       required this.windSpd,
       required this.pop,
+      required this.speedUnit,
+      required this.speedUnitString,
       this.color})
       : super(key: key);
 
@@ -26,7 +32,8 @@ class DetailWeatherInformation extends StatelessWidget {
           buildWeatherInfoItem('assets/images/icons/rain.svg', '$pop%'),
           buildWeatherInfoItem(
               'assets/images/icons/humidity.svg', '$humidity%'),
-          buildWeatherInfoItem('assets/images/icons/wind.svg', '$windSpd m/s'),
+          buildWeatherInfoItem('assets/images/icons/wind.svg',
+              '${getSpeed(windSpd, speedUnit).toStringAsFixed(1)} $speedUnitString'),
         ],
       ),
     );

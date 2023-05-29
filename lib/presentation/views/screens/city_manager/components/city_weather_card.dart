@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
+
+import '../../../../../domain/enums/units.dart';
 
 class CityWeatherCard extends StatelessWidget {
-  const CityWeatherCard({
-    super.key,
-    required this.cityName,
-    required this.aqi,
-    required this.description,
-    required this.temperature,
-    required this.colorStart,
-    required this.colorMid,
-    required this.colorEnd,
-  });
+  const CityWeatherCard(
+      {super.key,
+      required this.cityName,
+      required this.aqi,
+      required this.description,
+      required this.temperature,
+      required this.colorStart,
+      required this.colorMid,
+      required this.colorEnd,
+      required this.temperatureUnit,
+      required this.temperatureUnitString});
 
   final String cityName;
   final int aqi;
@@ -19,7 +23,8 @@ class CityWeatherCard extends StatelessWidget {
   final Color colorStart;
   final Color colorMid;
   final Color colorEnd;
-
+  final TemperatureUnit temperatureUnit;
+  final String temperatureUnitString;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,7 +72,7 @@ class CityWeatherCard extends StatelessWidget {
             ],
           ),
           Text(
-            '$temperature\u00b0',
+            '${getTemp(temperature, temperatureUnit).toStringAsFixed(0)} ${temperatureUnitString}',
             style: TextStyle(
               color: Colors.white,
               fontSize: 35,

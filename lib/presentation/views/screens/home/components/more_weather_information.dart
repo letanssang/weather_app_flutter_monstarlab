@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
 import '../../../../../domain/entities/weather.dart';
 import '../../../widgets/custom_container.dart';
 
 class MoreWeatherInformation extends StatelessWidget {
-  const MoreWeatherInformation({super.key, required this.weather, this.color});
+  const MoreWeatherInformation(
+      {super.key,
+      required this.weather,
+      this.color,
+      required this.settingState});
 
   final Weather weather;
   final Color? color;
+  final SettingState settingState;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +45,9 @@ class MoreWeatherInformation extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${weather.feelLike}\u00b0',
+                                '${getTemp(weather.feelLike, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                                 style: const TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 22,
                                   color: Colors.white,
                                 ),
                               ),
@@ -111,7 +118,10 @@ class MoreWeatherInformation extends StatelessWidget {
                 buildRowDetailInformation(
                     'UV', weather.uv.toStringAsFixed(0), ''),
                 buildRowDetailInformation(
-                    'Pressure', weather.pressure.toStringAsFixed(2), 'mb'),
+                    'Pressure',
+                    getPressure(weather.pressure, settingState.pressureUnit)
+                        .toStringAsFixed(0),
+                    settingState.pressureUnitString),
                 buildRowDetailInformation(
                     'Clouds', weather.clouds.toStringAsFixed(0), '%'),
               ],
