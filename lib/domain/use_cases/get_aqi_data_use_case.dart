@@ -5,6 +5,5 @@ abstract class GetAQIDataUseCase {
     double? lat,
     double? lon,
     String? city,
-    String? units,
   });
 }

@@ -15,20 +15,17 @@ class GetWeatherFromCityListUseCaseImpl
         await _weatherRepository.getCurrentWeatherFromCityList(
       city: city,
       cities: cities,
-      units: units,
     );
     final weathers = weatherResponse.data;
     for (var weather in weathers) {
       final hourlyResponse = await _weatherRepository.getHourlyForecast(
         city: weather.cityName,
         hours: 24,
-        units: units,
       );
       weather.hourlyForecasts = hourlyResponse.data;
       final dailyResponse = await _weatherRepository.getDailyForecast(
         city: weather.cityName,
         days: 7,
-        units: units,
       );
       weather.dailyForecasts = dailyResponse.data;
     }

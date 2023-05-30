@@ -18,71 +18,61 @@ class WeatherRepositoryImpl implements WeatherRepository {
     String? city,
     double? lat,
     double? lon,
-    String? units,
   }) {
     return _weatherApiClient.getCurrentWeatherFromCoordinate(
       lat,
       lon,
       apiKey,
-      units,
     );
   }
 
   @override
   Future<WeatherResponse> getCurrentWeatherFromCityList(
-      {String? city, String? cities, String? units}) {
+      {String? city, String? cities}) {
     return _weatherApiClient.getCurrentWeatherFromCityList(
       city,
       cities,
       apiKey,
-      units,
     );
   }
 
   @override
-  Future<DailyResponse> getDailyForecast(
-      {String? city, int? days, String? units}) {
+  Future<DailyResponse> getDailyForecast({String? city, int? days}) {
     return _weatherApiClient.getDailyForecast(
       city,
       days,
       apiKey,
-      units,
     );
   }
 
   @override
-  Future<HourlyResponse> getHourlyForecast(
-      {String? city, int? hours, String? units}) {
+  Future<HourlyResponse> getHourlyForecast({String? city, int? hours}) {
     return _weatherApiClient.getHourlyForecast(
       city,
       hours,
       apiKey,
-      units,
     );
   }
 
   @override
-  Future<AQIResponse> getCurrentAQI(
-      {String? city, double? lat, double? lon, String? units}) {
+  Future<AQIResponse> getCurrentAQI({String? city, double? lat, double? lon}) {
     return _weatherApiClient.getCurrentAQI(
       lat,
       lon,
       city,
       apiKey,
-      units,
     );
   }
 
   @override
   Future<HourlyAQIResponse> getHourlyAQI(
-      {double? lat, double? lon, String? city, int? hours, String? units}) {
+      {double? lat, double? lon, String? city, int? hours}) {
     return _weatherApiClient.getHourlyAQI(
       lat,
       lon,
       city,
       hours,
       apiKey,
-      units,
     );
   }
 }

@@ -6,6 +6,5 @@ abstract class GetHourlyAQIUseCase {
     double? lon,
     String? city,
     int? hours,
-    String? units,
   });
 }

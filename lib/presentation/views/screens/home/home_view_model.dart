@@ -11,23 +11,23 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final GetWeatherFromCoordinateUseCase _getCurrentWeatherFromCoordinateUseCase;
 
   HomeViewModel(this._ref, this._getCurrentWeatherFromCoordinateUseCase)
-      : super(HomeState(pageController: PageController()));
+      : super(HomeState(pageController: PageController())) {
+    fetchWeathers();
+  }
 
   Future<void> fetchWeathers() async {
+    if (!mounted) return;
     state = state.copyWith(fetchingState: FetchingState.loading);
     try {
       await fetchLocationWeather();
       state = state.copyWith(fetchingState: FetchingState.success);
       state.pageController.addListener(() {
-        _ref
-            .read(homeViewModelProvider.notifier)
-            .onPageChanged(state.pageController.page!);
+        onPageChanged(state.pageController.page!);
       });
     } catch (e) {
-      if (!mounted) {
+      if (mounted) {
         state = state.copyWith(fetchingState: FetchingState.failure);
       }
-      debugPrint(e.toString());
     }
   }
 
@@ -37,7 +37,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     final weatherLocation = await _getCurrentWeatherFromCoordinateUseCase.run(
       lat: lat,
       lon: lon,
-      units: 'metric',
     );
     state = state.copyWith(locationWeather: weatherLocation);
   }

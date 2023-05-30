@@ -9,37 +9,31 @@ abstract class WeatherRepository {
   Future<WeatherResponse> getCurrentWeatherFromCoordinate({
     double? lat,
     double? lon,
-    String? units,
   });
 
   Future<WeatherResponse> getCurrentWeatherFromCityList({
     String? city,
     String? cities,
-    String? units,
   });
 
   Future<DailyResponse> getDailyForecast({
     String? city,
     int? days,
-    String? units,
   });
 
   Future<HourlyResponse> getHourlyForecast({
     String? city,
     int? hours,
-    String? units,
   });
   Future<AQIResponse> getCurrentAQI({
     double? lat,
     double? lon,
     String? city,
-    String? units,
   });
   Future<HourlyAQIResponse> getHourlyAQI({
     double? lat,
     double? lon,
     String? city,
     int? hours,
-    String? units,
   });
 }

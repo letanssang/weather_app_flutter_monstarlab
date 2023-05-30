@@ -18,7 +18,6 @@ abstract class WeatherApiClient {
     @Query('lat') double? lat,
     @Query('lon') double? lon,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
 
   @GET('current')
@@ -26,7 +25,6 @@ abstract class WeatherApiClient {
     @Query('city') String? city,
     @Query('cities') String? cities,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
 
   @GET('forecast/daily')
@@ -34,7 +32,6 @@ abstract class WeatherApiClient {
     @Query('city') String? city,
     @Query('days') int? days,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
 
   @GET('forecast/hourly')
@@ -42,7 +39,6 @@ abstract class WeatherApiClient {
     @Query('city') String? city,
     @Query('hours') int? hours,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
   @GET('current/airquality')
   Future<AQIResponse> getCurrentAQI(
@@ -50,7 +46,6 @@ abstract class WeatherApiClient {
     @Query('lon') double? lon,
     @Query('city') String? city,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
   @GET('forecast/airquality')
   Future<HourlyAQIResponse> getHourlyAQI(
@@ -59,6 +54,5 @@ abstract class WeatherApiClient {
     @Query('city') String? city,
     @Query('hours') int? hours,
     @Query('key') String? key,
-    @Query('units') String? units,
   );
 }

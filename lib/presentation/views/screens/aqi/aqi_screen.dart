@@ -53,9 +53,10 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 2,
+                    flex: 3,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Air Quality Index',
                               style: TextStyle(
@@ -63,12 +64,15 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 fontSize: 30,
                                 fontWeight: FontWeight.w700,
                               )),
-                          Text(cityName,
-                              style: const TextStyle(
-                                color: Colors.black54,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                              )),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(cityName,
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.w400,
+                                )),
+                          ),
                           Row(
                             children: [
                               Text(state.currentAQI.aqi.toStringAsFixed(0),
@@ -108,7 +112,6 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                               mainAxisSpacing: 8,
                             ),
                             shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
                             children: [
                               buildDetailAQIIndex(
                                   state.currentAQI.pm25,
@@ -188,7 +191,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
               fontSize: 22,
             )),
         Text(title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
               fontSize: 16,
             )),

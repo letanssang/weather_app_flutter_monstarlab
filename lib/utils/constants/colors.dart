@@ -59,7 +59,7 @@ const List<WeatherColor> weatherColors = [
   //8 Clear Sky or Cloud
   WeatherColor(
     Color(0xFF29B2DD),
-    Color(0xFF5ACAE8),
+    Color(0xFF66CAE5),
     Color(0xFF29B2DD),
     Color(0xFF008AC0),
   ),

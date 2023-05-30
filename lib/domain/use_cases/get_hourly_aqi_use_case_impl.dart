@@ -9,17 +9,12 @@ class GetHourlyAQIUseCaseImpl implements GetHourlyAQIUseCase {
 
   @override
   Future<List<HourlyAQI>> run(
-      {double? lat,
-      double? lon,
-      String? city,
-      int? hours,
-      String? units}) async {
+      {double? lat, double? lon, String? city, int? hours}) async {
     final aqiResponse = await _weatherRepository.getHourlyAQI(
       lat: lat,
       lon: lon,
       city: city,
       hours: hours,
-      units: units,
     );
     final aqi = aqiResponse.data;
     return aqi;

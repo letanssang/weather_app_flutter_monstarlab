@@ -15,7 +15,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
     final now = DateTime.now();
     final citiesDate = DateTime.parse(lastTimeCitiesFetched);
     final differenceCities = now.difference(citiesDate).inMinutes;
-    if (differenceCities > 10) return false;
+    if (differenceCities > 30) return false;
     final citiesFromPrefs = await getWeatherCities();
     return listEquals(cities, citiesFromPrefs);
   }

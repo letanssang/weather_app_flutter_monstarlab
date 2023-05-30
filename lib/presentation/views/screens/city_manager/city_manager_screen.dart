@@ -73,31 +73,37 @@ class CityManagerScreen extends ConsumerWidget {
             ),
             Expanded(
               child: ReorderableListView.builder(
-                padding: const EdgeInsets.only(top: 10),
+                proxyDecorator: (child, index, animation) => child,
                 onReorder: (oldIndex, newIndex) {
                   ref
                       .read(baseViewModelProvider.notifier)
                       .reorderCity(oldIndex, newIndex);
                 },
+                padding: const EdgeInsets.only(top: 10),
                 itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
+                  final cityWeather = state.citiesWeather[index];
                   return CityWeatherCard(
                     key: UniqueKey(),
-                    cityName: state.citiesWeather[index].cityName,
-                    aqi: state.citiesWeather[index].aqi,
-                    description: state.citiesWeather[index].weather.description,
-                    temperature: state.citiesWeather[index].temperature,
-                    colorStart: weatherColors[
-                            state.citiesWeather[index].weather.code ~/ 100]
+                    cityName: cityWeather.cityName,
+                    aqi: cityWeather.aqi,
+                    description: cityWeather.weather.description,
+                    temperature: cityWeather.temperature,
+                    colorStart: weatherColors[cityWeather.weather.code ~/ 100]
                         .startColor,
-                    colorMid: weatherColors[
-                            state.citiesWeather[index].weather.code ~/ 100]
-                        .midColor,
-                    colorEnd: weatherColors[
-                            state.citiesWeather[index].weather.code ~/ 100]
-                        .endColor,
+                    colorMid:
+                        weatherColors[cityWeather.weather.code ~/ 100].midColor,
+                    colorEnd:
+                        weatherColors[cityWeather.weather.code ~/ 100].endColor,
                     temperatureUnit: settingState.temperatureUnit,
                     temperatureUnitString: settingState.temperatureUnitString,
+                    index: index,
+                    onDismissed: (index) {
+                      ref
+                          .read(baseViewModelProvider.notifier)
+                          .removeCity(index);
+                    },
+                    dailyForecasts: cityWeather.dailyForecasts,
                   );
                 },
               ),

@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/database_helper/database_helper.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
-import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/seach_view_model.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_state.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_view_model.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../widgets/custom_loading_indicator.dart';
+import '../home/home_screen.dart';
 
 final searchViewModelProvider =
     StateNotifierProvider<SearchViewModel, SearchState>(
@@ -34,6 +35,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(searchViewModelProvider);
+    final cities = ref.watch(baseViewModelProvider).cities;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -58,7 +60,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                         ),
                         child: Row(
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.symmetric(horizontal: 20),
                               child: Icon(Icons.search),
                             ),
@@ -72,7 +74,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                     .read(searchViewModelProvider.notifier)
                                     .onChangedHandler();
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: InputBorder.none,
                               ),
                             )),
@@ -98,31 +100,49 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     child: state.fetchingState == FetchingState.success
                         ? ListView.builder(
                             itemCount: state.suggestions.length,
-                            itemBuilder: (context, index) => ListTile(
-                              title: Text(
-                                state.suggestions[index].name,
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 18),
-                              ),
-                              subtitle: Text(
-                                state.suggestions[index].country,
-                                style: const TextStyle(
-                                    color: Colors.black54, fontSize: 16),
-                              ),
-                              trailing: IconButton(
-                                icon: Icon(Icons.add, color: Colors.black54),
-                                onPressed: () {
-                                  ref
-                                      .read(searchViewModelProvider.notifier)
-                                      .addCityToList(state.suggestions[index]);
-                                },
-                              ),
-                            ),
-                          )
+                            itemBuilder: (context, index) {
+                              bool isAdded = cities.any((city) =>
+                                  city.id == state.suggestions[index].id);
+                              return ListTile(
+                                title: Text(
+                                  state.suggestions[index].name,
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 18),
+                                ),
+                                subtitle: Text(
+                                  state.suggestions[index].country,
+                                  style: const TextStyle(
+                                      color: Colors.black54, fontSize: 16),
+                                ),
+                                trailing: isAdded
+                                    ? Text('Added',
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 16))
+                                    : IconButton(
+                                        icon: const Icon(Icons.add,
+                                            color: Colors.black54),
+                                        onPressed: () {
+                                          if (cities.length >= 5) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(const SnackBar(
+                                                    content: Text(
+                                                        'You can only add 5 cities')));
+                                            return;
+                                          }
+                                          ref
+                                              .read(searchViewModelProvider
+                                                  .notifier)
+                                              .addCityToList(
+                                                  state.suggestions[index]);
+                                        },
+                                      ),
+                              );
+                            })
                         : state.fetchingState == FetchingState.loading
                             ? const CustomLoadingIndicator()
                             : const Center(
-                                child: const Text(
+                                child: Text(
                                   'No Results',
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 18),

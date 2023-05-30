@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 
 import '../../domain/entities/city.dart';
 import '../../domain/entities/weather.dart';

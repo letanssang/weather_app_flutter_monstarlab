@@ -8,13 +8,11 @@ class GetAQIDataUseCaseImpl implements GetAQIDataUseCase {
   GetAQIDataUseCaseImpl(this._weatherRepository);
 
   @override
-  Future<List<AQI>> run(
-      {double? lat, double? lon, String? city, String? units}) async {
+  Future<List<AQI>> run({double? lat, double? lon, String? city}) async {
     final aqiResponse = await _weatherRepository.getCurrentAQI(
       lat: lat,
       lon: lon,
       city: city,
-      units: units,
     );
     final aqi = aqiResponse.data;
     return aqi;

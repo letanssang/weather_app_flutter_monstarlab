@@ -25,14 +25,12 @@ class _WeatherApiClient implements WeatherApiClient {
     double? lat,
     double? lon,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'lat': lat,
       r'lon': lon,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -59,14 +57,12 @@ class _WeatherApiClient implements WeatherApiClient {
     String? city,
     String? cities,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'city': city,
       r'cities': cities,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -93,14 +89,12 @@ class _WeatherApiClient implements WeatherApiClient {
     String? city,
     int? days,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'city': city,
       r'days': days,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -127,14 +121,12 @@ class _WeatherApiClient implements WeatherApiClient {
     String? city,
     int? hours,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'city': city,
       r'hours': hours,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -162,7 +154,6 @@ class _WeatherApiClient implements WeatherApiClient {
     double? lon,
     String? city,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -170,7 +161,6 @@ class _WeatherApiClient implements WeatherApiClient {
       r'lon': lon,
       r'city': city,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
@@ -199,7 +189,6 @@ class _WeatherApiClient implements WeatherApiClient {
     String? city,
     int? hours,
     String? key,
-    String? units,
   ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -208,7 +197,6 @@ class _WeatherApiClient implements WeatherApiClient {
       r'city': city,
       r'hours': hours,
       r'key': key,
-      r'units': units,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

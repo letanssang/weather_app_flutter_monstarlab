@@ -23,15 +23,15 @@ import 'home_view_model.dart';
 
 final baseViewModelProvider =
     StateNotifierProvider<BaseViewModel, BaseState>((ref) => BaseViewModel(
-          ref,
           getIt<SharedPreferencesHelper>(),
           getIt<GetWeatherFromCityListUseCase>(),
         ));
 final homeViewModelProvider =
-    StateNotifierProvider<HomeViewModel, HomeState>((ref) => HomeViewModel(
-          ref,
-          getIt<GetWeatherFromCoordinateUseCase>(),
-        ));
+    StateNotifierProvider.autoDispose<HomeViewModel, HomeState>(
+        (ref) => HomeViewModel(
+              ref,
+              getIt<GetWeatherFromCoordinateUseCase>(),
+            ));
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = '/home';
@@ -43,21 +43,15 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  @override
-  void didChangeDependencies() async {
-    await ref.read(baseViewModelProvider.notifier).init();
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(homeViewModelProvider.notifier).fetchWeathers();
-    });
-  }
+  bool _isInitialized = false;
 
   @override
-  void dispose() {
-    ref.watch(homeViewModelProvider).pageController.dispose();
-    // TODO: implement dispose
-    super.dispose();
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    if (!_isInitialized) {
+      _isInitialized = true;
+      await ref.read(baseViewModelProvider.notifier).init();
+    }
   }
 
   @override

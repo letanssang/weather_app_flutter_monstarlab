@@ -20,7 +20,7 @@ class CustomContainer extends StatelessWidget {
     return Container(
       height: height,
       decoration: BoxDecoration(
-          boxShadow: [],
+          boxShadow: const [],
           borderRadius: BorderRadius.circular(16),
           color: color ?? const Color(0xFF201F89)),
       padding: padding ?? const EdgeInsets.all(16),

@@ -29,12 +29,12 @@ class SearchViewModel extends StateNotifier<SearchState> {
     }
     try {
       final cities = await _databaseHelper.getCitiesFromSearch(query);
-      state.focusNode.unfocus();
       if (cities.isNotEmpty) {
         state = state.copyWith(
           suggestions: cities,
           fetchingState: FetchingState.success,
         );
+        state.focusNode.unfocus();
       } else {
         state = state.copyWith(fetchingState: FetchingState.failure);
       }
@@ -60,7 +60,13 @@ class SearchViewModel extends StateNotifier<SearchState> {
   }
 
   void addCityToList(City city) {
-    final addCitySuccesssful =
-        ref.read(baseViewModelProvider.notifier).addCityToList(city);
+    ref.read(baseViewModelProvider.notifier).addCityToList(city);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    state.textEditingController.dispose();
+    super.dispose();
   }
 }

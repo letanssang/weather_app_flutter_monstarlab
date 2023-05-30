@@ -9,25 +9,22 @@ class GetWeatherFromCoordinateUseCaseImpl
   GetWeatherFromCoordinateUseCaseImpl(this._weatherRepository);
 
   @override
-  Future<List<Weather>> run({double? lat, double? lon, String? units}) async {
+  Future<List<Weather>> run({double? lat, double? lon}) async {
     final weatherResponse =
         await _weatherRepository.getCurrentWeatherFromCoordinate(
       lat: lat,
       lon: lon,
-      units: units,
     );
     final weathers = weatherResponse.data;
     for (var weather in weathers) {
       final hourlyResponse = await _weatherRepository.getHourlyForecast(
         city: weather.cityName,
         hours: 24,
-        units: units,
       );
       weather.hourlyForecasts = hourlyResponse.data;
       final dailyResponse = await _weatherRepository.getDailyForecast(
         city: weather.cityName,
         days: 7,
-        units: units,
       );
       weather.dailyForecasts = dailyResponse.data;
     }

@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
-import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
 import '../../../../utils/functions/convert_unit.dart';
 
@@ -33,18 +32,17 @@ class DailyForecastScreen extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(15.0),
               child: Text(
                 '7-day forecast',
                 style: TextStyle(
                   color: Colors.black,
-                  fontWeight: FontWeight.w700,
                   fontSize: 30,
                 ),
               ),
             ),
-            Flexible(
-              flex: 3,
+            Expanded(
+              flex: 2,
               child: ListView.builder(
                   itemExtent: 150,
                   scrollDirection: Axis.horizontal,
@@ -54,32 +52,8 @@ class DailyForecastScreen extends ConsumerWidget {
                     return Container(
                       margin: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              weatherColors[dailyForecast.weather.code ~/ 100]
-                                  .startColor,
-                              weatherColors[dailyForecast.weather.code ~/ 100]
-                                  .midColor,
-                              weatherColors[dailyForecast.weather.code ~/ 100]
-                                  .endColor,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(
-                            color: Colors.white70,
-                            width: 0.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: const Offset(0,
-                                  3), // Điều chỉnh vị trí đổ bóng (ngang, dọc)
-                            ),
-                          ]),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,17 +65,14 @@ class DailyForecastScreen extends ConsumerWidget {
                                     ? 'Tomorrow'
                                     : DateFormat.E().format(dailyForecast.date),
                             style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black87,
                             ),
                           ),
                           Text(
                             DateFormat.Md().format(dailyForecast.date),
                             style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                            ),
+                                fontSize: 20, color: Colors.black45),
                           ),
                           Image.asset(
                             'assets/images/weather_state/${dailyForecast.weather.icon}.png',
@@ -111,15 +82,13 @@ class DailyForecastScreen extends ConsumerWidget {
                           Text(
                             '${getTemp(dailyForecast.maxTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                             style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
                           Text(
                             '${getTemp(dailyForecast.minTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                             style: const TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
+                              fontSize: 18,
                             ),
                           ),
                           Row(
@@ -134,7 +103,6 @@ class DailyForecastScreen extends ConsumerWidget {
                                 '${getSpeed(dailyForecast.windSpd, settingState.speedUnit).toStringAsFixed(0)} ${settingState.speedUnitString}',
                                 style: const TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -145,7 +113,6 @@ class DailyForecastScreen extends ConsumerWidget {
                             maxLines: 2,
                             style: const TextStyle(
                               fontSize: 18,
-                              color: Colors.white,
                             ),
                           ),
                         ],

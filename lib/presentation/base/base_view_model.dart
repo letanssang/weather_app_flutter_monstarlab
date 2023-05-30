@@ -3,18 +3,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
 import 'package:weather_app_flutter_monstarlab/domain/use_cases/get_weather_from_city_list_use_case.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/base/base_state.dart';
-import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 
 import '../../data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import '../../domain/entities/weather.dart';
 
 class BaseViewModel extends StateNotifier<BaseState> {
-  final Ref _ref;
   final SharedPreferencesHelper _sharedPreferencesHelper;
   final GetWeatherFromCityListUseCase _getCurrentWeatherFromCityListUseCase;
 
   BaseViewModel(
-    this._ref,
     this._sharedPreferencesHelper,
     this._getCurrentWeatherFromCityListUseCase,
   ) : super(const BaseState());
@@ -30,7 +27,7 @@ class BaseViewModel extends StateNotifier<BaseState> {
       state = state.copyWith(citiesWeather: citiesWeather);
     } else {
       _sharedPreferencesHelper.clearCitiesWeather();
-      await fetchCitiesWeather();
+      await fetchCitiesWeather(cities);
     }
   }
 
@@ -73,17 +70,27 @@ class BaseViewModel extends StateNotifier<BaseState> {
     return false;
   }
 
+  void removeCity(int index) {
+    final cities = List<City>.from(state.cities);
+    if (index < 0 || index >= cities.length) return;
+    cities.removeAt(index);
+    final tempWeatherList = List<Weather>.from(state.citiesWeather);
+    tempWeatherList.removeAt(index);
+    state = state.copyWith(cities: cities, citiesWeather: tempWeatherList);
+    _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
+  }
+
   Future<void> updateCities(List<City> cities) async {
-    await _sharedPreferencesHelper.saveCities(cities);
+    _sharedPreferencesHelper.saveCities(cities);
     state = state.copyWith(cities: cities);
-    _ref.read(homeViewModelProvider.notifier).fetchWeathers();
+    fetchCitiesWeather(cities);
   }
 
   String getCitiesIdsString() {
     String citiesIds = '';
-    state.cities.forEach((city) {
+    for (var city in state.cities) {
       citiesIds += '${city.id},';
-    });
+    }
     return citiesIds;
   }
 
@@ -91,41 +98,35 @@ class BaseViewModel extends StateNotifier<BaseState> {
     return cities.any((city) => city.id == cityId);
   }
 
-  void updateCitiesWeather(List<Weather> citiesWeather, List<City> cities) {
-    state = state.copyWith(citiesWeather: citiesWeather);
-    _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
-    updateCities(cities);
-  }
-
-  Future<void> fetchCitiesWeather() async {
-    final citiesIdString = getCitiesIdsString();
-    if (citiesIdString.isEmpty) return;
+  Future<void> fetchCitiesWeather(List<City> cities) async {
+    if (getCitiesIdsString().isEmpty) return;
     final weatherCities = await _getCurrentWeatherFromCityListUseCase.run(
-      cities: _ref.read(baseViewModelProvider.notifier).getCitiesIdsString(),
-      units: 'metric',
+      cities: getCitiesIdsString(),
     );
+    weatherCities.sort((a, b) {
+      int indexA = cities.indexWhere((city) => city.name == a.cityName);
+      int indexB = cities.indexWhere((city) => city.name == b.cityName);
+      return indexA.compareTo(indexB);
+    });
     state = state.copyWith(citiesWeather: weatherCities);
-    await _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
+    _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
   }
 
   void reorderCity(int oldIndex, int newIndex) {
-    final citiesWeather = state.citiesWeather;
-    final cities = state.cities;
-    if (newIndex > oldIndex) {
+    final cities = List<City>.from(state.cities);
+    final tempWeatherList = List<Weather>.from(state.citiesWeather);
+
+    if (oldIndex < newIndex) {
       newIndex -= 1;
     }
-    final item = citiesWeather.removeAt(oldIndex);
-    final itemCities = cities.removeAt(oldIndex);
-    citiesWeather.insert(newIndex, item);
-    cities.insert(newIndex, itemCities);
-    updateCitiesWeather(citiesWeather, cities);
-  }
 
-  void removeCity(int index) {
-    final citiesWeather = state.citiesWeather;
-    final cities = state.cities;
-    citiesWeather.removeAt(index);
-    cities.removeAt(index);
-    updateCitiesWeather(citiesWeather, cities);
+    final city = cities.removeAt(oldIndex);
+    final weather = tempWeatherList.removeAt(oldIndex);
+
+    cities.insert(newIndex, city);
+    tempWeatherList.insert(newIndex, weather);
+
+    state = state.copyWith(cities: cities, citiesWeather: tempWeatherList);
+    _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
   }
 }
