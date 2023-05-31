@@ -5,6 +5,7 @@ import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
+import '../daily_forecast/daily_forecast_screen.dart';
 import 'components/city_weather_card.dart';
 
 class CityManagerScreen extends ConsumerWidget {
@@ -73,6 +74,7 @@ class CityManagerScreen extends ConsumerWidget {
             ),
             Expanded(
               child: ReorderableListView.builder(
+                buildDefaultDragHandles: false,
                 proxyDecorator: (child, index, animation) => child,
                 onReorder: (oldIndex, newIndex) {
                   ref
@@ -83,27 +85,41 @@ class CityManagerScreen extends ConsumerWidget {
                 itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
                   final cityWeather = state.citiesWeather[index];
-                  return CityWeatherCard(
-                    key: UniqueKey(),
-                    cityName: cityWeather.cityName,
-                    aqi: cityWeather.aqi,
-                    description: cityWeather.weather.description,
-                    temperature: cityWeather.temperature,
-                    colorStart: weatherColors[cityWeather.weather.code ~/ 100]
-                        .startColor,
-                    colorMid:
-                        weatherColors[cityWeather.weather.code ~/ 100].midColor,
-                    colorEnd:
-                        weatherColors[cityWeather.weather.code ~/ 100].endColor,
-                    temperatureUnit: settingState.temperatureUnit,
-                    temperatureUnitString: settingState.temperatureUnitString,
-                    index: index,
-                    onDismissed: (index) {
-                      ref
-                          .read(baseViewModelProvider.notifier)
-                          .removeCity(index);
+                  return GestureDetector(
+                    key: ValueKey(cityWeather.cityName),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        DailyForecastScreen.routeName,
+                        arguments: cityWeather.dailyForecasts,
+                      );
                     },
-                    dailyForecasts: cityWeather.dailyForecasts,
+                    child: ReorderableDelayedDragStartListener(
+                      index: index,
+                      child: CityWeatherCard(
+                        key: ValueKey(cityWeather.cityName),
+                        cityName: cityWeather.cityName,
+                        aqi: cityWeather.aqi,
+                        description: cityWeather.weather.description,
+                        temperature: cityWeather.temperature,
+                        colorStart:
+                            weatherColors[cityWeather.weather.code ~/ 100]
+                                .startColor,
+                        colorMid: weatherColors[cityWeather.weather.code ~/ 100]
+                            .midColor,
+                        colorEnd: weatherColors[cityWeather.weather.code ~/ 100]
+                            .endColor,
+                        temperatureUnit: settingState.temperatureUnit,
+                        temperatureUnitString:
+                            settingState.temperatureUnitString,
+                        index: index,
+                        onDismissed: (index) {
+                          ref
+                              .read(baseViewModelProvider.notifier)
+                              .removeCity(index);
+                        },
+                        dailyForecasts: cityWeather.dailyForecasts,
+                      ),
+                    ),
                   );
                 },
               ),
