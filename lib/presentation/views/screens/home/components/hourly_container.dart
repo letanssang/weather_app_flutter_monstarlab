@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/hourly_forecast.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
@@ -29,37 +30,38 @@ class HourForecast extends StatelessWidget {
     return CustomContainer(
       color: color,
       height: screenHeight * 0.3,
+      margin: EdgeInsets.symmetric(vertical: screenHeight * 0.005),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Today',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  fontSize: ScreenUtil().setSp(20),
                 ),
               ),
               Text(
                 DateFormat('MMM, d').format(date),
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18,
+                  fontSize: ScreenUtil().setSp(18),
                 ),
               )
             ],
           ),
-          const SizedBox(
-            height: 16,
+          SizedBox(
+            height: ScreenUtil().setHeight(16),
           ),
           Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: hourlyForecasts.length,
-                  itemExtent: 100,
+                  itemExtent: ScreenUtil().setWidth(80),
                   itemBuilder: (context, index) {
                     return buildCardWeather(
                       '${getTemp(hourlyForecasts[index].temperature, temperatureUnit).toStringAsFixed(0)}\u00b0',
@@ -87,29 +89,29 @@ class HourForecast extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(temperature,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: ScreenUtil().setSp(18),
               )),
           Image.asset(
             iconPath,
-            width: 50,
-            height: 50,
+            width: ScreenUtil().setWidth(50),
+            height: ScreenUtil().setHeight(50),
           ),
           Text(
             '${windSpd.toStringAsFixed(1)} $speedUnitString',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w400,
-              fontSize: 18,
+              fontSize: ScreenUtil().setSp(14),
             ),
           ),
           Text(hour,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w400,
-                fontSize: 18,
+                fontSize: ScreenUtil().setSp(14),
               )),
         ],
       ),

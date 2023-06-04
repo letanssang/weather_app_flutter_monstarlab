@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
@@ -21,30 +22,38 @@ class DailyForecastScreen extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: const BackButton(color: Colors.black),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: ScreenUtil().setHeight(25),
+            )),
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
+        width: ScreenUtil().screenWidth,
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(15.0),
+            Padding(
+              padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
               child: Text(
                 '7-day forecast',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 30,
+                  fontSize: ScreenUtil().setSp(30),
                 ),
               ),
             ),
             Expanded(
               flex: 2,
               child: ListView.builder(
-                  itemExtent: 150,
+                  itemExtent: ScreenUtil().setWidth(150),
                   scrollDirection: Axis.horizontal,
                   itemCount: dailyForecasts.length,
                   itemBuilder: (context, index) {
@@ -64,31 +73,32 @@ class DailyForecastScreen extends ConsumerWidget {
                                 : index == 1
                                     ? 'Tomorrow'
                                     : DateFormat.E().format(dailyForecast.date),
-                            style: const TextStyle(
-                              fontSize: 20,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(20),
                               color: Colors.black87,
                             ),
                           ),
                           Text(
                             DateFormat.Md().format(dailyForecast.date),
-                            style: const TextStyle(
-                                fontSize: 20, color: Colors.black45),
+                            style: TextStyle(
+                                fontSize: ScreenUtil().setSp(20),
+                                color: Colors.black45),
                           ),
                           Image.asset(
                             'assets/images/weather_state/${dailyForecast.weather.icon}.png',
-                            width: 40,
-                            height: 40,
+                            width: ScreenUtil().setHeight(40),
+                            height: ScreenUtil().setHeight(40),
                           ),
                           Text(
                             '${getTemp(dailyForecast.maxTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
-                            style: const TextStyle(
-                              fontSize: 18,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(18),
                             ),
                           ),
                           Text(
                             '${getTemp(dailyForecast.minTemperature, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
-                            style: const TextStyle(
-                              fontSize: 18,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(18),
                             ),
                           ),
                           Row(
@@ -96,13 +106,15 @@ class DailyForecastScreen extends ConsumerWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/images/icons/wind.svg',
-                                width: 20,
-                                height: 20,
+                                width: ScreenUtil().setHeight(20),
+                                height: ScreenUtil().setHeight(20),
+                                colorFilter: const ColorFilter.mode(
+                                    Colors.black, BlendMode.srcIn),
                               ),
                               Text(
                                 '${getSpeed(dailyForecast.windSpd, settingState.speedUnit).toStringAsFixed(0)} ${settingState.speedUnitString}',
-                                style: const TextStyle(
-                                  fontSize: 16,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(16),
                                 ),
                               ),
                             ],
@@ -111,8 +123,8 @@ class DailyForecastScreen extends ConsumerWidget {
                             dailyForecast.weather.description,
                             textAlign: TextAlign.center,
                             maxLines: 2,
-                            style: const TextStyle(
-                              fontSize: 18,
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(16),
                             ),
                           ),
                         ],

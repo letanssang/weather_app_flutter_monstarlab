@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/aqi/aqi_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
@@ -29,21 +30,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'SF Pro Display',
-        primarySwatch: Colors.blue,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          fontFamily: 'SF Pro Display',
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomeScreen(),
+        routes: {
+          DailyForecastScreen.routeName: (context) =>
+              const DailyForecastScreen(),
+          CityManagerScreen.routeName: (context) => const CityManagerScreen(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          SearchScreen.routeName: (context) => const SearchScreen(),
+          SettingScreen.routeName: (context) => const SettingScreen(),
+          AQIScreen.routeName: (context) => const AQIScreen(),
+        },
       ),
-      home: const HomeScreen(),
-      routes: {
-        DailyForecastScreen.routeName: (context) => const DailyForecastScreen(),
-        CityManagerScreen.routeName: (context) => const CityManagerScreen(),
-        HomeScreen.routeName: (context) => const HomeScreen(),
-        SearchScreen.routeName: (context) => const SearchScreen(),
-        SettingScreen.routeName: (context) => const SettingScreen(),
-        AQIScreen.routeName: (context) => const AQIScreen(),
-      },
     );
   }
 }

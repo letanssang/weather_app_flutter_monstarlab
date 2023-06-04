@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 
 import '../../../../../utils/functions/convert_unit.dart';
@@ -42,8 +43,8 @@ class MainWeatherInformation extends StatelessWidget {
             Expanded(child: Container()),
             Text(
               getTemp(temp, temperatureUnit).toStringAsFixed(0),
-              style: const TextStyle(
-                fontSize: 64,
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(64),
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               ),
@@ -53,7 +54,8 @@ class MainWeatherInformation extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Text(
                   temperatureUnitString,
-                  style: const TextStyle(color: Colors.white, fontSize: 30),
+                  style: TextStyle(
+                      color: Colors.white, fontSize: ScreenUtil().setSp(30)),
                 ),
               ),
             )
@@ -61,18 +63,18 @@ class MainWeatherInformation extends StatelessWidget {
         ),
         Text(
           description,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white,
-            fontSize: 24,
+            fontSize: ScreenUtil().setSp(24),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
             'Max: ${getTemp(maxTemp, temperatureUnit).toStringAsFixed(0)}\u00b0 Min: ${getTemp(minTemp, temperatureUnit).toStringAsFixed(0)}\u00b0',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: ScreenUtil().setSp(20),
             ),
           ),
         ),

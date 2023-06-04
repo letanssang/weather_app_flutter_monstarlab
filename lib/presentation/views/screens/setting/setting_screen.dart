@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_view_model.dart';
 
@@ -21,10 +22,21 @@ class SettingScreen extends ConsumerWidget {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          leading: const BackButton(color: Colors.black),
-          title: const Text(
+          leading: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+                size: ScreenUtil().setHeight(20),
+              )),
+          title: Text(
             'Setting',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: ScreenUtil().setSp(18),
+            ),
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -35,7 +47,11 @@ class SettingScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Unit'),
+              Text('Unit',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(16),
+                  )),
               buildUnitListTile(
                 'Temperature',
                 ['\u00b0C', '\u00b0F', '\u00b0K'],
@@ -63,35 +79,45 @@ class SettingScreen extends ConsumerWidget {
         ));
   }
 
-  ListTile buildUnitListTile(
+  Padding buildUnitListTile(
     String title,
     List<String> values,
     String currentValue,
     void Function(String) onChanged,
   ) {
-    return ListTile(
-      title: Text(title,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          )),
-      trailing: DropdownButton<String>(
-        value: currentValue,
-        borderRadius: BorderRadius.circular(10),
-        onChanged: (String? newValue) {
-          onChanged(newValue!);
-        },
-        items: values.map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value,
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 18,
-                )),
-          );
-        }).toList(),
+    return Padding(
+      padding: EdgeInsets.all(ScreenUtil().setSp(8)),
+      child: ListTile(
+        title: Text(title,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: ScreenUtil().setSp(18),
+              fontWeight: FontWeight.w600,
+            )),
+        trailing: DropdownButton<String>(
+          value: currentValue,
+          icon: Icon(
+            Icons.arrow_drop_down,
+            size: ScreenUtil().setHeight(20),
+          ),
+          itemHeight: kMinInteractiveDimension,
+          borderRadius: BorderRadius.circular(
+            ScreenUtil().setWidth(10),
+          ),
+          onChanged: (String? newValue) {
+            onChanged(newValue!);
+          },
+          items: values.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(18),
+                  )),
+            );
+          }).toList(),
+        ),
       ),
     );
   }

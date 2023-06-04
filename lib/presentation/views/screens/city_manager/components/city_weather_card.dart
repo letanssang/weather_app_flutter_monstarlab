@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
@@ -59,18 +60,21 @@ class CityWeatherCard extends StatelessWidget {
         );
       },
       background: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setHeight(10),
+        ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(ScreenUtil().setSp(20)),
           color: Colors.red,
         ),
-        child: const Align(
+        child: Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: EdgeInsets.only(right: 20),
+            padding: EdgeInsets.only(right: ScreenUtil().setWidth(16)),
             child: Icon(
               Icons.delete,
               color: Colors.white,
+              size: ScreenUtil().setHeight(20),
             ),
           ),
         ),
@@ -79,10 +83,14 @@ class CityWeatherCard extends StatelessWidget {
         onDismissed(index);
       },
       child: Container(
-        height: 100,
-        padding: const EdgeInsets.all(15),
+        height: ScreenUtil().setHeight(100),
+        padding: EdgeInsets.all(
+          ScreenUtil().setSp(10),
+        ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(
+              ScreenUtil().setSp(20),
+            ),
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -100,7 +108,7 @@ class CityWeatherCard extends StatelessWidget {
                 offset: const Offset(0, 3),
               ),
             ]),
-        margin: const EdgeInsets.symmetric(vertical: 10),
+        margin: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(10)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -110,23 +118,24 @@ class CityWeatherCard extends StatelessWidget {
               children: [
                 Text(
                   cityName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: ScreenUtil().setSp(20),
                   ),
                 ),
                 Text(
                   'AQI: $aqi $description',
-                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                  style: TextStyle(
+                      color: Colors.white, fontSize: ScreenUtil().setSp(14)),
                 )
               ],
             ),
             Text(
-              '${getTemp(temperature, temperatureUnit).toStringAsFixed(0)} $temperatureUnitString',
-              style: const TextStyle(
+              '${getTemp(temperature, temperatureUnit).toStringAsFixed(0)}$temperatureUnitString',
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 35,
+                fontSize: ScreenUtil().setSp(30),
               ),
             ),
           ],

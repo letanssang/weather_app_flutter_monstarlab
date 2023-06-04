@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/components/detail_weather_information.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
@@ -108,16 +109,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               weatherColors[colorIndex].midColor,
                               weatherColors[colorIndex].endColor,
                             ])),
-                        padding: const EdgeInsets.only(
-                          left: 10,
-                          right: 10,
+                        padding: EdgeInsets.only(
+                          left: ScreenUtil().screenWidth * 0.02,
+                          right: ScreenUtil().screenWidth * 0.02,
                         ),
                         child: Column(
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height * 0.1,
+                              height: ScreenUtil().screenHeight * 0.1,
                               padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).padding.top),
+                                  top: ScreenUtil().statusBarHeight),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -127,42 +128,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       Navigator.of(context)
                                           .pushNamed('/city-manager');
                                     },
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.add,
-                                      size: 32,
+                                      size: ScreenUtil().setHeight(25),
                                       color: Colors.white,
                                     ),
                                   ),
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              if (index == 0)
-                                                const Icon(Icons.location_on,
-                                                    size: 20,
-                                                    color: Colors.white),
-                                              Text(weather.cityName,
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    fontSize: 25,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Colors.white,
-                                                  )),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Center(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        if (index == 0)
+                                          Icon(Icons.location_on,
+                                              size: ScreenUtil().setHeight(20),
+                                              color: Colors.white),
+                                        Text(weather.cityName,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(20),
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.white,
+                                            )),
+                                      ],
+                                    ),
                                   ),
                                   PopupMenuButton<String>(
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.more_vert,
-                                      size: 32,
+                                      size: ScreenUtil().setHeight(25),
                                       color: Colors.white,
                                     ),
                                     shape: const RoundedRectangleBorder(
@@ -262,14 +258,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       dotsCount: weathers.length,
                       position: state.currentPage,
                       decorator: DotsDecorator(
-                        size: const Size.square(9.0),
-                        activeSize: const Size(15.0, 9.0),
+                        size: Size.square(ScreenUtil().setHeight(9)),
+                        activeSize: Size(ScreenUtil().setHeight(15),
+                            ScreenUtil().setHeight(9)),
                         activeShape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0),
+                          borderRadius:
+                              BorderRadius.circular(ScreenUtil().setHeight(5)),
                         ),
                         activeColor: Colors.white,
                         color: Colors.white.withOpacity(.5),
-                        spacing: const EdgeInsets.symmetric(horizontal: 4.0),
+                        spacing: EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setHeight(4)),
                       ),
                     ),
                   ),

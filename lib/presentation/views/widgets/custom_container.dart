@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomContainer extends StatelessWidget {
   final Widget child;
@@ -23,8 +24,11 @@ class CustomContainer extends StatelessWidget {
           boxShadow: const [],
           borderRadius: BorderRadius.circular(16),
           color: color ?? const Color(0xFF201F89)),
-      padding: padding ?? const EdgeInsets.all(16),
-      margin: margin ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      padding: padding ?? EdgeInsets.all(ScreenUtil().setWidth(16)),
+      margin: margin ??
+          EdgeInsets.symmetric(
+              vertical: ScreenUtil().setHeight(5),
+              horizontal: ScreenUtil().setWidth(5)),
       child: child,
     );
   }

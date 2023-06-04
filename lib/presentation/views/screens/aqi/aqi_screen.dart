@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/di/dependency_injection.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
@@ -40,14 +41,22 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
     final state = ref.watch(aqiViewModelProvider);
     return Scaffold(
       appBar: AppBar(
-        leading: const BackButton(color: Colors.black),
         backgroundColor: Colors.white,
         elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+              size: ScreenUtil().setHeight(25),
+            )),
       ),
       body: Container(
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
         child: state.fetchingState == FetchingState.success
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,18 +67,18 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Air Quality Index',
+                          Text('Air Quality Index',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 30,
+                                fontSize: ScreenUtil().setSp(30),
                                 fontWeight: FontWeight.w700,
                               )),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(cityName,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black54,
-                                  fontSize: 30,
+                                  fontSize: ScreenUtil().setSp(30),
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
@@ -79,16 +88,16 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                   style: TextStyle(
                                     color: getColorLevel(
                                         'aqi', state.currentAQI.aqi.toDouble()),
-                                    fontSize: 75,
+                                    fontSize: ScreenUtil().setSp(75),
                                     fontWeight: FontWeight.w700,
                                   )),
-                              const SizedBox(width: 16),
+                              SizedBox(width: ScreenUtil().setHeight(16)),
                               Text(
                                 getAQIStatus(state.currentAQI.aqi),
                                 style: TextStyle(
                                   color: getColorLevel(
                                       'aqi', state.currentAQI.aqi.toDouble()),
-                                  fontSize: 30,
+                                  fontSize: ScreenUtil().setSp(20),
                                 ),
                               )
                             ],
@@ -96,20 +105,20 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(getAQIDescription(state.currentAQI.aqi),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 18,
+                                  fontSize: ScreenUtil().setSp(18),
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
                           GridView(
-                            padding: const EdgeInsets.all(16),
+                            padding: EdgeInsets.all(ScreenUtil().setHeight(16)),
                             gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               childAspectRatio: 1.5,
-                              crossAxisSpacing: 8,
-                              mainAxisSpacing: 8,
+                              crossAxisSpacing: ScreenUtil().setHeight(8),
+                              mainAxisSpacing: ScreenUtil().setHeight(8),
                             ),
                             shrinkWrap: true,
                             children: [
@@ -140,12 +149,13 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                           ),
                         ]),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(16)),
                     child: Text('Hourly AQI',
                         style: TextStyle(
                           color: Colors.black87,
-                          fontSize: 30,
+                          fontSize: ScreenUtil().setSp(30),
                           fontWeight: FontWeight.w700,
                         )),
                   ),
@@ -153,21 +163,21 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: state.hourlyAQIs.length,
-                      itemExtent: 60,
+                      itemExtent: ScreenUtil().setWidth(60),
                       itemBuilder: (context, index) => Column(
                         children: [
                           Text(state.hourlyAQIs[index].aqi.toStringAsFixed(0),
                               style: TextStyle(
                                 color: getColorLevel('aqi',
                                     state.hourlyAQIs[index].aqi.toDouble()),
-                                fontSize: 22,
+                                fontSize: ScreenUtil().setSp(22),
                               )),
                           const SizedBox(height: 8),
                           Text(
                               '${DateFormat.H().format(state.hourlyAQIs[index].timestamp!)}:00',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.black,
-                                fontSize: 16,
+                                fontSize: ScreenUtil().setSp(16),
                               )),
                         ],
                       ),
@@ -188,12 +198,12 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
         Text(value.toStringAsFixed(1),
             style: TextStyle(
               color: color,
-              fontSize: 22,
+              fontSize: ScreenUtil().setSp(22),
             )),
         Text(title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
-              fontSize: 16,
+              fontSize: ScreenUtil().setSp(16),
             )),
       ],
     );

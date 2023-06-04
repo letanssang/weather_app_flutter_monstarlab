@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
@@ -23,17 +24,19 @@ class DailyContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomContainer(
       color: color,
+      margin: EdgeInsets.symmetric(
+          vertical: MediaQuery.of(context).size.height * 0.005),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
+              Text(
                 'Next Forecast',
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 20,
+                  fontSize: ScreenUtil().setSp(20),
                 ),
               ),
               IconButton(
@@ -42,7 +45,11 @@ class DailyContainer extends StatelessWidget {
                         DailyForecastScreen.routeName,
                         arguments: dailyForecasts);
                   },
-                  icon: const Icon(Icons.calendar_month, color: Colors.white)),
+                  icon: Icon(
+                    Icons.calendar_month,
+                    color: Colors.white,
+                    size: ScreenUtil().setHeight(20),
+                  )),
             ],
           ),
           for (int i = 1; i < 4; i++)
@@ -58,12 +65,14 @@ class DailyContainer extends StatelessWidget {
           ActionChip(
               elevation: 3,
               backgroundColor: buttonColor,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              label: const Text(
+              padding: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setWidth(16),
+                  vertical: ScreenUtil().setHeight(10)),
+              label: Text(
                 '7-day forecast',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: ScreenUtil().setSp(16),
                 ),
               ),
               onPressed: () {
@@ -78,7 +87,9 @@ class DailyContainer extends StatelessWidget {
   Padding buildNextForecastItem(String date, String icon, String description,
       double maxTemp, double minTemp) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 5),
+      padding: EdgeInsets.symmetric(
+          vertical: ScreenUtil().setHeight(16),
+          horizontal: ScreenUtil().setWidth(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -87,13 +98,14 @@ class DailyContainer extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset('assets/images/weather_state/$icon.png',
-                    width: 20, height: 20),
-                const SizedBox(width: 5),
+                    width: ScreenUtil().setWidth(20),
+                    height: ScreenUtil().setHeight(20)),
+                SizedBox(width: ScreenUtil().setWidth(5)),
                 Text(
                   date,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: ScreenUtil().setSp(16),
                   ),
                 ),
               ],
@@ -103,9 +115,9 @@ class DailyContainer extends StatelessWidget {
             flex: 3,
             child: Text(
               description.length < 15 ? description : description.split(' ')[0],
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: ScreenUtil().setSp(16),
               ),
             ),
           ),
@@ -113,9 +125,9 @@ class DailyContainer extends StatelessWidget {
             flex: 2,
             child: Text(
               '${maxTemp.toStringAsFixed(0)}\u00b0 / ${minTemp.toStringAsFixed(0)}\u00b0',
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 16,
+                fontSize: ScreenUtil().setSp(16),
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
@@ -22,26 +23,31 @@ class CityManagerScreen extends ConsumerWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
             color: Colors.black,
+            size: ScreenUtil().setHeight(25),
           ),
           onPressed: Navigator.of(context).pop,
         ),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding:
+            EdgeInsets.symmetric(horizontal: ScreenUtil().screenWidth * 0.05),
         decoration: const BoxDecoration(
           color: Colors.white,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Manage cities',
-              style: TextStyle(
-                fontSize: 30,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Manage cities',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(25),
+                ),
               ),
             ),
             InkWell(
@@ -49,24 +55,29 @@ class CityManagerScreen extends ConsumerWidget {
                 Navigator.of(context).pushNamed(SearchScreen.routeName);
               },
               child: Container(
-                height: 50,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                height: ScreenUtil().setHeight(50),
+                margin: EdgeInsets.symmetric(
+                    vertical: ScreenUtil().setHeight(16),
+                    horizontal: ScreenUtil().setWidth(10)),
                 decoration: BoxDecoration(
                   color: const Color(0xFFF2F2F2),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(
+                    ScreenUtil().setWidth(10),
+                  ),
                 ),
-                child: const Row(
+                child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Icon(Icons.search),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: ScreenUtil().setWidth(20)),
+                      child:
+                          Icon(Icons.search, size: ScreenUtil().setHeight(20)),
                     ),
                     Text(
                       'Enter location',
                       style: TextStyle(
-                        color: Color(0xFF333333),
-                      ),
+                          color: const Color(0xFF333333),
+                          fontSize: ScreenUtil().setSp(14)),
                     )
                   ],
                 ),
@@ -81,7 +92,7 @@ class CityManagerScreen extends ConsumerWidget {
                       .read(baseViewModelProvider.notifier)
                       .reorderCity(oldIndex, newIndex);
                 },
-                padding: const EdgeInsets.only(top: 10),
+                padding: EdgeInsets.only(top: ScreenUtil().setHeight(10)),
                 itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
                   final cityWeather = state.citiesWeather[index];

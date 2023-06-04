@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
@@ -29,7 +30,10 @@ class MoreWeatherInformation extends StatelessWidget {
               Expanded(
                 child: CustomContainer(
                   color: color,
-                  margin: const EdgeInsets.only(right: 5, bottom: 5),
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.005,
+                    right: MediaQuery.of(context).size.width * 0.005,
+                  ),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -39,15 +43,15 @@ class MoreWeatherInformation extends StatelessWidget {
                             children: [
                               Text(
                                 'Feels like',
-                                style: const TextStyle(
-                                  fontSize: 18,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(18),
                                   color: Colors.white,
                                 ),
                               ),
                               Text(
                                 '${getTemp(weather.feelLike, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
-                                style: const TextStyle(
-                                  fontSize: 22,
+                                style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(22),
                                   color: Colors.white,
                                 ),
                               ),
@@ -60,7 +64,9 @@ class MoreWeatherInformation extends StatelessWidget {
               Expanded(
                 child: CustomContainer(
                     color: color,
-                    margin: const EdgeInsets.only(right: 5, top: 5),
+                    margin: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.height * 0.005,
+                        top: MediaQuery.of(context).size.height * 0.01),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,14 +76,14 @@ class MoreWeatherInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(weather.sunrise,
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(18),
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   )),
                               Text('Sunrise',
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(18),
                                     color: Colors.white70,
                                   )),
                             ],
@@ -86,14 +92,14 @@ class MoreWeatherInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(weather.sunset,
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(18),
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   )),
                               Text('Sunset',
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(18),
                                     color: Colors.white70,
                                   )),
                             ],
@@ -107,7 +113,11 @@ class MoreWeatherInformation extends StatelessWidget {
         )),
         Expanded(
           child: CustomContainer(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
+            margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.005,
+              left: MediaQuery.of(context).size.width * 0.005,
+            ),
             color: color,
             height: MediaQuery.of(context).size.height * 0.3,
             child: Column(
@@ -140,14 +150,14 @@ Column buildRowDetailInformation(String title, String value, String unit) =>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(title,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white70,
-                  fontSize: 14,
+                  fontSize: ScreenUtil().setSp(14),
                 )),
             Text('$value $unit',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.white,
-                  fontSize: 14,
+                  fontSize: ScreenUtil().setSp(14),
                 )),
           ],
         ),

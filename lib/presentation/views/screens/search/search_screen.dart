@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/database_helper/database_helper.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_state.dart';
@@ -40,32 +41,41 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(15),
+          padding: EdgeInsets.all(ScreenUtil().screenWidth * 0.05),
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 10, top: 10),
+                margin: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(10),
+                    top: ScreenUtil().setHeight(10)),
                 padding: const EdgeInsets.all(5),
                 child: Row(
                   children: [
                     Flexible(
                       child: Container(
-                        height: 50,
+                        height: ScreenUtil().setHeight(50),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF2F2F2),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(
+                            ScreenUtil().setHeight(20),
+                          ),
                         ),
                         child: Row(
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20),
-                              child: Icon(Icons.search),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: ScreenUtil().setWidth(20)),
+                              child: Icon(Icons.search,
+                                  size: ScreenUtil().setHeight(20)),
                             ),
                             Flexible(
                                 child: TextField(
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(16),
+                              ),
                               textCapitalization: TextCapitalization.words,
                               controller: state.textEditingController,
                               focusNode: state.focusNode,
@@ -83,12 +93,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(
+                        vertical: ScreenUtil().setHeight(10),
+                      ),
                       child: TextButton(
                           onPressed: Navigator.of(context).pop,
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(fontSize: 18),
+                          child: Text(
+                            '  Cancel',
+                            style: TextStyle(
+                              fontSize: ScreenUtil().setSp(18),
+                            ),
                           )),
                     )
                   ],
@@ -103,49 +117,58 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             itemBuilder: (context, index) {
                               bool isAdded = cities.any((city) =>
                                   city.id == state.suggestions[index].id);
-                              return ListTile(
-                                title: Text(
-                                  state.suggestions[index].name,
-                                  style: const TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                ),
-                                subtitle: Text(
-                                  state.suggestions[index].country,
-                                  style: const TextStyle(
-                                      color: Colors.black54, fontSize: 16),
-                                ),
-                                trailing: isAdded
-                                    ? Text('Added',
-                                        style: TextStyle(
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListTile(
+                                  title: Text(
+                                    state.suggestions[index].name,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: ScreenUtil().setSp(18)),
+                                  ),
+                                  subtitle: Text(
+                                    state.suggestions[index].country,
+                                    style: TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: ScreenUtil().setSp(16)),
+                                  ),
+                                  trailing: isAdded
+                                      ? Text('Added',
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: ScreenUtil().setSp(16)))
+                                      : IconButton(
+                                          icon: Icon(
+                                            Icons.add,
                                             color: Colors.black54,
-                                            fontSize: 16))
-                                    : IconButton(
-                                        icon: const Icon(Icons.add,
-                                            color: Colors.black54),
-                                        onPressed: () {
-                                          if (cities.length >= 5) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(const SnackBar(
-                                                    content: Text(
-                                                        'You can only add 5 cities')));
-                                            return;
-                                          }
-                                          ref
-                                              .read(searchViewModelProvider
-                                                  .notifier)
-                                              .addCityToList(
-                                                  state.suggestions[index]);
-                                        },
-                                      ),
+                                            size: ScreenUtil().setHeight(20),
+                                          ),
+                                          onPressed: () {
+                                            if (cities.length >= 5) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(const SnackBar(
+                                                      content: Text(
+                                                          'You can only add 5 cities')));
+                                              return;
+                                            }
+                                            ref
+                                                .read(searchViewModelProvider
+                                                    .notifier)
+                                                .addCityToList(
+                                                    state.suggestions[index]);
+                                          },
+                                        ),
+                                ),
                               );
                             })
                         : state.fetchingState == FetchingState.loading
                             ? const CustomLoadingIndicator()
-                            : const Center(
+                            : Center(
                                 child: Text(
                                   'No Results',
                                   style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
+                                      color: Colors.black,
+                                      fontSize: ScreenUtil().setSp(18)),
                                 ),
                               ),
                   ),
