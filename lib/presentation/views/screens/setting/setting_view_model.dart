@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 
@@ -8,14 +10,13 @@ class SettingViewModel extends StateNotifier<SettingState> {
   final Ref ref;
   final SharedPreferencesHelper _sharedPreferencesHelper;
   SettingViewModel(this.ref, this._sharedPreferencesHelper)
-      : super(const SettingState()) {
-    getUnitDataFromSharedPreferences();
-  }
+      : super(const SettingState());
 
-  Future<void> getUnitDataFromSharedPreferences() async {
+  Future<void> init() async {
     final temperatureUnit = await _sharedPreferencesHelper.getTemperatureUnit();
     final pressureUnit = await _sharedPreferencesHelper.getPressureUnit();
     final speedUnit = await _sharedPreferencesHelper.getSpeedUnit();
+    final language = await _sharedPreferencesHelper.getLanguage();
     if (temperatureUnit != null) {
       onTemperatureUnitChanged(temperatureUnit);
     }
@@ -24,6 +25,9 @@ class SettingViewModel extends StateNotifier<SettingState> {
     }
     if (speedUnit != null) {
       onSpeedUnitChanged(speedUnit);
+    }
+    if (language != null) {
+      onLanguageChanged(language);
     }
   }
 
@@ -74,5 +78,19 @@ class SettingViewModel extends StateNotifier<SettingState> {
     }
     _sharedPreferencesHelper.savePressureUnit(unit);
     state = state.copyWith(pressureUnitString: unit);
+  }
+
+  void onLanguageChanged(String language) {
+    switch (language) {
+      case 'English':
+        state = state.copyWith(
+            locale: const Locale('en', 'US'), language: 'English');
+        break;
+      case 'Tiếng Việt':
+        state = state.copyWith(
+            locale: const Locale('vi', 'VN'), language: 'Tiếng Việt');
+        break;
+    }
+    _sharedPreferencesHelper.saveLanguage(language);
   }
 }

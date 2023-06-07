@@ -14,4 +14,6 @@ abstract class SharedPreferencesHelper {
   Future<String?> getSpeedUnit();
   Future<void> savePressureUnit(String unit);
   Future<String?> getPressureUnit();
+  Future<void> saveLanguage(String language);
+  Future<String?> getLanguage();
 }

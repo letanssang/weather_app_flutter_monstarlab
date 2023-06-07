@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -62,12 +63,12 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Air Quality Index',
+                          Text(AppLocalizations.of(context)!.airQualityIndex,
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: ScreenUtil().setSp(30),
@@ -91,9 +92,10 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                     fontSize: ScreenUtil().setSp(75),
                                     fontWeight: FontWeight.w700,
                                   )),
-                              SizedBox(width: ScreenUtil().setHeight(16)),
+                              SizedBox(width: ScreenUtil().setHeight(8)),
                               Text(
-                                getAQIStatus(state.currentAQI.aqi),
+                                getAQIStatus(state.currentAQI.aqi, context),
+                                maxLines: 2,
                                 style: TextStyle(
                                   color: getColorLevel(
                                       'aqi', state.currentAQI.aqi.toDouble()),
@@ -104,58 +106,64 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Text(getAQIDescription(state.currentAQI.aqi),
+                            child: Text(
+                                getAQIDescription(
+                                    state.currentAQI.aqi, context),
+                                maxLines: 3,
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: ScreenUtil().setSp(18),
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
-                          GridView(
-                            padding: EdgeInsets.all(ScreenUtil().setHeight(16)),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              childAspectRatio: 1.5,
-                              crossAxisSpacing: ScreenUtil().setHeight(8),
-                              mainAxisSpacing: ScreenUtil().setHeight(8),
-                            ),
-                            shrinkWrap: true,
-                            children: [
-                              buildDetailAQIIndex(
-                                  state.currentAQI.pm25,
-                                  'PM2.5',
-                                  getColorLevel('pm25', state.currentAQI.pm25)),
-                              buildDetailAQIIndex(
-                                state.currentAQI.pm10,
-                                'PM10',
-                                getColorLevel('pm10', state.currentAQI.pm10),
+                          SizedBox(
+                            height: ScreenUtil().screenHeight * 0.2,
+                            child: GridView(
+                              padding:
+                                  EdgeInsets.all(ScreenUtil().setHeight(8)),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                childAspectRatio: 1.5,
                               ),
-                              buildDetailAQIIndex(
-                                  state.currentAQI.so2,
-                                  'SO\u2082',
-                                  getColorLevel('so2', state.currentAQI.so2)),
-                              buildDetailAQIIndex(
-                                  state.currentAQI.no2,
-                                  'NO\u2082',
-                                  getColorLevel('no2', state.currentAQI.no2)),
-                              buildDetailAQIIndex(
-                                  state.currentAQI.o3,
-                                  'O\u2083',
-                                  getColorLevel('o3', state.currentAQI.o3)),
-                              buildDetailAQIIndex(state.currentAQI.co, 'CO',
-                                  getColorLevel('co', state.currentAQI.co)),
-                            ],
+                              shrinkWrap: true,
+                              children: [
+                                buildDetailAQIIndex(
+                                    state.currentAQI.pm25,
+                                    'PM2.5',
+                                    getColorLevel(
+                                        'pm25', state.currentAQI.pm25)),
+                                buildDetailAQIIndex(
+                                  state.currentAQI.pm10,
+                                  'PM10',
+                                  getColorLevel('pm10', state.currentAQI.pm10),
+                                ),
+                                buildDetailAQIIndex(
+                                    state.currentAQI.so2,
+                                    'SO\u2082',
+                                    getColorLevel('so2', state.currentAQI.so2)),
+                                buildDetailAQIIndex(
+                                    state.currentAQI.no2,
+                                    'NO\u2082',
+                                    getColorLevel('no2', state.currentAQI.no2)),
+                                buildDetailAQIIndex(
+                                    state.currentAQI.o3,
+                                    'O\u2083',
+                                    getColorLevel('o3', state.currentAQI.o3)),
+                                buildDetailAQIIndex(state.currentAQI.co, 'CO',
+                                    getColorLevel('co', state.currentAQI.co)),
+                              ],
+                            ),
                           ),
                         ]),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         vertical: ScreenUtil().setHeight(16)),
-                    child: Text('Hourly AQI',
+                    child: Text(AppLocalizations.of(context)!.hourlyAQIForecast,
                         style: TextStyle(
                           color: Colors.black87,
-                          fontSize: ScreenUtil().setSp(30),
+                          fontSize: ScreenUtil().setSp(25),
                           fontWeight: FontWeight.w700,
                         )),
                   ),

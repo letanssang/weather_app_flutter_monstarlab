@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/daily_forecast/daily_forecast_screen.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/get_weather_description_locale.dart';
 
 import '../../../../../domain/entities/daily_forecast.dart';
 import '../../../widgets/custom_container.dart';
@@ -22,6 +24,7 @@ class DailyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String locale = Localizations.localeOf(context).languageCode;
     return CustomContainer(
       color: color,
       margin: EdgeInsets.symmetric(
@@ -32,7 +35,7 @@ class DailyContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Next Forecast',
+                AppLocalizations.of(context)!.nextForecast,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
@@ -55,10 +58,11 @@ class DailyContainer extends StatelessWidget {
           for (int i = 1; i < 4; i++)
             buildNextForecastItem(
               i == 1
-                  ? 'Tomorrow'
-                  : DateFormat('EEEE').format(dailyForecasts[i].date),
+                  ? AppLocalizations.of(context)!.tomorrow
+                  : DateFormat('EEEE', locale).format(dailyForecasts[i].date),
               dailyForecasts[i].weather.icon,
-              dailyForecasts[i].weather.description,
+              getWeatherDescriptionLocale(
+                  dailyForecasts[i].weather.code, context),
               getTemp(dailyForecasts[i].maxTemperature, temperatureUnit),
               getTemp(dailyForecasts[i].minTemperature, temperatureUnit),
             ),
@@ -69,7 +73,7 @@ class DailyContainer extends StatelessWidget {
                   horizontal: ScreenUtil().setWidth(16),
                   vertical: ScreenUtil().setHeight(10)),
               label: Text(
-                '7-day forecast',
+                AppLocalizations.of(context)!.weekForecast,
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: ScreenUtil().setSp(16),

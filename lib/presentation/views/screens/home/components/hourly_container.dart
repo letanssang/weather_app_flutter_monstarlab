@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/hourly_forecast.dart';
@@ -37,7 +38,7 @@ class HourForecast extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Today',
+                AppLocalizations.of(context)!.today,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,

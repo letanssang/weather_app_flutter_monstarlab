@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
@@ -42,7 +43,7 @@ class MoreWeatherInformation extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Text(
-                                'Feels like',
+                                AppLocalizations.of(context)!.feelsLike,
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(18),
                                   color: Colors.white,
@@ -81,7 +82,7 @@ class MoreWeatherInformation extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   )),
-                              Text('Sunrise',
+                              Text(AppLocalizations.of(context)!.sunrise,
                                   style: TextStyle(
                                     fontSize: ScreenUtil().setSp(18),
                                     color: Colors.white70,
@@ -97,7 +98,7 @@ class MoreWeatherInformation extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   )),
-                              Text('Sunset',
+                              Text(AppLocalizations.of(context)!.sunset,
                                   style: TextStyle(
                                     fontSize: ScreenUtil().setSp(18),
                                     color: Colors.white70,
@@ -124,16 +125,20 @@ class MoreWeatherInformation extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 buildRowDetailInformation(
-                    'Visibility', weather.visibility.toString(), 'km'),
+                    AppLocalizations.of(context)!.visibility,
+                    weather.visibility.toString(),
+                    'km'),
                 buildRowDetailInformation(
                     'UV', weather.uv.toStringAsFixed(0), ''),
                 buildRowDetailInformation(
-                    'Pressure',
+                    AppLocalizations.of(context)!.pressure,
                     getPressure(weather.pressure, settingState.pressureUnit)
                         .toStringAsFixed(0),
                     settingState.pressureUnitString),
                 buildRowDetailInformation(
-                    'Clouds', weather.clouds.toStringAsFixed(0), '%'),
+                    AppLocalizations.of(context)!.cloudCover,
+                    weather.clouds.toStringAsFixed(0),
+                    '%'),
               ],
             ),
           ),

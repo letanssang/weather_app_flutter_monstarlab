@@ -136,4 +136,24 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       throw Exception(e);
     }
   }
+
+  @override
+  Future<String?> getLanguage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getString('language');
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> saveLanguage(String language) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('language', language);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

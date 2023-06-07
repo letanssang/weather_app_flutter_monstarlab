@@ -22,6 +22,8 @@ mixin _$SettingState {
   String get temperatureUnitString => throw _privateConstructorUsedError;
   String get pressureUnitString => throw _privateConstructorUsedError;
   String get speedUnitString => throw _privateConstructorUsedError;
+  Locale get locale => throw _privateConstructorUsedError;
+  String get language => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -40,7 +42,9 @@ abstract class $SettingStateCopyWith<$Res> {
       SpeedUnit speedUnit,
       String temperatureUnitString,
       String pressureUnitString,
-      String speedUnitString});
+      String speedUnitString,
+      Locale locale,
+      String language});
 }
 
 /// @nodoc
@@ -62,6 +66,8 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
     Object? temperatureUnitString = null,
     Object? pressureUnitString = null,
     Object? speedUnitString = null,
+    Object? locale = null,
+    Object? language = null,
   }) {
     return _then(_value.copyWith(
       temperatureUnit: null == temperatureUnit
@@ -88,6 +94,14 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
           ? _value.speedUnitString
           : speedUnitString // ignore: cast_nullable_to_non_nullable
               as String,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as Locale,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -106,7 +120,9 @@ abstract class _$$_SettingStateCopyWith<$Res>
       SpeedUnit speedUnit,
       String temperatureUnitString,
       String pressureUnitString,
-      String speedUnitString});
+      String speedUnitString,
+      Locale locale,
+      String language});
 }
 
 /// @nodoc
@@ -126,6 +142,8 @@ class __$$_SettingStateCopyWithImpl<$Res>
     Object? temperatureUnitString = null,
     Object? pressureUnitString = null,
     Object? speedUnitString = null,
+    Object? locale = null,
+    Object? language = null,
   }) {
     return _then(_$_SettingState(
       temperatureUnit: null == temperatureUnit
@@ -152,6 +170,14 @@ class __$$_SettingStateCopyWithImpl<$Res>
           ? _value.speedUnitString
           : speedUnitString // ignore: cast_nullable_to_non_nullable
               as String,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as Locale,
+      language: null == language
+          ? _value.language
+          : language // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -165,7 +191,9 @@ class _$_SettingState implements _SettingState {
       this.speedUnit = SpeedUnit.metersPerSecond,
       this.temperatureUnitString = '\u00b0C',
       this.pressureUnitString = 'mb',
-      this.speedUnitString = 'm/s'});
+      this.speedUnitString = 'm/s',
+      this.locale = const Locale('en', 'US'),
+      this.language = 'English'});
 
   @override
   @JsonKey()
@@ -185,10 +213,16 @@ class _$_SettingState implements _SettingState {
   @override
   @JsonKey()
   final String speedUnitString;
+  @override
+  @JsonKey()
+  final Locale locale;
+  @override
+  @JsonKey()
+  final String language;
 
   @override
   String toString() {
-    return 'SettingState(temperatureUnit: $temperatureUnit, pressureUnit: $pressureUnit, speedUnit: $speedUnit, temperatureUnitString: $temperatureUnitString, pressureUnitString: $pressureUnitString, speedUnitString: $speedUnitString)';
+    return 'SettingState(temperatureUnit: $temperatureUnit, pressureUnit: $pressureUnit, speedUnit: $speedUnit, temperatureUnitString: $temperatureUnitString, pressureUnitString: $pressureUnitString, speedUnitString: $speedUnitString, locale: $locale, language: $language)';
   }
 
   @override
@@ -207,12 +241,23 @@ class _$_SettingState implements _SettingState {
             (identical(other.pressureUnitString, pressureUnitString) ||
                 other.pressureUnitString == pressureUnitString) &&
             (identical(other.speedUnitString, speedUnitString) ||
-                other.speedUnitString == speedUnitString));
+                other.speedUnitString == speedUnitString) &&
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.language, language) ||
+                other.language == language));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, temperatureUnit, pressureUnit,
-      speedUnit, temperatureUnitString, pressureUnitString, speedUnitString);
+  int get hashCode => Object.hash(
+      runtimeType,
+      temperatureUnit,
+      pressureUnit,
+      speedUnit,
+      temperatureUnitString,
+      pressureUnitString,
+      speedUnitString,
+      locale,
+      language);
 
   @JsonKey(ignore: true)
   @override
@@ -228,7 +273,9 @@ abstract class _SettingState implements SettingState {
       final SpeedUnit speedUnit,
       final String temperatureUnitString,
       final String pressureUnitString,
-      final String speedUnitString}) = _$_SettingState;
+      final String speedUnitString,
+      final Locale locale,
+      final String language}) = _$_SettingState;
 
   @override
   TemperatureUnit get temperatureUnit;
@@ -242,6 +289,10 @@ abstract class _SettingState implements SettingState {
   String get pressureUnitString;
   @override
   String get speedUnitString;
+  @override
+  Locale get locale;
+  @override
+  String get language;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>

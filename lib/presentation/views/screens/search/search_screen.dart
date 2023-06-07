@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/database_helper/database_helper.dart';
@@ -99,7 +100,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       child: TextButton(
                           onPressed: Navigator.of(context).pop,
                           child: Text(
-                            '  Cancel',
+                            AppLocalizations.of(context)!.cancel,
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(18),
                             ),
@@ -133,7 +134,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                         fontSize: ScreenUtil().setSp(16)),
                                   ),
                                   trailing: isAdded
-                                      ? Text('Added',
+                                      ? Text(
+                                          AppLocalizations.of(context)!.added,
                                           style: TextStyle(
                                               color: Colors.black54,
                                               fontSize: ScreenUtil().setSp(16)))
@@ -146,9 +148,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                           onPressed: () {
                                             if (cities.length >= 5) {
                                               ScaffoldMessenger.of(context)
-                                                  .showSnackBar(const SnackBar(
+                                                  .showSnackBar(SnackBar(
                                                       content: Text(
-                                                          'You can only add 5 cities')));
+                                                          AppLocalizations.of(
+                                                                  context)!
+                                                              .youCanOnlyAdd5Cities)));
                                               return;
                                             }
                                             ref
@@ -165,7 +169,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                             ? const CustomLoadingIndicator()
                             : Center(
                                 child: Text(
-                                  'No Results',
+                                  AppLocalizations.of(context)!.noResult,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: ScreenUtil().setSp(18)),

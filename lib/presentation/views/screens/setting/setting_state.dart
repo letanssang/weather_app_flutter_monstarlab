@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../domain/enums/units.dart';
@@ -13,5 +15,7 @@ class SettingState with _$SettingState {
     @Default('\u00b0C') String temperatureUnitString,
     @Default('mb') String pressureUnitString,
     @Default('m/s') String speedUnitString,
+    @Default(Locale('en', 'US')) Locale locale,
+    @Default('English') String language,
   }) = _SettingState;
 }

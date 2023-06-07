@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../widgets/custom_container.dart';
@@ -37,7 +38,7 @@ class AQIContainer extends StatelessWidget {
             ),
             Row(
               children: [
-                Text('Full air quality forecast ',
+                Text(AppLocalizations.of(context)!.fullAirQualityForecast,
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: ScreenUtil().setSp(14),

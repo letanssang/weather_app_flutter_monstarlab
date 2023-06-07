@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/home_screen.dart';
@@ -44,7 +45,7 @@ class CityManagerScreen extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Manage cities',
+                AppLocalizations.of(context)!.manageCities,
                 style: TextStyle(
                   fontSize: ScreenUtil().setSp(25),
                 ),
@@ -74,7 +75,7 @@ class CityManagerScreen extends ConsumerWidget {
                           Icon(Icons.search, size: ScreenUtil().setHeight(20)),
                     ),
                     Text(
-                      'Enter location',
+                      AppLocalizations.of(context)!.enterLocation,
                       style: TextStyle(
                           color: const Color(0xFF333333),
                           fontSize: ScreenUtil().setSp(14)),

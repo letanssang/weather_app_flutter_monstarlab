@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+String getWeatherDescriptionLocale(int code, BuildContext context) {
+  switch (code) {
+    case 200:
+      return AppLocalizations.of(context)!.w200;
+    case 201:
+      return AppLocalizations.of(context)!.w201;
+    case 202:
+      return AppLocalizations.of(context)!.w202;
+    case 230:
+      return AppLocalizations.of(context)!.w230;
+    case 231:
+      return AppLocalizations.of(context)!.w231;
+    case 232:
+      return AppLocalizations.of(context)!.w232;
+    case 233:
+      return AppLocalizations.of(context)!.w233;
+    case 300:
+      return AppLocalizations.of(context)!.w300;
+    case 301:
+      return AppLocalizations.of(context)!.w301;
+    case 302:
+      return AppLocalizations.of(context)!.w302;
+    case 500:
+      return AppLocalizations.of(context)!.w500;
+    case 501:
+      return AppLocalizations.of(context)!.w501;
+    case 502:
+      return AppLocalizations.of(context)!.w502;
+    case 511:
+      return AppLocalizations.of(context)!.w511;
+    case 520:
+      return AppLocalizations.of(context)!.w520;
+    case 521:
+      return AppLocalizations.of(context)!.w521;
+    case 522:
+      return AppLocalizations.of(context)!.w522;
+    case 600:
+      return AppLocalizations.of(context)!.w600;
+    case 601:
+      return AppLocalizations.of(context)!.w601;
+    case 602:
+      return AppLocalizations.of(context)!.w602;
+    case 610:
+      return AppLocalizations.of(context)!.w610;
+    case 611:
+      return AppLocalizations.of(context)!.w611;
+    case 612:
+      return AppLocalizations.of(context)!.w612;
+    case 621:
+      return AppLocalizations.of(context)!.w621;
+    case 622:
+      return AppLocalizations.of(context)!.w622;
+    case 623:
+      return AppLocalizations.of(context)!.w623;
+    case 700:
+      return AppLocalizations.of(context)!.w700;
+    case 711:
+      return AppLocalizations.of(context)!.w711;
+    case 721:
+      return AppLocalizations.of(context)!.w721;
+    case 731:
+      return AppLocalizations.of(context)!.w731;
+    case 741:
+      return AppLocalizations.of(context)!.w741;
+    case 751:
+      return AppLocalizations.of(context)!.w751;
+    case 800:
+      return AppLocalizations.of(context)!.w800;
+    case 801:
+      return AppLocalizations.of(context)!.w801;
+    case 802:
+      return AppLocalizations.of(context)!.w802;
+    case 803:
+      return AppLocalizations.of(context)!.w803;
+    case 804:
+      return AppLocalizations.of(context)!.w804;
+    default:
+      return AppLocalizations.of(context)!.w900;
+  }
+}

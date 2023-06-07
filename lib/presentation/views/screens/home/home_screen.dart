@@ -1,5 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
@@ -44,15 +45,15 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  bool _isInitialized = false;
-
   @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    if (!_isInitialized) {
-      _isInitialized = true;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(settingViewModelProvider.notifier).init();
       await ref.read(baseViewModelProvider.notifier).init();
-    }
+      await ref.read(homeViewModelProvider.notifier).fetchWeathers();
+    });
   }
 
   @override
@@ -68,14 +69,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Something went wrong'),
+                      Text(AppLocalizations.of(context)!.somethingWrong),
                       TextButton(
                         onPressed: () {
                           ref
                               .read(homeViewModelProvider.notifier)
                               .fetchWeathers();
                         },
-                        child: const Text('Retry'),
+                        child: Text(AppLocalizations.of(context)!.retry),
                       )
                     ],
                   ),
@@ -172,14 +173,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     },
                                     itemBuilder: (BuildContext context) =>
                                         <PopupMenuEntry<String>>[
-                                      const PopupMenuItem<String>(
+                                      PopupMenuItem<String>(
                                         value: 'Share',
-                                        child: Text('Share'),
+                                        child: Text(
+                                            AppLocalizations.of(context)!
+                                                .share),
                                       ),
-                                      const PopupMenuItem<String>(
-                                        value: 'Setting',
-                                        child: Text('Setting'),
-                                      ),
+                                      PopupMenuItem<String>(
+                                          value: 'Setting',
+                                          child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .setting)),
                                     ],
                                   ),
                                 ],
@@ -191,6 +195,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   children: [
                                     MainWeatherInformation(
                                       icon: weather.weather.icon,
+                                      code: weather.weather.code,
                                       temp: weather.temperature,
                                       description: weather.weather.description,
                                       maxTemp: weather
@@ -200,6 +205,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                       temperatureUnit: settings.temperatureUnit,
                                       temperatureUnitString:
                                           settings.temperatureUnitString,
+                                      locale: settings.locale,
                                     ),
                                     DetailWeatherInformation(
                                       humidity: weather.humidity,

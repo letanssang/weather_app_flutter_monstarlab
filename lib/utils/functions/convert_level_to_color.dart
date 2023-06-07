@@ -1,4 +1,5 @@
-import 'dart:ui';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Map<String, List> level = {
   'aqi': [50, 100, 150, 200, 300],
@@ -25,30 +26,30 @@ Color getColorLevel(String type, double value) {
   }
 }
 
-String getAQIStatus(int aqi) {
+String getAQIStatus(int aqi, BuildContext context) {
   if (aqi <= 50) {
-    return 'Good';
+    return AppLocalizations.of(context)!.good;
   } else if (aqi <= 100) {
-    return 'Moderate';
+    return AppLocalizations.of(context)!.moderate;
   } else if (aqi <= 200) {
-    return 'Unhealthy';
+    return AppLocalizations.of(context)!.unhealthy;
   } else if (aqi <= 300) {
-    return 'Very Unhealthy';
+    return AppLocalizations.of(context)!.veryUnhealthy;
   } else {
-    return 'Hazardous';
+    return AppLocalizations.of(context)!.hazardous;
   }
 }
 
-String getAQIDescription(int aqi) {
+String getAQIDescription(int aqi, BuildContext context) {
   if (aqi <= 50) {
-    return 'Air quality is good\nA perfect day for a walk!';
+    return AppLocalizations.of(context)!.goodDescription;
   } else if (aqi <= 100) {
-    return 'Air quality is moderate.\nYou can go out for a walk!';
+    return AppLocalizations.of(context)!.moderateDescription;
   } else if (aqi <= 200) {
-    return 'Air quality is unhealthy.\nYou should wear a mask when going out!';
+    return AppLocalizations.of(context)!.unhealthyDescription;
   } else if (aqi <= 300) {
-    return 'Air quality is very unhealthy.\nYou should wear a mask when going out!';
+    return AppLocalizations.of(context)!.veryUnhealthyDescription;
   } else {
-    return 'Air quality is hazardous.\nYou should stay at home!';
+    return AppLocalizations.of(context)!.hazardousDescription;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
@@ -16,7 +17,6 @@ class SettingScreen extends ConsumerWidget {
   static const routeName = '/setting';
 
   const SettingScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -32,7 +32,7 @@ class SettingScreen extends ConsumerWidget {
                 size: ScreenUtil().setHeight(20),
               )),
           title: Text(
-            'Setting',
+            AppLocalizations.of(context)!.setting,
             style: TextStyle(
               color: Colors.black,
               fontSize: ScreenUtil().setSp(18),
@@ -47,13 +47,13 @@ class SettingScreen extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Unit',
+              Text(AppLocalizations.of(context)!.units,
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: ScreenUtil().setSp(16),
                   )),
               buildUnitListTile(
-                'Temperature',
+                AppLocalizations.of(context)!.temperature,
                 ['\u00b0C', '\u00b0F', '\u00b0K'],
                 ref.watch(settingViewModelProvider).temperatureUnitString,
                 ref
@@ -61,18 +61,29 @@ class SettingScreen extends ConsumerWidget {
                     .onTemperatureUnitChanged,
               ),
               buildUnitListTile(
-                'Wind Speed',
+                AppLocalizations.of(context)!.windSpeed,
                 ['m/s', 'km/h', 'mph'],
                 ref.watch(settingViewModelProvider).speedUnitString,
                 ref.read(settingViewModelProvider.notifier).onSpeedUnitChanged,
               ),
               buildUnitListTile(
-                'Pressure',
+                AppLocalizations.of(context)!.pressure,
                 ['mb', 'hPa', 'mmHg'],
                 ref.watch(settingViewModelProvider).pressureUnitString,
                 ref
                     .read(settingViewModelProvider.notifier)
                     .onPressureUnitChanged,
+              ),
+              Text(AppLocalizations.of(context)!.language,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(16),
+                  )),
+              buildUnitListTile(
+                AppLocalizations.of(context)!.language,
+                ['English', 'Tiếng Việt'],
+                ref.watch(settingViewModelProvider).language,
+                ref.read(settingViewModelProvider.notifier).onLanguageChanged,
               ),
             ],
           ),

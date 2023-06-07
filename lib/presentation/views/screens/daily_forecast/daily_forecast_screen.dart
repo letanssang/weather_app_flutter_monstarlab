@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
+import 'package:weather_app_flutter_monstarlab/utils/functions/get_weather_description_locale.dart';
 
 import '../../../../utils/functions/convert_unit.dart';
 
@@ -18,6 +20,7 @@ class DailyForecastScreen extends ConsumerWidget {
     final dailyForecasts =
         ModalRoute.of(context)!.settings.arguments as List<DailyForecast>;
     final settingState = ref.watch(settingViewModelProvider);
+    String locale = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -43,7 +46,7 @@ class DailyForecastScreen extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
               child: Text(
-                '7-day forecast',
+                AppLocalizations.of(context)!.weekForecast,
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: ScreenUtil().setSp(30),
@@ -69,10 +72,11 @@ class DailyForecastScreen extends ConsumerWidget {
                         children: [
                           Text(
                             index == 0
-                                ? 'Today'
+                                ? AppLocalizations.of(context)!.today
                                 : index == 1
-                                    ? 'Tomorrow'
-                                    : DateFormat.E().format(dailyForecast.date),
+                                    ? AppLocalizations.of(context)!.tomorrow
+                                    : DateFormat.E(locale)
+                                        .format(dailyForecast.date),
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(20),
                               color: Colors.black87,
@@ -120,7 +124,8 @@ class DailyForecastScreen extends ConsumerWidget {
                             ],
                           ),
                           Text(
-                            dailyForecast.weather.description,
+                            getWeatherDescriptionLocale(
+                                dailyForecast.weather.code, context),
                             textAlign: TextAlign.center,
                             maxLines: 2,
                             style: TextStyle(
