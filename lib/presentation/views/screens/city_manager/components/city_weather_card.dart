@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/daily_forecast.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
@@ -43,16 +44,16 @@ class CityWeatherCard extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: const Text('Remove city'),
-              content: const Text('Are you sure you want to remove this city?'),
+              title: Text(AppLocalizations.of(context)!.removeCity),
+              content: Text(AppLocalizations.of(context)!.areYouSure),
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
-                  child: const Text('Cancel'),
+                  child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(true),
-                  child: const Text('Remove'),
+                  child: Text(AppLocalizations.of(context)!.remove),
                 ),
               ],
             );

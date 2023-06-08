@@ -11,6 +11,7 @@ import '../../../widgets/custom_container.dart';
 class HourForecast extends StatelessWidget {
   final List<HourlyForecast> hourlyForecasts;
   final DateTime date;
+  final String locale;
   final Color? color;
   final TemperatureUnit temperatureUnit;
   final SpeedUnit speedUnit;
@@ -19,6 +20,7 @@ class HourForecast extends StatelessWidget {
     super.key,
     required this.hourlyForecasts,
     required this.date,
+    required this.locale,
     this.color,
     required this.temperatureUnit,
     required this.speedUnit,
@@ -46,7 +48,7 @@ class HourForecast extends StatelessWidget {
                 ),
               ),
               Text(
-                DateFormat('MMM, d').format(date),
+                DateFormat('MMM, d', locale).format(date),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,

@@ -219,6 +219,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     HourForecast(
                                       hourlyForecasts: weather.hourlyForecasts,
                                       date: weather.obTime,
+                                      locale: settings.locale.languageCode,
                                       color: weatherColors[colorIndex]
                                           .foregroundColor,
                                       temperatureUnit: settings.temperatureUnit,

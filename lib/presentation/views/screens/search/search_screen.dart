@@ -27,7 +27,6 @@ class SearchScreen extends ConsumerStatefulWidget {
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(searchViewModelProvider.notifier).focusOnStart();

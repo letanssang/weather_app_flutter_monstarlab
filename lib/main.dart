@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,6 +13,7 @@ import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 
 import 'di/dependency_injection.dart';
+import 'firebase_options.dart';
 import 'presentation/views/screens/city_manager/city_manager_screen.dart';
 import 'presentation/views/screens/home/home_screen.dart';
 
@@ -21,7 +24,29 @@ void main() async {
       await PlatformAssetBundle().load('assets/ca/lets-encrypt-r3.pem');
   SecurityContext.defaultContext
       .setTrustedCertificatesBytes(data.buffer.asUint8List());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+  debugPrint('User granted permission: ${settings.authorizationStatus}');
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    debugPrint('Got a message whilst in the foreground!');
+    debugPrint('Message data: ${message.data}');
 
+    if (message.notification != null) {
+      debugPrint(
+          'Message also contained a notification: ${message.notification}');
+    }
+  });
   setupDependencies();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {

@@ -50,6 +50,8 @@ dependencies:
   flutter_screenutil: ^5.8.4
   flutter_localizations:
     sdk: flutter
+  firebase_core: ^2.13.1
+  firebase_messaging: ^14.6.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

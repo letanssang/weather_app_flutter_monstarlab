@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "16230407684",
+    "project_id": "weather-app-flutter-monstarlab",
+    "storage_bucket": "weather-app-flutter-monstarlab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16230407684:android:73103dbed77c403169df51",
+        "android_client_info": {
+          "package_name": "com.tansangle.weather_app_flutter_monstarlab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "16230407684-k2r0oaer3b05oah6th9katrmvqk7dksu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfnXEdbuh2LGMeUfxkQWZro0UjxL3Lu2M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "16230407684-k2r0oaer3b05oah6th9katrmvqk7dksu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

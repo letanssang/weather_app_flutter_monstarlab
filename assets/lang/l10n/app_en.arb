@@ -73,5 +73,8 @@
   "w802": "Scattered clouds",
   "w803": "Broken clouds",
   "w804": "Overcast clouds",
-  "w900": "Unknown Precipitation"
+  "w900": "Unknown Precipitation",
+  "removeCity": "Remove city",
+  "areYouSure": "Are you sure you want to remove this city?",
+  "remove": "Remove"
 }
