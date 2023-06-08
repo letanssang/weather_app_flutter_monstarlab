@@ -26,14 +26,14 @@ Chứa các Entities, Use Cases và các Interface định nghĩa các repositor
   ### Data Layer
 Chứa các Implementations của các Interface ở Domain Layer và cung cấp dữ liệu từ các nguồn bên ngoài như API, cơ sở dữ liệu.
 ## Screenshot
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/121ae629-3e28-4aff-9d92-2150c1f252e3" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/e77df145-1c33-4770-b3d7-dd98f9726390" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/995d9637-cc3c-4ffe-94ef-2930909b70f3" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/132a90f5-eeb8-4486-b0ca-782ae48d52f9" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/893f53fa-b176-454b-add9-bc33941aed8b" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/099138bc-6964-4def-966b-fc15f583fb1f" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/3e746b9d-d995-4152-9576-c19381abec65" alt="Description" width="200" height="400">
-<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/4b2ad676-882d-4399-90d5-bf39d570e49d" alt="Description" width="200" height="400">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/121ae629-3e28-4aff-9d92-2150c1f252e3" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/e77df145-1c33-4770-b3d7-dd98f9726390" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/995d9637-cc3c-4ffe-94ef-2930909b70f3" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/132a90f5-eeb8-4486-b0ca-782ae48d52f9" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/893f53fa-b176-454b-add9-bc33941aed8b" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/099138bc-6964-4def-966b-fc15f583fb1f" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/3e746b9d-d995-4152-9576-c19381abec65" alt="Description" width="200" height="434">
+<img src="https://github.com/letanssang/weather_app_flutter_monstarlab/assets/67082439/4b2ad676-882d-4399-90d5-bf39d570e49d" alt="Description" width="200" height="434">
 
 ## Cảm ơn
   <br>Weather App được xây dựng nhằm mục đích học tập và thực hành các kỹ năng và công nghệ trong việc phát triển ứng dụng di   động. 
@@ -42,5 +42,4 @@ Chứa các Implementations của các Interface ở Domain Layer và cung cấp
 
 ##  Tác giả
   <br>Tên: Tan Sang Le
-  <br>Email: letan.ssang@gmail.com
-  <br>Đây là dự án mã nguồn mở và miễn phí. Mọi đóng góp và phát triển đều được chào đón và đánh giá cao.
+  <br>Email: letan.ssang@gmail.com.
