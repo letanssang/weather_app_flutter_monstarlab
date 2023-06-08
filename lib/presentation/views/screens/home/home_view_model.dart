@@ -40,6 +40,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
     state = state.copyWith(locationWeather: locationWeather);
   }
 
+  void jumpToPage(int index) {
+    state.pageController.jumpToPage(index);
+    onPageChanged(index.toDouble());
+  }
+
   void onPageChanged(double index) {
     state = state.copyWith(currentPage: index);
   }

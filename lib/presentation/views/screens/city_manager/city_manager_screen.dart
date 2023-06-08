@@ -7,7 +7,6 @@ import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
 
-import '../daily_forecast/daily_forecast_screen.dart';
 import 'components/city_weather_card.dart';
 
 class CityManagerScreen extends ConsumerWidget {
@@ -100,10 +99,10 @@ class CityManagerScreen extends ConsumerWidget {
                   return GestureDetector(
                     key: ValueKey(cityWeather.cityName),
                     onTap: () {
-                      Navigator.of(context).pushNamed(
-                        DailyForecastScreen.routeName,
-                        arguments: cityWeather.dailyForecasts,
-                      );
+                      Navigator.of(context).pop();
+                      ref
+                          .read(homeViewModelProvider.notifier)
+                          .jumpToPage(index + 1);
                     },
                     child: ReorderableDelayedDragStartListener(
                       index: index,

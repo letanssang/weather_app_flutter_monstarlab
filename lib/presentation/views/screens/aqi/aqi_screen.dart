@@ -99,7 +99,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 style: TextStyle(
                                   color: getColorLevel(
                                       'aqi', state.currentAQI.aqi.toDouble()),
-                                  fontSize: ScreenUtil().setSp(20),
+                                  fontSize: ScreenUtil().setSp(25),
                                 ),
                               )
                             ],
@@ -112,7 +112,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 maxLines: 3,
                                 style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: ScreenUtil().setSp(18),
+                                  fontSize: ScreenUtil().setSp(22),
                                   fontWeight: FontWeight.w400,
                                 )),
                           ),
