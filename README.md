@@ -2,14 +2,14 @@
 Weather App là một ứng dụng thời tiết tiện ích cho phép người dùng xem thông tin thời tiết chi tiết từ nguồn dữ liệu API Weather Bit. 
 
 ## Tính năng
-* Xem thời tiết khu vực hiện tại
-* Xem thời tiết các thành phố hiện tại
-* Dự báo thời tiết theo ngày trong 7 ngày tiếp theo
-* Dự báo thời tiết theo giờ trong 24 giờ tiếp theo
-* Xem chi tiết chất lượng không khí và dự báo trong tương lai
-* Quản lý thành phố
-* Đổi các đơn vị đo
-* Hỗ trợ đa ngôn ngữ: tiếng Anh và tiếng Việt
+* Xem thời tiết hiện tại  và dự báo thời tiết của vị trí hiện tại và các thành phố trên thế giới
+ <br> - Dự báo thời tiết theo ngày
+ <br> - Dự báo thời tiết theo giờ 
+ <br> - Chất lượng không khí 
+* Quản lý thành phố: Thêm, Xóa, Sắp Xếp
+* Setting
+  <br> - Thay đổi các đơn vị đo: nhiệt độ, tốc độ, áp suất
+  <br> - Hỗ trợ đa ngôn ngữ: tiếng Anh và tiếng Việt
 * Thông báo đến máy người dùng
 ## Công nghệ và chức năng
 * Sử dụng Retrofit và Dio để thực hiện gọi API và xử lý dữ liệu JSON.
