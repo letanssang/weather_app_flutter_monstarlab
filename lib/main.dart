@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -50,7 +52,13 @@ void main() async {
   setupDependencies();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-    runApp(const ProviderScope(child: MyApp()));
+    runApp(
+      DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) =>
+            const ProviderScope(child: MyApp()), // Wrap your app
+      ),
+    );
   });
 }
 
@@ -63,6 +71,7 @@ class MyApp extends ConsumerWidget {
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       builder: (context, child) => MaterialApp(
+        builder: DevicePreview.appBuilder,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         locale: locale,

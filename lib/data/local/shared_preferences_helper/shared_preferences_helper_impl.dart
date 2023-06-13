@@ -14,8 +14,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
     if (lastTimeCitiesFetched == null) return false;
     final now = DateTime.now();
     final citiesDate = DateTime.parse(lastTimeCitiesFetched);
-    final differenceCities = now.difference(citiesDate).inMinutes;
-    if (differenceCities > 30) return false;
+    final differenceTime = now.difference(citiesDate).inMinutes;
+    if (differenceTime > 30) return false;
     final citiesFromPrefs = await getWeatherCities();
     return listEquals(cities, citiesFromPrefs);
   }
@@ -27,7 +27,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final citiesJson = json.encode(cities.map((e) => e.toJson()).toList());
       prefs.setString('cities', citiesJson);
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -40,7 +40,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final cities = json.decode(citiesJson) as List;
       return cities.map((e) => City.fromJson(e)).toList();
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return [];
     }
   }
 
@@ -53,7 +54,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final weathers = json.decode(weathersJson) as List;
       return weathers.map((e) => Weather.fromJson(e)).toList();
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return [];
     }
   }
 
@@ -66,7 +68,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       prefs.setString('weatherCities', weathersJson);
       prefs.setString('lastTimeCitiesFetched', DateTime.now().toString());
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -83,7 +85,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString('pressureUnit');
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return null;
     }
   }
 
@@ -93,7 +96,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString('speedUnit');
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return null;
     }
   }
 
@@ -103,7 +107,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString('temperatureUnit');
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return null;
     }
   }
 
@@ -113,7 +118,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('pressureUnit', unit);
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -123,7 +128,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('speedUnit', unit);
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -133,7 +138,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('temperatureUnit', unit);
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 
@@ -143,7 +148,8 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       return prefs.getString('language');
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
+      return null;
     }
   }
 
@@ -153,7 +159,7 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('language', language);
     } catch (e) {
-      throw Exception(e);
+      debugPrint(e.toString());
     }
   }
 }

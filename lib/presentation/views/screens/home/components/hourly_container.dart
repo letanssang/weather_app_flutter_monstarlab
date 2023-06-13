@@ -29,10 +29,10 @@ class HourForecast extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final screenHeight = ScreenUtil().screenHeight;
     return CustomContainer(
       color: color,
-      height: screenHeight * 0.3,
+      height: screenHeight * 0.33,
       margin: EdgeInsets.symmetric(vertical: screenHeight * 0.005),
       child: Column(
         children: [

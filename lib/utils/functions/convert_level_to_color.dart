@@ -1,28 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/measurement_type.dart';
 
-Map<String, List> level = {
-  'aqi': [50, 100, 150, 200, 300],
-  'pm25': [12, 35.4, 55.4, 150.4, 250.4],
-  'pm10': [54, 154, 254, 354, 424],
-  'o3': [54, 70, 85, 105, 200],
-  'no2': [53, 100, 360, 649, 1249],
-  'so2': [35, 75, 185, 304, 604],
-  'co': [4.4, 9.4, 12.4, 15.4, 30.4],
+import '../../domain/entities/level.dart';
+
+Map<MeasurementType, Level> levels = {
+  MeasurementType.aqi:
+      Level(lowest: 50, low: 100, medium: 150, high: 200, highest: 300),
+  MeasurementType.pm25:
+      Level(lowest: 12, low: 35.4, medium: 55.4, high: 150.4, highest: 250.4),
+  MeasurementType.pm10:
+      Level(lowest: 54, low: 154, medium: 254, high: 354, highest: 424),
+  MeasurementType.o3:
+      Level(lowest: 54, low: 70, medium: 85, high: 105, highest: 200),
+  MeasurementType.no2:
+      Level(lowest: 53, low: 100, medium: 360, high: 649, highest: 1249),
+  MeasurementType.so2:
+      Level(lowest: 35, low: 75, medium: 185, high: 304, highest: 604),
+  MeasurementType.co:
+      Level(lowest: 4.4, low: 9.4, medium: 12.4, high: 15.4, highest: 30.4),
 };
-Color getColorLevel(String type, double value) {
-  if (value <= level[type]![0]) {
+Color getColorLevel(MeasurementType type, double value) {
+  final level = levels[type];
+  if (value <= level!.lowest) {
     return const Color(0xFF236B23);
-  } else if (value <= level[type]![1]) {
+  } else if (value <= level.low) {
     return const Color(0xFF9D8317);
-  } else if (value <= level[type]![2]) {
+  } else if (value <= level.medium) {
     return const Color(0xFFFF7E00);
-  } else if (value <= level[type]![3]) {
+  } else if (value <= level.high) {
     return const Color(0xFFCC0033);
-  } else if (value <= level[type]![4]) {
-    return const Color(0xFF660099);
   } else {
-    return const Color(0xFF7E0023);
+    return const Color(0xFF660099);
   }
 }
 

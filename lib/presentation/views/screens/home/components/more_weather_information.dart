@@ -24,7 +24,7 @@ class MoreWeatherInformation extends StatelessWidget {
       children: [
         Expanded(
             child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: ScreenUtil().screenHeight * 0.33,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -32,8 +32,8 @@ class MoreWeatherInformation extends StatelessWidget {
                 child: CustomContainer(
                   color: color,
                   margin: EdgeInsets.only(
-                    top: MediaQuery.of(context).size.height * 0.005,
-                    right: MediaQuery.of(context).size.width * 0.005,
+                    top: ScreenUtil().screenHeight * 0.005,
+                    right: ScreenUtil().screenWidth * 0.005,
                   ),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -52,7 +52,7 @@ class MoreWeatherInformation extends StatelessWidget {
                               Text(
                                 '${getTemp(weather.feelLike, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
                                 style: TextStyle(
-                                  fontSize: ScreenUtil().setSp(22),
+                                  fontSize: ScreenUtil().setSp(18),
                                   color: Colors.white,
                                 ),
                               ),
@@ -66,8 +66,8 @@ class MoreWeatherInformation extends StatelessWidget {
                 child: CustomContainer(
                     color: color,
                     margin: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.height * 0.005,
-                        top: MediaQuery.of(context).size.height * 0.01),
+                        right: ScreenUtil().screenWidth * 0.005,
+                        top: ScreenUtil().screenHeight * 0.01),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -116,11 +116,11 @@ class MoreWeatherInformation extends StatelessWidget {
           child: CustomContainer(
             padding: EdgeInsets.all(ScreenUtil().setHeight(20)),
             margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * 0.005,
-              left: MediaQuery.of(context).size.width * 0.005,
+              top: ScreenUtil().screenHeight * 0.005,
+              left: ScreenUtil().screenWidth * 0.005,
             ),
             color: color,
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: ScreenUtil().screenHeight * 0.33,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

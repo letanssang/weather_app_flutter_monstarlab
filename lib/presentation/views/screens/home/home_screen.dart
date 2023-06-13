@@ -49,11 +49,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(settingViewModelProvider.notifier).init();
-      await ref.read(baseViewModelProvider.notifier).init();
-      await ref.read(homeViewModelProvider.notifier).fetchWeathers();
-    });
+    init();
+  }
+
+  Future<void> init() async {
+    await ref.read(baseViewModelProvider.notifier).init();
+    await ref.read(homeViewModelProvider.notifier).fetchWeathers();
+    await ref.read(settingViewModelProvider.notifier).init();
   }
 
   @override
@@ -259,8 +261,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.1),
+                    padding:
+                        EdgeInsets.only(top: ScreenUtil().screenHeight * 0.1),
                     child: DotsIndicator(
                       dotsCount: weathers.length,
                       position: state.currentPage,

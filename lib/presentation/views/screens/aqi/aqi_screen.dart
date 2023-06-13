@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app_flutter_monstarlab/di/dependency_injection.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/measurement_type.dart';
 import 'package:weather_app_flutter_monstarlab/domain/use_cases/get_aqi_data_use_case.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/aqi/aqi_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/aqi/aqi_view_model.dart';
@@ -29,7 +30,6 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
   late final String cityName;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       cityName = ModalRoute.of(context)!.settings.arguments as String;
@@ -87,8 +87,8 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                             children: [
                               Text(state.currentAQI.aqi.toStringAsFixed(0),
                                   style: TextStyle(
-                                    color: getColorLevel(
-                                        'aqi', state.currentAQI.aqi.toDouble()),
+                                    color: getColorLevel(MeasurementType.aqi,
+                                        state.currentAQI.aqi.toDouble()),
                                     fontSize: ScreenUtil().setSp(75),
                                     fontWeight: FontWeight.w700,
                                   )),
@@ -97,8 +97,8 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 getAQIStatus(state.currentAQI.aqi, context),
                                 maxLines: 2,
                                 style: TextStyle(
-                                  color: getColorLevel(
-                                      'aqi', state.currentAQI.aqi.toDouble()),
+                                  color: getColorLevel(MeasurementType.aqi,
+                                      state.currentAQI.aqi.toDouble()),
                                   fontSize: ScreenUtil().setSp(25),
                                 ),
                               )
@@ -131,27 +131,34 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                                 buildDetailAQIIndex(
                                     state.currentAQI.pm25,
                                     'PM2.5',
-                                    getColorLevel(
-                                        'pm25', state.currentAQI.pm25)),
+                                    getColorLevel(MeasurementType.pm25,
+                                        state.currentAQI.pm25)),
                                 buildDetailAQIIndex(
                                   state.currentAQI.pm10,
                                   'PM10',
-                                  getColorLevel('pm10', state.currentAQI.pm10),
+                                  getColorLevel(MeasurementType.pm10,
+                                      state.currentAQI.pm10),
                                 ),
                                 buildDetailAQIIndex(
                                     state.currentAQI.so2,
                                     'SO\u2082',
-                                    getColorLevel('so2', state.currentAQI.so2)),
+                                    getColorLevel(MeasurementType.so2,
+                                        state.currentAQI.so2)),
                                 buildDetailAQIIndex(
                                     state.currentAQI.no2,
                                     'NO\u2082',
-                                    getColorLevel('no2', state.currentAQI.no2)),
+                                    getColorLevel(MeasurementType.no2,
+                                        state.currentAQI.no2)),
                                 buildDetailAQIIndex(
                                     state.currentAQI.o3,
                                     'O\u2083',
-                                    getColorLevel('o3', state.currentAQI.o3)),
-                                buildDetailAQIIndex(state.currentAQI.co, 'CO',
-                                    getColorLevel('co', state.currentAQI.co)),
+                                    getColorLevel(MeasurementType.o3,
+                                        state.currentAQI.o3)),
+                                buildDetailAQIIndex(
+                                    state.currentAQI.co,
+                                    'CO',
+                                    getColorLevel(MeasurementType.o3,
+                                        state.currentAQI.co)),
                               ],
                             ),
                           ),
@@ -176,7 +183,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                         children: [
                           Text(state.hourlyAQIs[index].aqi.toStringAsFixed(0),
                               style: TextStyle(
-                                color: getColorLevel('aqi',
+                                color: getColorLevel(MeasurementType.aqi,
                                     state.hourlyAQIs[index].aqi.toDouble()),
                                 fontSize: ScreenUtil().setSp(22),
                               )),

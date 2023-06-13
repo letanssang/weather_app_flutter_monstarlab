@@ -41,7 +41,6 @@ class SearchViewModel extends StateNotifier<SearchState> {
     } catch (e) {
       if (!mounted) return;
       state = state.copyWith(fetchingState: FetchingState.failure);
-      throw Exception('Failed to get suggest list from database');
     }
   }
 
