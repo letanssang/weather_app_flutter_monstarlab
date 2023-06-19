@@ -1,26 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
+import '../../../../../domain/entities/weather.dart';
 import '../../../widgets/custom_container.dart';
+import '../../setting/setting_state.dart';
 
 class DetailWeatherInformation extends StatelessWidget {
-  final int humidity;
-  final double windSpd;
-  final int pop;
+  final Weather weather;
   final Color? color;
-  final SpeedUnit speedUnit;
-  final String speedUnitString;
+  final SettingState settingState;
   const DetailWeatherInformation(
-      {Key? key,
-      required this.humidity,
-      required this.windSpd,
-      required this.pop,
-      required this.speedUnit,
-      required this.speedUnitString,
-      this.color})
+      {Key? key, required this.weather, required this.settingState, this.color})
       : super(key: key);
 
   @override
@@ -34,15 +26,15 @@ class DetailWeatherInformation extends StatelessWidget {
         children: [
           buildWeatherInfoItem(
             'assets/images/icons/rain.svg',
-            '$pop%',
+            '${weather.hourlyForecasts.first.pop}%',
           ),
           buildWeatherInfoItem(
             'assets/images/icons/humidity.svg',
-            '$humidity%',
+            '${weather.humidity}%',
           ),
           buildWeatherInfoItem(
             'assets/images/icons/wind.svg',
-            '${getSpeed(windSpd, speedUnit).toStringAsFixed(1)} $speedUnitString',
+            '${getSpeed(weather.windSpd, settingState.speedUnit).toStringAsFixed(1)} ${settingState.speedUnitString}',
           ),
         ],
       ),

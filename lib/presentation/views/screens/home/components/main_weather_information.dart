@@ -1,32 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/get_weather_description_locale.dart';
 
+import '../../../../../domain/entities/weather.dart';
 import '../../../../../utils/functions/convert_unit.dart';
 
 class MainWeatherInformation extends StatelessWidget {
-  final String icon;
-  final int code;
-  final double temp;
-  final String description;
-  final double maxTemp;
-  final double minTemp;
-  final TemperatureUnit temperatureUnit;
-  final String temperatureUnitString;
-  final Locale locale;
+  final Weather weather;
+  final SettingState settingState;
 
   const MainWeatherInformation(
-      {super.key,
-      required this.icon,
-      required this.code,
-      required this.temp,
-      required this.description,
-      required this.maxTemp,
-      required this.minTemp,
-      required this.temperatureUnit,
-      required this.temperatureUnitString,
-      required this.locale});
+      {super.key, required this.weather, required this.settingState});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +20,7 @@ class MainWeatherInformation extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 24.0),
           child: Image.asset(
-            'assets/images/weather_state/$icon.png',
+            'assets/images/weather_state/${weather.weather.icon}.png',
             width: 125,
             fit: BoxFit.fitWidth,
           ),
@@ -46,7 +31,8 @@ class MainWeatherInformation extends StatelessWidget {
           children: [
             Expanded(child: Container()),
             Text(
-              getTemp(temp, temperatureUnit).toStringAsFixed(0),
+              getTemp(weather.temperature, settingState.temperatureUnit)
+                  .toStringAsFixed(0),
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(64),
                 fontWeight: FontWeight.w600,
@@ -57,7 +43,7 @@ class MainWeatherInformation extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Text(
-                  temperatureUnitString,
+                  settingState.temperatureUnitString,
                   style: TextStyle(
                       color: Colors.white, fontSize: ScreenUtil().setSp(30)),
                 ),
@@ -66,7 +52,7 @@ class MainWeatherInformation extends StatelessWidget {
           ],
         ),
         Text(
-          getWeatherDescriptionLocale(code, context),
+          getWeatherDescriptionLocale(weather.weather.code, context),
           style: TextStyle(
             color: Colors.white,
             fontSize: ScreenUtil().setSp(24),
@@ -75,7 +61,7 @@ class MainWeatherInformation extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(10.0),
           child: Text(
-            '${getTemp(maxTemp, temperatureUnit).toStringAsFixed(0)}\u00b0 / ${getTemp(minTemp, temperatureUnit).toStringAsFixed(0)}\u00b0',
+            '${getTemp(weather.dailyForecasts[0].maxTemperature, settingState.temperatureUnit).toStringAsFixed(0)}\u00b0 / ${getTemp(weather.dailyForecasts[0].minTemperature, settingState.temperatureUnit).toStringAsFixed(0)}\u00b0',
             style: TextStyle(
               color: Colors.white,
               fontSize: ScreenUtil().setSp(20),

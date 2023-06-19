@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   List<Weather> get locationWeather => throw _privateConstructorUsedError;
   FetchingState get fetchingState => throw _privateConstructorUsedError;
-  PageController get pageController => throw _privateConstructorUsedError;
   double get currentPage => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -34,7 +33,6 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call(
       {List<Weather> locationWeather,
       FetchingState fetchingState,
-      PageController pageController,
       double currentPage});
 }
 
@@ -53,7 +51,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? locationWeather = null,
     Object? fetchingState = null,
-    Object? pageController = null,
     Object? currentPage = null,
   }) {
     return _then(_value.copyWith(
@@ -65,10 +62,6 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.fetchingState
           : fetchingState // ignore: cast_nullable_to_non_nullable
               as FetchingState,
-      pageController: null == pageController
-          ? _value.pageController
-          : pageController // ignore: cast_nullable_to_non_nullable
-              as PageController,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -87,7 +80,6 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
   $Res call(
       {List<Weather> locationWeather,
       FetchingState fetchingState,
-      PageController pageController,
       double currentPage});
 }
 
@@ -104,7 +96,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? locationWeather = null,
     Object? fetchingState = null,
-    Object? pageController = null,
     Object? currentPage = null,
   }) {
     return _then(_$_HomeState(
@@ -116,10 +107,6 @@ class __$$_HomeStateCopyWithImpl<$Res>
           ? _value.fetchingState
           : fetchingState // ignore: cast_nullable_to_non_nullable
               as FetchingState,
-      pageController: null == pageController
-          ? _value.pageController
-          : pageController // ignore: cast_nullable_to_non_nullable
-              as PageController,
       currentPage: null == currentPage
           ? _value.currentPage
           : currentPage // ignore: cast_nullable_to_non_nullable
@@ -134,7 +121,6 @@ class _$_HomeState implements _HomeState {
   const _$_HomeState(
       {final List<Weather> locationWeather = const [],
       this.fetchingState = FetchingState.init,
-      required this.pageController,
       this.currentPage = 0})
       : _locationWeather = locationWeather;
 
@@ -151,14 +137,12 @@ class _$_HomeState implements _HomeState {
   @JsonKey()
   final FetchingState fetchingState;
   @override
-  final PageController pageController;
-  @override
   @JsonKey()
   final double currentPage;
 
   @override
   String toString() {
-    return 'HomeState(locationWeather: $locationWeather, fetchingState: $fetchingState, pageController: $pageController, currentPage: $currentPage)';
+    return 'HomeState(locationWeather: $locationWeather, fetchingState: $fetchingState, currentPage: $currentPage)';
   }
 
   @override
@@ -170,8 +154,6 @@ class _$_HomeState implements _HomeState {
                 .equals(other._locationWeather, _locationWeather) &&
             (identical(other.fetchingState, fetchingState) ||
                 other.fetchingState == fetchingState) &&
-            (identical(other.pageController, pageController) ||
-                other.pageController == pageController) &&
             (identical(other.currentPage, currentPage) ||
                 other.currentPage == currentPage));
   }
@@ -181,7 +163,6 @@ class _$_HomeState implements _HomeState {
       runtimeType,
       const DeepCollectionEquality().hash(_locationWeather),
       fetchingState,
-      pageController,
       currentPage);
 
   @JsonKey(ignore: true)
@@ -195,15 +176,12 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState(
       {final List<Weather> locationWeather,
       final FetchingState fetchingState,
-      required final PageController pageController,
       final double currentPage}) = _$_HomeState;
 
   @override
   List<Weather> get locationWeather;
   @override
   FetchingState get fetchingState;
-  @override
-  PageController get pageController;
   @override
   double get currentPage;
   @override

@@ -53,11 +53,7 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
-      DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) =>
-            const ProviderScope(child: MyApp()), // Wrap your app
-      ),
+      const ProviderScope(child: MyApp()),
     );
   });
 }

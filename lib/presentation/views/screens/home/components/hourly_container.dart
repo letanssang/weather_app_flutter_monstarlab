@@ -2,29 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:weather_app_flutter_monstarlab/domain/entities/hourly_forecast.dart';
-import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
+import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
+import '../../../../../domain/entities/weather.dart';
 import '../../../widgets/custom_container.dart';
 
-class HourForecast extends StatelessWidget {
-  final List<HourlyForecast> hourlyForecasts;
-  final DateTime date;
-  final String locale;
+class HourlyForecast extends StatelessWidget {
+  final Weather weather;
   final Color? color;
-  final TemperatureUnit temperatureUnit;
-  final SpeedUnit speedUnit;
-  final String speedUnitString;
-  const HourForecast({
+  final SettingState settingState;
+  const HourlyForecast({
     super.key,
-    required this.hourlyForecasts,
-    required this.date,
-    required this.locale,
+    required this.weather,
     this.color,
-    required this.temperatureUnit,
-    required this.speedUnit,
-    required this.speedUnitString,
+    required this.settingState,
   });
 
   @override
@@ -48,7 +40,8 @@ class HourForecast extends StatelessWidget {
                 ),
               ),
               Text(
-                DateFormat('MMM, d', locale).format(date),
+                DateFormat('MMM, d', settingState.locale.languageCode)
+                    .format(weather.obTime),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
@@ -63,15 +56,17 @@ class HourForecast extends StatelessWidget {
           Expanded(
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: hourlyForecasts.length,
+                  itemCount: weather.hourlyForecasts.length,
                   itemExtent: ScreenUtil().setWidth(80),
                   itemBuilder: (context, index) {
                     return buildCardWeather(
-                      '${getTemp(hourlyForecasts[index].temperature, temperatureUnit).toStringAsFixed(0)}\u00b0',
-                      'assets/images/weather_state/${hourlyForecasts[index].weather.icon}.png',
-                      getSpeed(hourlyForecasts[index].windSpd, speedUnit),
-                      speedUnitString,
-                      DateFormat('HH:mm').format(hourlyForecasts[index].time),
+                      '${getTemp(weather.hourlyForecasts[index].temperature, settingState.temperatureUnit).toStringAsFixed(0)}\u00b0',
+                      'assets/images/weather_state/${weather.hourlyForecasts[index].weather.icon}.png',
+                      getSpeed(weather.hourlyForecasts[index].windSpd,
+                          settingState.speedUnit),
+                      settingState.speedUnitString,
+                      DateFormat('HH:mm')
+                          .format(weather.hourlyForecasts[index].time),
                     );
                   })),
         ],

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../domain/enums/fetching_state.dart';
@@ -11,7 +10,7 @@ class HomeViewModel extends StateNotifier<HomeState> {
   final GetWeatherFromCoordinateUseCase _getCurrentWeatherFromCoordinateUseCase;
 
   HomeViewModel(this._ref, this._getCurrentWeatherFromCoordinateUseCase)
-      : super(HomeState(pageController: PageController()));
+      : super(const HomeState());
 
   Future<void> fetchWeathers() async {
     if (!mounted) return;
@@ -19,9 +18,6 @@ class HomeViewModel extends StateNotifier<HomeState> {
     try {
       await fetchLocationWeather();
       state = state.copyWith(fetchingState: FetchingState.success);
-      state.pageController.addListener(() {
-        onPageChanged(state.pageController.page!);
-      });
     } catch (e) {
       if (mounted) {
         state = state.copyWith(fetchingState: FetchingState.failure);
@@ -31,18 +27,11 @@ class HomeViewModel extends StateNotifier<HomeState> {
 
   Future<void> fetchLocationWeather() async {
     final baseState = _ref.read(baseViewModelProvider);
-    final lat = baseState.currentLatitude;
-    final lon = baseState.currentLongitude;
     final locationWeather = await _getCurrentWeatherFromCoordinateUseCase.run(
-      lat: lat,
-      lon: lon,
+      lat: baseState.currentLatitude,
+      lon: baseState.currentLongitude,
     );
     state = state.copyWith(locationWeather: locationWeather);
-  }
-
-  void jumpToPage(int index) {
-    state.pageController.jumpToPage(index);
-    onPageChanged(index.toDouble());
   }
 
   void onPageChanged(double index) {

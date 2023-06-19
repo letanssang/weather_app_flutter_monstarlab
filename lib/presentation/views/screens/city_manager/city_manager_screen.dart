@@ -96,18 +96,19 @@ class CityManagerScreen extends ConsumerWidget {
                 itemCount: state.citiesWeather.length,
                 itemBuilder: (context, index) {
                   final cityWeather = state.citiesWeather[index];
+                  final cityId = state.cities[index].id;
                   return GestureDetector(
-                    key: ValueKey(cityWeather.cityName),
+                    key: ValueKey(cityId),
                     onTap: () {
                       Navigator.of(context).pop();
                       ref
                           .read(homeViewModelProvider.notifier)
-                          .jumpToPage(index + 1);
+                          .onPageChanged(index + 1);
                     },
                     child: ReorderableDelayedDragStartListener(
                       index: index,
                       child: CityWeatherCard(
-                        key: ValueKey(cityWeather.cityName),
+                        key: ValueKey(cityId),
                         cityName: cityWeather.cityName,
                         aqi: cityWeather.aqi,
                         description: cityWeather.weather.description,

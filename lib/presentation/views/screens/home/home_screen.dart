@@ -4,10 +4,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
+import 'package:weather_app_flutter_monstarlab/domain/entities/weather.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/components/detail_weather_information.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_screen.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/widgets/custom_loading_indicator.dart';
 import 'package:weather_app_flutter_monstarlab/utils/constants/colors.dart';
+import 'package:weather_app_flutter_monstarlab/utils/constants/numbers.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../../../domain/enums/fetching_state.dart';
@@ -45,6 +47,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final pageController = PageController();
   @override
   void initState() {
     // TODO: implement initState
@@ -56,34 +59,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     await ref.read(baseViewModelProvider.notifier).init();
     await ref.read(homeViewModelProvider.notifier).fetchWeathers();
     await ref.read(settingViewModelProvider.notifier).init();
+    pageController.addListener(() {
+      ref
+          .read(homeViewModelProvider.notifier)
+          .onPageChanged(pageController.page!);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(homeViewModelProvider.select((value) => value.currentPage),
+        (_, next) {
+      if (next % 1 == 0 && next < maxCities) {
+        pageController.jumpToPage(next.round());
+      }
+    });
     final state = ref.watch(homeViewModelProvider);
     final citiesWeather = ref.watch(baseViewModelProvider).citiesWeather;
     final weathers = [...state.locationWeather, ...citiesWeather];
     final settings = ref.watch(settingViewModelProvider);
     return state.fetchingState != FetchingState.success
         ? state.fetchingState == FetchingState.failure
-            ? Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(AppLocalizations.of(context)!.somethingWrong),
-                      TextButton(
-                        onPressed: () {
-                          ref
-                              .read(homeViewModelProvider.notifier)
-                              .fetchWeathers();
-                        },
-                        child: Text(AppLocalizations.of(context)!.retry),
-                      )
-                    ],
-                  ),
-                ),
-              )
+            ? buildLoadingFailScreen(context)
             : Container(
                 color: const Color(0xFF29B2DD),
                 child: const CustomLoadingIndicator())
@@ -91,7 +88,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             body: Stack(
               children: [
                 PageView.builder(
-                  controller: state.pageController,
+                  controller: pageController,
                   itemCount: weathers.length,
                   itemBuilder: (context, index) {
                     final weather = weathers[index];
@@ -196,37 +193,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 child: Column(
                                   children: [
                                     MainWeatherInformation(
-                                      icon: weather.weather.icon,
-                                      code: weather.weather.code,
-                                      temp: weather.temperature,
-                                      description: weather.weather.description,
-                                      maxTemp: weather
-                                          .dailyForecasts[0].maxTemperature,
-                                      minTemp: weather
-                                          .dailyForecasts[0].minTemperature,
-                                      temperatureUnit: settings.temperatureUnit,
-                                      temperatureUnitString:
-                                          settings.temperatureUnitString,
-                                      locale: settings.locale,
+                                      weather: weather,
+                                      settingState: settings,
                                     ),
                                     DetailWeatherInformation(
-                                      humidity: weather.humidity,
-                                      windSpd: weather.windSpd,
-                                      pop: weather.hourlyForecasts.first.pop,
+                                      weather: weather,
                                       color: weatherColors[colorIndex]
                                           .foregroundColor,
-                                      speedUnit: settings.speedUnit,
-                                      speedUnitString: settings.speedUnitString,
+                                      settingState: settings,
                                     ),
-                                    HourForecast(
-                                      hourlyForecasts: weather.hourlyForecasts,
-                                      date: weather.obTime,
-                                      locale: settings.locale.languageCode,
+                                    HourlyForecast(
+                                      weather: weather,
                                       color: weatherColors[colorIndex]
                                           .foregroundColor,
-                                      temperatureUnit: settings.temperatureUnit,
-                                      speedUnit: settings.speedUnit,
-                                      speedUnitString: settings.speedUnitString,
+                                      settingState: settings,
                                     ),
                                     DailyContainer(
                                       dailyForecasts: weather.dailyForecasts,
@@ -258,32 +238,53 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     );
                   },
                 ),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.only(top: ScreenUtil().screenHeight * 0.1),
-                    child: DotsIndicator(
-                      dotsCount: weathers.length,
-                      position: state.currentPage,
-                      decorator: DotsDecorator(
-                        size: Size.square(ScreenUtil().setHeight(9)),
-                        activeSize: Size(ScreenUtil().setHeight(15),
-                            ScreenUtil().setHeight(9)),
-                        activeShape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(ScreenUtil().setHeight(5)),
-                        ),
-                        activeColor: Colors.white,
-                        color: Colors.white.withOpacity(.5),
-                        spacing: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setHeight(4)),
-                      ),
-                    ),
-                  ),
-                )
+                buildDotsIndicator(weathers)
               ],
             ),
           );
+  }
+
+  Align buildDotsIndicator(List<Weather> weathers) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsets.only(top: ScreenUtil().screenHeight * 0.1),
+        child: DotsIndicator(
+          dotsCount: weathers.length,
+          position: pageController.hasClients ? pageController.page ?? 0 : 0,
+          decorator: DotsDecorator(
+            size: Size.square(ScreenUtil().setHeight(9)),
+            activeSize:
+                Size(ScreenUtil().setHeight(15), ScreenUtil().setHeight(9)),
+            activeShape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(ScreenUtil().setHeight(5)),
+            ),
+            activeColor: Colors.white,
+            color: Colors.white.withOpacity(.5),
+            spacing:
+                EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(4)),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Scaffold buildLoadingFailScreen(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(AppLocalizations.of(context)!.somethingWrong),
+            TextButton(
+              onPressed: () {
+                ref.read(homeViewModelProvider.notifier).fetchWeathers();
+              },
+              child: Text(AppLocalizations.of(context)!.retry),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

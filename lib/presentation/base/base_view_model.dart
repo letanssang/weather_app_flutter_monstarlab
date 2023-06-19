@@ -78,6 +78,7 @@ class BaseViewModel extends StateNotifier<BaseState> {
     tempWeatherList.removeAt(index);
     state = state.copyWith(cities: cities, citiesWeather: tempWeatherList);
     _sharedPreferencesHelper.saveWeatherCities(state.citiesWeather);
+    _sharedPreferencesHelper.saveCities(state.cities);
   }
 
   Future<void> updateCities(List<City> cities) async {

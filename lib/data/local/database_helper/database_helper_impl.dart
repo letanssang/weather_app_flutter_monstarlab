@@ -38,7 +38,7 @@ class DatabaseHelperImpl implements DatabaseHelper {
   Future<List<City>> getCitiesFromSearch(String query) async {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.rawQuery(
-      "SELECT * FROM cities WHERE city_name LIKE ? || '%' AND city_id IS NOT NULL AND city_name IS NOT NULL AND country_full IS NOT NULL LIMIT 10",
+      "SELECT * FROM cities WHERE city_name LIKE ? || '%' AND city_id IS NOT NULL AND country_full IS NOT NULL LIMIT 10",
       [query],
     );
 

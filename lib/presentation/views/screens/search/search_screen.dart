@@ -6,6 +6,7 @@ import 'package:weather_app_flutter_monstarlab/data/local/database_helper/databa
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_view_model.dart';
+import 'package:weather_app_flutter_monstarlab/utils/constants/numbers.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../widgets/custom_loading_indicator.dart';
@@ -145,7 +146,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                             size: ScreenUtil().setHeight(20),
                                           ),
                                           onPressed: () {
-                                            if (cities.length >= 5) {
+                                            if (cities.length >= maxCities) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(SnackBar(
                                                       content: Text(
