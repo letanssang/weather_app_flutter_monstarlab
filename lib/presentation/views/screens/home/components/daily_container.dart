@@ -131,7 +131,7 @@ class DailyContainer extends StatelessWidget {
               '${maxTemp.toStringAsFixed(0)}\u00b0 / ${minTemp.toStringAsFixed(0)}\u00b0',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: ScreenUtil().setSp(16),
+                fontSize: ScreenUtil().setSp(14),
               ),
             ),
           ),

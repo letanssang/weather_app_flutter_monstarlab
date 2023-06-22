@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
@@ -64,7 +65,7 @@ class HourlyForecast extends StatelessWidget {
                       'assets/images/weather_state/${weather.hourlyForecasts[index].weather.icon}.png',
                       getSpeed(weather.hourlyForecasts[index].windSpd,
                           settingState.speedUnit),
-                      settingState.speedUnitString,
+                      settingState.speedUnit.toSpeedString(),
                       DateFormat('HH:mm')
                           .format(weather.hourlyForecasts[index].time),
                     );

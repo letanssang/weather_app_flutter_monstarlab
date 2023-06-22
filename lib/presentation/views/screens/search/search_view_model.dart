@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:weather_app_flutter_monstarlab/domain/enums/fetching_state.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/search/search_state.dart';
@@ -15,11 +14,8 @@ class SearchViewModel extends StateNotifier<SearchState> {
   SearchViewModel(
     this.ref,
     this._databaseHelper,
-  ) : super(SearchState(
-            textEditingController: TextEditingController(),
-            focusNode: FocusNode()));
-  Future<void> getSuggestCities() async {
-    final query = state.textEditingController.value.text;
+  ) : super(const SearchState());
+  Future<void> getSuggestCities(String query) async {
     if (query == '') {
       state = state.copyWith(
         suggestions: [],
@@ -34,7 +30,6 @@ class SearchViewModel extends StateNotifier<SearchState> {
           suggestions: cities,
           fetchingState: FetchingState.success,
         );
-        state.focusNode.unfocus();
       } else {
         state = state.copyWith(fetchingState: FetchingState.failure);
       }
@@ -46,26 +41,9 @@ class SearchViewModel extends StateNotifier<SearchState> {
 
   void onChangedHandler() {
     state = state.copyWith(fetchingState: FetchingState.loading);
-    const duration = Duration(milliseconds: 1000);
-    if (state.searchOnStoppedTyping != null) {
-      state.searchOnStoppedTyping!.cancel();
-    }
-    state = state.copyWith(
-        searchOnStoppedTyping: Timer(duration, () => getSuggestCities()));
-  }
-
-  void focusOnStart() {
-    state.focusNode.requestFocus();
   }
 
   void addCityToList(City city) {
     ref.read(baseViewModelProvider.notifier).addCityToList(city);
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    state.textEditingController.dispose();
-    super.dispose();
   }
 }

@@ -11,15 +11,15 @@ class AQI {
   final double co;
   final double pm10;
   final double pm25;
-  AQI(
-    this.aqi,
-    this.o3,
-    this.so2,
-    this.no2,
-    this.co,
-    this.pm10,
-    this.pm25,
-  );
+  AQI({
+    this.aqi = 0,
+    this.o3 = 0,
+    this.so2 = 0,
+    this.no2 = 0,
+    this.co = 0,
+    this.pm10 = 0,
+    this.pm25 = 0,
+  });
   factory AQI.fromJson(Map<String, dynamic> json) => _$AQIFromJson(json);
   Map<String, dynamic> toJson() => _$AQIToJson(this);
 }

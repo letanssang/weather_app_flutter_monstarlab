@@ -18,9 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SearchState {
   Timer? get searchOnStoppedTyping => throw _privateConstructorUsedError;
   FetchingState get fetchingState => throw _privateConstructorUsedError;
-  TextEditingController get textEditingController =>
-      throw _privateConstructorUsedError;
-  FocusNode get focusNode => throw _privateConstructorUsedError;
   List<City> get suggestions => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,8 +34,6 @@ abstract class $SearchStateCopyWith<$Res> {
   $Res call(
       {Timer? searchOnStoppedTyping,
       FetchingState fetchingState,
-      TextEditingController textEditingController,
-      FocusNode focusNode,
       List<City> suggestions});
 }
 
@@ -57,8 +52,6 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
   $Res call({
     Object? searchOnStoppedTyping = freezed,
     Object? fetchingState = null,
-    Object? textEditingController = null,
-    Object? focusNode = null,
     Object? suggestions = null,
   }) {
     return _then(_value.copyWith(
@@ -70,14 +63,6 @@ class _$SearchStateCopyWithImpl<$Res, $Val extends SearchState>
           ? _value.fetchingState
           : fetchingState // ignore: cast_nullable_to_non_nullable
               as FetchingState,
-      textEditingController: null == textEditingController
-          ? _value.textEditingController
-          : textEditingController // ignore: cast_nullable_to_non_nullable
-              as TextEditingController,
-      focusNode: null == focusNode
-          ? _value.focusNode
-          : focusNode // ignore: cast_nullable_to_non_nullable
-              as FocusNode,
       suggestions: null == suggestions
           ? _value.suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
@@ -97,8 +82,6 @@ abstract class _$$_SearchStateCopyWith<$Res>
   $Res call(
       {Timer? searchOnStoppedTyping,
       FetchingState fetchingState,
-      TextEditingController textEditingController,
-      FocusNode focusNode,
       List<City> suggestions});
 }
 
@@ -115,8 +98,6 @@ class __$$_SearchStateCopyWithImpl<$Res>
   $Res call({
     Object? searchOnStoppedTyping = freezed,
     Object? fetchingState = null,
-    Object? textEditingController = null,
-    Object? focusNode = null,
     Object? suggestions = null,
   }) {
     return _then(_$_SearchState(
@@ -128,14 +109,6 @@ class __$$_SearchStateCopyWithImpl<$Res>
           ? _value.fetchingState
           : fetchingState // ignore: cast_nullable_to_non_nullable
               as FetchingState,
-      textEditingController: null == textEditingController
-          ? _value.textEditingController
-          : textEditingController // ignore: cast_nullable_to_non_nullable
-              as TextEditingController,
-      focusNode: null == focusNode
-          ? _value.focusNode
-          : focusNode // ignore: cast_nullable_to_non_nullable
-              as FocusNode,
       suggestions: null == suggestions
           ? _value._suggestions
           : suggestions // ignore: cast_nullable_to_non_nullable
@@ -150,8 +123,6 @@ class _$_SearchState implements _SearchState {
   const _$_SearchState(
       {this.searchOnStoppedTyping,
       this.fetchingState = FetchingState.init,
-      required this.textEditingController,
-      required this.focusNode,
       final List<City> suggestions = const []})
       : _suggestions = suggestions;
 
@@ -160,10 +131,6 @@ class _$_SearchState implements _SearchState {
   @override
   @JsonKey()
   final FetchingState fetchingState;
-  @override
-  final TextEditingController textEditingController;
-  @override
-  final FocusNode focusNode;
   final List<City> _suggestions;
   @override
   @JsonKey()
@@ -175,7 +142,7 @@ class _$_SearchState implements _SearchState {
 
   @override
   String toString() {
-    return 'SearchState(searchOnStoppedTyping: $searchOnStoppedTyping, fetchingState: $fetchingState, textEditingController: $textEditingController, focusNode: $focusNode, suggestions: $suggestions)';
+    return 'SearchState(searchOnStoppedTyping: $searchOnStoppedTyping, fetchingState: $fetchingState, suggestions: $suggestions)';
   }
 
   @override
@@ -187,22 +154,13 @@ class _$_SearchState implements _SearchState {
                 other.searchOnStoppedTyping == searchOnStoppedTyping) &&
             (identical(other.fetchingState, fetchingState) ||
                 other.fetchingState == fetchingState) &&
-            (identical(other.textEditingController, textEditingController) ||
-                other.textEditingController == textEditingController) &&
-            (identical(other.focusNode, focusNode) ||
-                other.focusNode == focusNode) &&
             const DeepCollectionEquality()
                 .equals(other._suggestions, _suggestions));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      searchOnStoppedTyping,
-      fetchingState,
-      textEditingController,
-      focusNode,
-      const DeepCollectionEquality().hash(_suggestions));
+  int get hashCode => Object.hash(runtimeType, searchOnStoppedTyping,
+      fetchingState, const DeepCollectionEquality().hash(_suggestions));
 
   @JsonKey(ignore: true)
   @override
@@ -215,18 +173,12 @@ abstract class _SearchState implements SearchState {
   const factory _SearchState(
       {final Timer? searchOnStoppedTyping,
       final FetchingState fetchingState,
-      required final TextEditingController textEditingController,
-      required final FocusNode focusNode,
       final List<City> suggestions}) = _$_SearchState;
 
   @override
   Timer? get searchOnStoppedTyping;
   @override
   FetchingState get fetchingState;
-  @override
-  TextEditingController get textEditingController;
-  @override
-  FocusNode get focusNode;
   @override
   List<City> get suggestions;
   @override

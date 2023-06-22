@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
 import '../../../../../domain/entities/weather.dart';
@@ -34,7 +35,7 @@ class DetailWeatherInformation extends StatelessWidget {
           ),
           buildWeatherInfoItem(
             'assets/images/icons/wind.svg',
-            '${getSpeed(weather.windSpd, settingState.speedUnit).toStringAsFixed(1)} ${settingState.speedUnitString}',
+            '${getSpeed(weather.windSpd, settingState.speedUnit).toStringAsFixed(1)} ${settingState.speedUnit.toSpeedString()}',
           ),
         ],
       ),

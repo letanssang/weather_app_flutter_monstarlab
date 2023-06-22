@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/get_weather_description_locale.dart';
 
@@ -43,7 +44,7 @@ class MainWeatherInformation extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Text(
-                  settingState.temperatureUnitString,
+                  settingState.temperatureUnit.toTempString(),
                   style: TextStyle(
                       color: Colors.white, fontSize: ScreenUtil().setSp(30)),
                 ),

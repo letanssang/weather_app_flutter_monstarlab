@@ -58,11 +58,29 @@ void main() async {
   });
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
+  @override
+  @override
+  ConsumerState<MyApp> createState() => MyAppState();
+}
+
+class MyAppState extends ConsumerState<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async {
+    await ref.read(settingViewModelProvider.notifier).init();
+    await ref.read(baseViewModelProvider.notifier).init();
+    await ref.read(homeViewModelProvider.notifier).fetchWeathers();
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final locale = ref.watch(settingViewModelProvider).locale;
     return ScreenUtilInit(
       designSize: const Size(375, 812),

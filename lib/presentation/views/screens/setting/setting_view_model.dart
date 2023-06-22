@@ -31,64 +31,30 @@ class SettingViewModel extends StateNotifier<SettingState> {
     }
   }
 
-  void onTemperatureUnitChanged(String unit) {
-    switch (unit) {
-      case '\u00b0C':
-        state = state.copyWith(temperatureUnit: TemperatureUnit.celsius);
-        break;
-      case '\u00b0F':
-        state = state.copyWith(temperatureUnit: TemperatureUnit.fahrenheit);
-        break;
-      case "\u00b0K":
-        state = state.copyWith(temperatureUnit: TemperatureUnit.kelvin);
-        break;
-    }
-
-    _sharedPreferencesHelper.saveTemperatureUnit(unit);
-    state = state.copyWith(temperatureUnitString: unit);
+  void onTemperatureUnitChanged(TemperatureUnit temperatureUnit) {
+    _sharedPreferencesHelper.saveTemperatureUnit(temperatureUnit);
+    state = state.copyWith(temperatureUnit: temperatureUnit);
   }
 
-  void onSpeedUnitChanged(String unit) {
-    switch (unit) {
-      case 'm/s':
-        state = state.copyWith(speedUnit: SpeedUnit.metersPerSecond);
-        break;
-      case 'km/h':
-        state = state.copyWith(speedUnit: SpeedUnit.kilometersPerHour);
-        break;
-      case "mph":
-        state = state.copyWith(speedUnit: SpeedUnit.milesPerHour);
-        break;
-    }
-    _sharedPreferencesHelper.saveSpeedUnit(unit);
-    state = state.copyWith(speedUnitString: unit);
+  void onSpeedUnitChanged(SpeedUnit speedUnit) {
+    _sharedPreferencesHelper.saveSpeedUnit(speedUnit);
+    state = state.copyWith(speedUnit: speedUnit);
   }
 
-  void onPressureUnitChanged(String unit) {
-    switch (unit) {
-      case 'hPa':
-        state = state.copyWith(pressureUnit: PressureUnit.hectoPascal);
-        break;
-      case 'mb':
-        state = state.copyWith(pressureUnit: PressureUnit.milliBar);
-        break;
-      case "mmHg":
-        state = state.copyWith(pressureUnit: PressureUnit.millimeterOfMercury);
-        break;
-    }
-    _sharedPreferencesHelper.savePressureUnit(unit);
-    state = state.copyWith(pressureUnitString: unit);
+  void onPressureUnitChanged(PressureUnit pressureUnit) {
+    _sharedPreferencesHelper.savePressureUnit(pressureUnit);
+    state = state.copyWith(pressureUnit: pressureUnit);
   }
 
-  void onLanguageChanged(String language) {
+  void onLanguageChanged(Language language) {
     switch (language) {
-      case 'English':
+      case Language.english:
         state = state.copyWith(
-            locale: const Locale('en', 'US'), language: 'English');
+            locale: const Locale('en', 'US'), language: language);
         break;
-      case 'Tiếng Việt':
+      case Language.vietnamese:
         state = state.copyWith(
-            locale: const Locale('vi', 'VN'), language: 'Tiếng Việt');
+            locale: const Locale('vi', 'VN'), language: language);
         break;
     }
     _sharedPreferencesHelper.saveLanguage(language);

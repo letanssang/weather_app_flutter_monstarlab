@@ -56,13 +56,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    init();
-  }
-
-  Future<void> init() async {
-    await ref.read(baseViewModelProvider.notifier).init();
-    await ref.read(homeViewModelProvider.notifier).fetchWeathers();
-    await ref.read(settingViewModelProvider.notifier).init();
     pageController.addListener(() {
       ref
           .read(homeViewModelProvider.notifier)
@@ -70,10 +63,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  void showLocationPermissionDialog(
-      String title, String content, Function() onPressed, context) {
+  void showLocationPermissionDialog(String title, String content,
+      Function() onPressed, BuildContext buildContext) {
     showDialog(
-      context: context,
+      context: buildContext,
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(content),
@@ -106,17 +99,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.listen(
         baseViewModelProvider.select((value) => value.locationPermissionState),
         (_, next) {
-      if (next == LocationPermissionState.disabled) {
-        showLocationPermissionDialog(
-            AppLocalizations.of(context)!.locationDisableTitle,
-            AppLocalizations.of(context)!.locationDisableDescription,
-            Geolocator.openLocationSettings,
-            context);
-      } else if (next == LocationPermissionState.denied) {
+      if (next == LocationPermissionState.denied) {
         showLocationPermissionDialog(
             AppLocalizations.of(context)!.locationPermissionTitle,
             AppLocalizations.of(context)!.locationPermissionDescription,
             openAppSettings,
+            context);
+      } else if (next == LocationPermissionState.disabled) {
+        showLocationPermissionDialog(
+            AppLocalizations.of(context)!.locationDisableTitle,
+            AppLocalizations.of(context)!.locationDisableDescription,
+            Geolocator.openLocationSettings,
             context);
       } else if (next == LocationPermissionState.granted) {
         refresh();

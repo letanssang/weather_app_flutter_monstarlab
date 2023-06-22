@@ -11,19 +11,10 @@ class AQIViewModel extends StateNotifier<AQIState> {
   final GetHourlyAQIUseCase getHourlyAQIUseCase;
 
   AQIViewModel(this.getAQIDataUseCase, this.getHourlyAQIUseCase)
-      : super(AQIState(
-            currentAQI: AQI(
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-              0,
-            ),
-            hourlyAQIs: []));
+      : super(AQIState(currentAQI: AQI(), hourlyAQIs: []));
 
   Future<void> fetchDataAQI(String cityName) async {
+    if (!mounted) return;
     state = state.copyWith(fetchingState: FetchingState.loading);
     try {
       final currentAQI = await getAQIDataUseCase.run(city: cityName);

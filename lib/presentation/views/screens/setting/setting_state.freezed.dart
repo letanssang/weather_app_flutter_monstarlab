@@ -19,11 +19,8 @@ mixin _$SettingState {
   TemperatureUnit get temperatureUnit => throw _privateConstructorUsedError;
   PressureUnit get pressureUnit => throw _privateConstructorUsedError;
   SpeedUnit get speedUnit => throw _privateConstructorUsedError;
-  String get temperatureUnitString => throw _privateConstructorUsedError;
-  String get pressureUnitString => throw _privateConstructorUsedError;
-  String get speedUnitString => throw _privateConstructorUsedError;
   Locale get locale => throw _privateConstructorUsedError;
-  String get language => throw _privateConstructorUsedError;
+  Language get language => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SettingStateCopyWith<SettingState> get copyWith =>
@@ -40,11 +37,8 @@ abstract class $SettingStateCopyWith<$Res> {
       {TemperatureUnit temperatureUnit,
       PressureUnit pressureUnit,
       SpeedUnit speedUnit,
-      String temperatureUnitString,
-      String pressureUnitString,
-      String speedUnitString,
       Locale locale,
-      String language});
+      Language language});
 }
 
 /// @nodoc
@@ -63,9 +57,6 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
     Object? temperatureUnit = null,
     Object? pressureUnit = null,
     Object? speedUnit = null,
-    Object? temperatureUnitString = null,
-    Object? pressureUnitString = null,
-    Object? speedUnitString = null,
     Object? locale = null,
     Object? language = null,
   }) {
@@ -82,18 +73,6 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
           ? _value.speedUnit
           : speedUnit // ignore: cast_nullable_to_non_nullable
               as SpeedUnit,
-      temperatureUnitString: null == temperatureUnitString
-          ? _value.temperatureUnitString
-          : temperatureUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
-      pressureUnitString: null == pressureUnitString
-          ? _value.pressureUnitString
-          : pressureUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
-      speedUnitString: null == speedUnitString
-          ? _value.speedUnitString
-          : speedUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
@@ -101,7 +80,7 @@ class _$SettingStateCopyWithImpl<$Res, $Val extends SettingState>
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Language,
     ) as $Val);
   }
 }
@@ -118,11 +97,8 @@ abstract class _$$_SettingStateCopyWith<$Res>
       {TemperatureUnit temperatureUnit,
       PressureUnit pressureUnit,
       SpeedUnit speedUnit,
-      String temperatureUnitString,
-      String pressureUnitString,
-      String speedUnitString,
       Locale locale,
-      String language});
+      Language language});
 }
 
 /// @nodoc
@@ -139,9 +115,6 @@ class __$$_SettingStateCopyWithImpl<$Res>
     Object? temperatureUnit = null,
     Object? pressureUnit = null,
     Object? speedUnit = null,
-    Object? temperatureUnitString = null,
-    Object? pressureUnitString = null,
-    Object? speedUnitString = null,
     Object? locale = null,
     Object? language = null,
   }) {
@@ -158,18 +131,6 @@ class __$$_SettingStateCopyWithImpl<$Res>
           ? _value.speedUnit
           : speedUnit // ignore: cast_nullable_to_non_nullable
               as SpeedUnit,
-      temperatureUnitString: null == temperatureUnitString
-          ? _value.temperatureUnitString
-          : temperatureUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
-      pressureUnitString: null == pressureUnitString
-          ? _value.pressureUnitString
-          : pressureUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
-      speedUnitString: null == speedUnitString
-          ? _value.speedUnitString
-          : speedUnitString // ignore: cast_nullable_to_non_nullable
-              as String,
       locale: null == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
@@ -177,7 +138,7 @@ class __$$_SettingStateCopyWithImpl<$Res>
       language: null == language
           ? _value.language
           : language // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Language,
     ));
   }
 }
@@ -189,11 +150,8 @@ class _$_SettingState implements _SettingState {
       {this.temperatureUnit = TemperatureUnit.celsius,
       this.pressureUnit = PressureUnit.milliBar,
       this.speedUnit = SpeedUnit.metersPerSecond,
-      this.temperatureUnitString = '\u00b0C',
-      this.pressureUnitString = 'mb',
-      this.speedUnitString = 'm/s',
       this.locale = const Locale('en', 'US'),
-      this.language = 'English'});
+      this.language = Language.english});
 
   @override
   @JsonKey()
@@ -206,23 +164,14 @@ class _$_SettingState implements _SettingState {
   final SpeedUnit speedUnit;
   @override
   @JsonKey()
-  final String temperatureUnitString;
-  @override
-  @JsonKey()
-  final String pressureUnitString;
-  @override
-  @JsonKey()
-  final String speedUnitString;
-  @override
-  @JsonKey()
   final Locale locale;
   @override
   @JsonKey()
-  final String language;
+  final Language language;
 
   @override
   String toString() {
-    return 'SettingState(temperatureUnit: $temperatureUnit, pressureUnit: $pressureUnit, speedUnit: $speedUnit, temperatureUnitString: $temperatureUnitString, pressureUnitString: $pressureUnitString, speedUnitString: $speedUnitString, locale: $locale, language: $language)';
+    return 'SettingState(temperatureUnit: $temperatureUnit, pressureUnit: $pressureUnit, speedUnit: $speedUnit, locale: $locale, language: $language)';
   }
 
   @override
@@ -236,12 +185,6 @@ class _$_SettingState implements _SettingState {
                 other.pressureUnit == pressureUnit) &&
             (identical(other.speedUnit, speedUnit) ||
                 other.speedUnit == speedUnit) &&
-            (identical(other.temperatureUnitString, temperatureUnitString) ||
-                other.temperatureUnitString == temperatureUnitString) &&
-            (identical(other.pressureUnitString, pressureUnitString) ||
-                other.pressureUnitString == pressureUnitString) &&
-            (identical(other.speedUnitString, speedUnitString) ||
-                other.speedUnitString == speedUnitString) &&
             (identical(other.locale, locale) || other.locale == locale) &&
             (identical(other.language, language) ||
                 other.language == language));
@@ -249,15 +192,7 @@ class _$_SettingState implements _SettingState {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      temperatureUnit,
-      pressureUnit,
-      speedUnit,
-      temperatureUnitString,
-      pressureUnitString,
-      speedUnitString,
-      locale,
-      language);
+      runtimeType, temperatureUnit, pressureUnit, speedUnit, locale, language);
 
   @JsonKey(ignore: true)
   @override
@@ -271,11 +206,8 @@ abstract class _SettingState implements SettingState {
       {final TemperatureUnit temperatureUnit,
       final PressureUnit pressureUnit,
       final SpeedUnit speedUnit,
-      final String temperatureUnitString,
-      final String pressureUnitString,
-      final String speedUnitString,
       final Locale locale,
-      final String language}) = _$_SettingState;
+      final Language language}) = _$_SettingState;
 
   @override
   TemperatureUnit get temperatureUnit;
@@ -284,15 +216,9 @@ abstract class _SettingState implements SettingState {
   @override
   SpeedUnit get speedUnit;
   @override
-  String get temperatureUnitString;
-  @override
-  String get pressureUnitString;
-  @override
-  String get speedUnitString;
-  @override
   Locale get locale;
   @override
-  String get language;
+  Language get language;
   @override
   @JsonKey(ignore: true)
   _$$_SettingStateCopyWith<_$_SettingState> get copyWith =>

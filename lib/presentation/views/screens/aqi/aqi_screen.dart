@@ -62,108 +62,7 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 4,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(AppLocalizations.of(context)!.airQualityIndex,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: ScreenUtil().setSp(30),
-                                fontWeight: FontWeight.w700,
-                              )),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(cityName,
-                                style: TextStyle(
-                                  color: Colors.black54,
-                                  fontSize: ScreenUtil().setSp(30),
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ),
-                          Row(
-                            children: [
-                              Text(state.currentAQI.aqi.toStringAsFixed(0),
-                                  style: TextStyle(
-                                    color: getColorLevel(MeasurementType.aqi,
-                                        state.currentAQI.aqi.toDouble()),
-                                    fontSize: ScreenUtil().setSp(75),
-                                    fontWeight: FontWeight.w700,
-                                  )),
-                              SizedBox(width: ScreenUtil().setHeight(8)),
-                              Text(
-                                getAQIStatus(state.currentAQI.aqi, context),
-                                maxLines: 2,
-                                style: TextStyle(
-                                  color: getColorLevel(MeasurementType.aqi,
-                                      state.currentAQI.aqi.toDouble()),
-                                  fontSize: ScreenUtil().setSp(25),
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                                getAQIDescription(
-                                    state.currentAQI.aqi, context),
-                                maxLines: 3,
-                                style: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: ScreenUtil().setSp(22),
-                                  fontWeight: FontWeight.w400,
-                                )),
-                          ),
-                          SizedBox(
-                            height: ScreenUtil().screenHeight * 0.2,
-                            child: GridView(
-                              padding:
-                                  EdgeInsets.all(ScreenUtil().setHeight(8)),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                childAspectRatio: 1.5,
-                              ),
-                              shrinkWrap: true,
-                              children: [
-                                buildDetailAQIIndex(
-                                    state.currentAQI.pm25,
-                                    'PM2.5',
-                                    getColorLevel(MeasurementType.pm25,
-                                        state.currentAQI.pm25)),
-                                buildDetailAQIIndex(
-                                  state.currentAQI.pm10,
-                                  'PM10',
-                                  getColorLevel(MeasurementType.pm10,
-                                      state.currentAQI.pm10),
-                                ),
-                                buildDetailAQIIndex(
-                                    state.currentAQI.so2,
-                                    'SO\u2082',
-                                    getColorLevel(MeasurementType.so2,
-                                        state.currentAQI.so2)),
-                                buildDetailAQIIndex(
-                                    state.currentAQI.no2,
-                                    'NO\u2082',
-                                    getColorLevel(MeasurementType.no2,
-                                        state.currentAQI.no2)),
-                                buildDetailAQIIndex(
-                                    state.currentAQI.o3,
-                                    'O\u2083',
-                                    getColorLevel(MeasurementType.o3,
-                                        state.currentAQI.o3)),
-                                buildDetailAQIIndex(
-                                    state.currentAQI.co,
-                                    'CO',
-                                    getColorLevel(MeasurementType.o3,
-                                        state.currentAQI.co)),
-                              ],
-                            ),
-                          ),
-                        ]),
-                  ),
+                  buildCurrentInformation(context, state),
                   Padding(
                     padding: EdgeInsets.symmetric(
                         vertical: ScreenUtil().setHeight(16)),
@@ -174,36 +73,128 @@ class _AQIScreenState extends ConsumerState<AQIScreen> {
                           fontWeight: FontWeight.w700,
                         )),
                   ),
-                  Flexible(
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.hourlyAQIs.length,
-                      itemExtent: ScreenUtil().setWidth(60),
-                      itemBuilder: (context, index) => Column(
-                        children: [
-                          Text(state.hourlyAQIs[index].aqi.toStringAsFixed(0),
-                              style: TextStyle(
-                                color: getColorLevel(MeasurementType.aqi,
-                                    state.hourlyAQIs[index].aqi.toDouble()),
-                                fontSize: ScreenUtil().setSp(22),
-                              )),
-                          const SizedBox(height: 8),
-                          Text(
-                              '${DateFormat.H().format(state.hourlyAQIs[index].timestamp!)}:00',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: ScreenUtil().setSp(16),
-                              )),
-                        ],
-                      ),
-                    ),
-                  ),
+                  buildHourlyIndexListView(state),
                 ],
               )
             : state.fetchingState == FetchingState.loading
                 ? const CustomLoadingIndicator()
                 : const Center(child: Text('Load AQI data failed')),
       ),
+    );
+  }
+
+  Flexible buildHourlyIndexListView(AQIState state) {
+    return Flexible(
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: state.hourlyAQIs.length,
+        itemExtent: ScreenUtil().setWidth(60),
+        itemBuilder: (context, index) => Column(
+          children: [
+            Text(state.hourlyAQIs[index].aqi.toStringAsFixed(0),
+                style: TextStyle(
+                  color: getColorLevel(MeasurementType.aqi,
+                      state.hourlyAQIs[index].aqi.toDouble()),
+                  fontSize: ScreenUtil().setSp(22),
+                )),
+            const SizedBox(height: 8),
+            Text(
+                '${DateFormat.H().format(state.hourlyAQIs[index].timestamp!)}:00',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setSp(16),
+                )),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded buildCurrentInformation(BuildContext context, AQIState state) {
+    return Expanded(
+      flex: 4,
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(AppLocalizations.of(context)!.airQualityIndex,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ScreenUtil().setSp(30),
+                  fontWeight: FontWeight.w700,
+                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(cityName,
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: ScreenUtil().setSp(30),
+                    fontWeight: FontWeight.w400,
+                  )),
+            ),
+            Row(
+              children: [
+                Text(state.currentAQI.aqi.toStringAsFixed(0),
+                    style: TextStyle(
+                      color: getColorLevel(
+                          MeasurementType.aqi, state.currentAQI.aqi.toDouble()),
+                      fontSize: ScreenUtil().setSp(75),
+                      fontWeight: FontWeight.w700,
+                    )),
+                SizedBox(width: ScreenUtil().setHeight(8)),
+                Text(
+                  getAQIStatus(state.currentAQI.aqi, context),
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: getColorLevel(
+                        MeasurementType.aqi, state.currentAQI.aqi.toDouble()),
+                    fontSize: ScreenUtil().setSp(25),
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(getAQIDescription(state.currentAQI.aqi, context),
+                  maxLines: 3,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: ScreenUtil().setSp(22),
+                    fontWeight: FontWeight.w400,
+                  )),
+            ),
+            SizedBox(
+              height: ScreenUtil().screenHeight * 0.2,
+              child: GridView(
+                padding: EdgeInsets.all(ScreenUtil().setHeight(8)),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.5,
+                ),
+                shrinkWrap: true,
+                children: [
+                  buildDetailAQIIndex(
+                      state.currentAQI.pm25,
+                      'PM2.5',
+                      getColorLevel(
+                          MeasurementType.pm25, state.currentAQI.pm25)),
+                  buildDetailAQIIndex(
+                    state.currentAQI.pm10,
+                    'PM10',
+                    getColorLevel(MeasurementType.pm10, state.currentAQI.pm10),
+                  ),
+                  buildDetailAQIIndex(state.currentAQI.so2, 'SO\u2082',
+                      getColorLevel(MeasurementType.so2, state.currentAQI.so2)),
+                  buildDetailAQIIndex(state.currentAQI.no2, 'NO\u2082',
+                      getColorLevel(MeasurementType.no2, state.currentAQI.no2)),
+                  buildDetailAQIIndex(state.currentAQI.o3, 'O\u2083',
+                      getColorLevel(MeasurementType.o3, state.currentAQI.o3)),
+                  buildDetailAQIIndex(state.currentAQI.co, 'CO',
+                      getColorLevel(MeasurementType.o3, state.currentAQI.co)),
+                ],
+              ),
+            ),
+          ]),
     );
   }
 

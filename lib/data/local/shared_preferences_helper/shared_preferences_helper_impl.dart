@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/weather.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 
 class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   @override
@@ -80,10 +82,14 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   }
 
   @override
-  Future<String?> getPressureUnit() async {
+  Future<PressureUnit?> getPressureUnit() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('pressureUnit');
+      final pressureUnitString = prefs.getString('pressureUnit');
+      if (pressureUnitString == null) return null;
+      final pressureUnit =
+          EnumToString.fromString(PressureUnit.values, pressureUnitString);
+      return pressureUnit;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -91,10 +97,14 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   }
 
   @override
-  Future<String?> getSpeedUnit() async {
+  Future<SpeedUnit?> getSpeedUnit() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('speedUnit');
+      final speedUnitString = prefs.getString('speedUnit');
+      if (speedUnitString == null) return null;
+      final speedUnit =
+          EnumToString.fromString(SpeedUnit.values, speedUnitString);
+      return speedUnit;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -102,10 +112,14 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   }
 
   @override
-  Future<String?> getTemperatureUnit() async {
+  Future<TemperatureUnit?> getTemperatureUnit() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('temperatureUnit');
+      final temperatureUnitString = prefs.getString('temperatureUnit');
+      if (temperatureUnitString == null) return null;
+      final temperatureUnit = EnumToString.fromString(
+          TemperatureUnit.values, temperatureUnitString);
+      return temperatureUnit;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -113,40 +127,47 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   }
 
   @override
-  Future<void> savePressureUnit(String unit) async {
+  Future<void> savePressureUnit(PressureUnit pressureUnit) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('pressureUnit', unit);
+      final pressureUnitString = EnumToString.convertToString(pressureUnit);
+      prefs.setString('pressureUnit', pressureUnitString);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   @override
-  Future<void> saveSpeedUnit(String unit) async {
+  Future<void> saveSpeedUnit(SpeedUnit speedUnit) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('speedUnit', unit);
+      final speedUnitString = EnumToString.convertToString(speedUnit);
+      prefs.setString('speedUnit', speedUnitString);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   @override
-  Future<void> saveTemperatureUnit(String unit) async {
+  Future<void> saveTemperatureUnit(TemperatureUnit temperatureUnit) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('temperatureUnit', unit);
+      final temperatureUnitString =
+          EnumToString.convertToString(temperatureUnit);
+      prefs.setString('temperatureUnit', temperatureUnitString);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
 
   @override
-  Future<String?> getLanguage() async {
+  Future<Language?> getLanguage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString('language');
+      final languageString = prefs.getString('language');
+      if (languageString == null) return null;
+      final language = EnumToString.fromString(Language.values, languageString);
+      return language;
     } catch (e) {
       debugPrint(e.toString());
       return null;
@@ -154,10 +175,11 @@ class SharedPreferencesHelperImpl implements SharedPreferencesHelper {
   }
 
   @override
-  Future<void> saveLanguage(String language) async {
+  Future<void> saveLanguage(Language language) async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('language', language);
+      final languageString = EnumToString.convertToString(language);
+      prefs.setString('language', languageString);
     } catch (e) {
       debugPrint(e.toString());
     }

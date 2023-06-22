@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,12 +28,25 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
+  final textEditingController = TextEditingController();
+  final focusNode = FocusNode();
+  Timer? _debounce;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(searchViewModelProvider.notifier).focusOnStart();
+      focusNode.requestFocus();
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _debounce?.cancel();
+    textEditingController.dispose();
+    focusNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,12 +93,22 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                                 fontSize: ScreenUtil().setSp(16),
                               ),
                               textCapitalization: TextCapitalization.words,
-                              controller: state.textEditingController,
-                              focusNode: state.focusNode,
+                              controller: textEditingController,
+                              focusNode: focusNode,
                               onChanged: (_) {
+                                if (_debounce?.isActive ?? false)
+                                  _debounce!.cancel();
                                 ref
                                     .read(searchViewModelProvider.notifier)
                                     .onChangedHandler();
+                                _debounce = Timer(
+                                    const Duration(milliseconds: 500), () {
+                                  ref
+                                      .read(searchViewModelProvider.notifier)
+                                      .getSuggestCities(
+                                          textEditingController.value.text);
+                                  // do something with query
+                                });
                               },
                               decoration: const InputDecoration(
                                 border: InputBorder.none,

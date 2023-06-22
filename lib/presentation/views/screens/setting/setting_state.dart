@@ -12,10 +12,7 @@ class SettingState with _$SettingState {
     @Default(TemperatureUnit.celsius) TemperatureUnit temperatureUnit,
     @Default(PressureUnit.milliBar) PressureUnit pressureUnit,
     @Default(SpeedUnit.metersPerSecond) SpeedUnit speedUnit,
-    @Default('\u00b0C') String temperatureUnitString,
-    @Default('mb') String pressureUnitString,
-    @Default('m/s') String speedUnitString,
     @Default(Locale('en', 'US')) Locale locale,
-    @Default('English') String language,
+    @Default(Language.english) Language language,
   }) = _SettingState;
 }

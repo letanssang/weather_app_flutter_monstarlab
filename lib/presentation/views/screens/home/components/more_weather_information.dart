@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:weather_app_flutter_monstarlab/domain/enums/units.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/setting/setting_state.dart';
 import 'package:weather_app_flutter_monstarlab/utils/functions/convert_unit.dart';
 
@@ -50,7 +51,7 @@ class MoreWeatherInformation extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '${getTemp(weather.feelLike, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnitString}',
+                                '${getTemp(weather.feelLike, settingState.temperatureUnit).toStringAsFixed(0)} ${settingState.temperatureUnit.toTempString()}',
                                 style: TextStyle(
                                   fontSize: ScreenUtil().setSp(18),
                                   color: Colors.white,
@@ -134,7 +135,7 @@ class MoreWeatherInformation extends StatelessWidget {
                     AppLocalizations.of(context)!.pressure,
                     getPressure(weather.pressure, settingState.pressureUnit)
                         .toStringAsFixed(0),
-                    settingState.pressureUnitString),
+                    settingState.pressureUnit.toPressureString()),
                 buildRowDetailInformation(
                     AppLocalizations.of(context)!.cloudCover,
                     weather.clouds.toStringAsFixed(0),

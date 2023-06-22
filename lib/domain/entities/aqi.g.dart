@@ -7,13 +7,13 @@ part of 'aqi.dart';
 // **************************************************************************
 
 AQI _$AQIFromJson(Map<String, dynamic> json) => AQI(
-      json['aqi'] as int,
-      (json['o3'] as num).toDouble(),
-      (json['so2'] as num).toDouble(),
-      (json['no2'] as num).toDouble(),
-      (json['co'] as num).toDouble(),
-      (json['pm10'] as num).toDouble(),
-      (json['pm25'] as num).toDouble(),
+      aqi: json['aqi'] as int? ?? 0,
+      o3: (json['o3'] as num?)?.toDouble() ?? 0,
+      so2: (json['so2'] as num?)?.toDouble() ?? 0,
+      no2: (json['no2'] as num?)?.toDouble() ?? 0,
+      co: (json['co'] as num?)?.toDouble() ?? 0,
+      pm10: (json['pm10'] as num?)?.toDouble() ?? 0,
+      pm25: (json['pm25'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$AQIToJson(AQI instance) => <String, dynamic>{
