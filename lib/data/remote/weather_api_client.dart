@@ -17,35 +17,30 @@ abstract class WeatherApiClient {
   Future<WeatherResponse> getCurrentWeatherFromCoordinate(
     @Query('lat') double? lat,
     @Query('lon') double? lon,
-    @Query('key') String? key,
   );
 
   @GET('current')
   Future<WeatherResponse> getCurrentWeatherFromCityList(
     @Query('city') String? city,
     @Query('cities') String? cities,
-    @Query('key') String? key,
   );
 
   @GET('forecast/daily')
   Future<DailyResponse> getDailyForecast(
     @Query('city') String? city,
     @Query('days') int? days,
-    @Query('key') String? key,
   );
 
   @GET('forecast/hourly')
   Future<HourlyResponse> getHourlyForecast(
     @Query('city') String? city,
     @Query('hours') int? hours,
-    @Query('key') String? key,
   );
   @GET('current/airquality')
   Future<AQIResponse> getCurrentAQI(
     @Query('lat') double? lat,
     @Query('lon') double? lon,
     @Query('city') String? city,
-    @Query('key') String? key,
   );
   @GET('forecast/airquality')
   Future<HourlyAQIResponse> getHourlyAQI(
@@ -53,6 +48,5 @@ abstract class WeatherApiClient {
     @Query('lon') double? lon,
     @Query('city') String? city,
     @Query('hours') int? hours,
-    @Query('key') String? key,
   );
 }

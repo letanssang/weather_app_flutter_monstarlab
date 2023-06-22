@@ -76,5 +76,9 @@
     "w900": "Không xác định",
   "removeCity": "Xóa thành phố",
   "areYouSure": "Bạn có chắc chắn muốn xóa thành phố này?",
-  "remove": "Xóa"
+  "remove": "Xóa",
+  "locationDisabled": "Vị trí bị vô hiệu hóa",
+  "locationDisabledDescription": "Ứng dụng thời tiết yêu cầu dịch vụ định vị để hiển thị thông tin thời tiết cho vị trí hiện tại của bạn",
+  "locationPermission": "Quyền định vị",
+  "locationPermissionDescription": "Ứng dụng thời tiết yêu cầu quyền vị trí để hiển thị thông tin thời tiết cho vị trí hiện tại của bạn"
 }

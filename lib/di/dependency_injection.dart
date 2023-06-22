@@ -16,12 +16,22 @@ import '../domain/use_cases/get_weather_from_city_list_use_case.dart';
 import '../domain/use_cases/get_weather_from_city_list_use_case_impl.dart';
 import '../domain/use_cases/get_weather_from_coordinate_use_case.dart';
 import '../domain/use_cases/get_weather_from_coordinate_use_case_impl.dart';
+import '../utils/constants/string.dart';
 
 final getIt = GetIt.instance;
 
 void setupDependencies() {
+  final dio = Dio();
+  dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+      // Thêm key vào query parameters
+      options.queryParameters['key'] = apiKey;
+      // Tiếp tục xử lý yêu cầu
+      return handler.next(options);
+    },
+  ));
   //register services
-  getIt.registerLazySingleton<Dio>(() => Dio());
+  getIt.registerLazySingleton<Dio>(() => dio);
   getIt.registerLazySingleton<WeatherApiClient>(
       () => WeatherApiClient(getIt<Dio>()));
   getIt.registerLazySingleton<SharedPreferencesHelper>(

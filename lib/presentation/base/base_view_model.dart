@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/city.dart';
@@ -6,6 +7,8 @@ import 'package:weather_app_flutter_monstarlab/presentation/base/base_state.dart
 
 import '../../data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import '../../domain/entities/weather.dart';
+import '../../domain/enums/location_permission_state.dart';
+import '../../domain/exceptions/location_permission_denied_exception.dart';
 
 class BaseViewModel extends StateNotifier<BaseState> {
   final SharedPreferencesHelper _sharedPreferencesHelper;
@@ -34,30 +37,39 @@ class BaseViewModel extends StateNotifier<BaseState> {
   Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
-
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
+    try {
+      // Test if location services are enabled.
+      serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) {
+        throw const LocationServiceDisabledException();
       }
-    }
 
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+      permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) {
+          throw LocationPermissionDeniedException();
+        }
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        throw LocationPermissionDeniedException();
+      }
+      final location = await Geolocator.getCurrentPosition();
+      state = state.copyWith(
+        currentLatitude: location.latitude,
+        currentLongitude: location.longitude,
+        locationPermissionState: LocationPermissionState.granted,
+      );
+    } on LocationServiceDisabledException {
+      state = state.copyWith(
+          locationPermissionState: LocationPermissionState.disabled);
+    } on LocationPermissionDeniedException {
+      state = state.copyWith(
+          locationPermissionState: LocationPermissionState.denied);
+    } catch (e) {
+      debugPrint(e.toString());
     }
-    final location = await Geolocator.getCurrentPosition();
-    state = state.copyWith(
-      currentLatitude: location.latitude,
-      currentLongitude: location.longitude,
-    );
   }
 
   bool addCityToList(City city) {

@@ -76,5 +76,9 @@
   "w900": "Unknown Precipitation",
   "removeCity": "Remove city",
   "areYouSure": "Are you sure you want to remove this city?",
-  "remove": "Remove"
+  "remove": "Remove",
+  "locationDisableTitle": "Location Services Disabled",
+  "locationDisableDescription": "Weather App requires location services to display weather information for your current location",
+  "locationPermissionTitle": "Location Permission Required",
+  "locationPermissionDescription": "Weather App requires location permission to display weather information for your current location"
 }

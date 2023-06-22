@@ -20,6 +20,8 @@ mixin _$BaseState {
   double get currentLatitude => throw _privateConstructorUsedError;
   double get currentLongitude => throw _privateConstructorUsedError;
   List<City> get cities => throw _privateConstructorUsedError;
+  LocationPermissionState get locationPermissionState =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BaseStateCopyWith<BaseState> get copyWith =>
@@ -35,7 +37,8 @@ abstract class $BaseStateCopyWith<$Res> {
       {List<Weather> citiesWeather,
       double currentLatitude,
       double currentLongitude,
-      List<City> cities});
+      List<City> cities,
+      LocationPermissionState locationPermissionState});
 }
 
 /// @nodoc
@@ -55,6 +58,7 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
     Object? currentLatitude = null,
     Object? currentLongitude = null,
     Object? cities = null,
+    Object? locationPermissionState = null,
   }) {
     return _then(_value.copyWith(
       citiesWeather: null == citiesWeather
@@ -73,6 +77,10 @@ class _$BaseStateCopyWithImpl<$Res, $Val extends BaseState>
           ? _value.cities
           : cities // ignore: cast_nullable_to_non_nullable
               as List<City>,
+      locationPermissionState: null == locationPermissionState
+          ? _value.locationPermissionState
+          : locationPermissionState // ignore: cast_nullable_to_non_nullable
+              as LocationPermissionState,
     ) as $Val);
   }
 }
@@ -88,7 +96,8 @@ abstract class _$$_BaseStateCopyWith<$Res> implements $BaseStateCopyWith<$Res> {
       {List<Weather> citiesWeather,
       double currentLatitude,
       double currentLongitude,
-      List<City> cities});
+      List<City> cities,
+      LocationPermissionState locationPermissionState});
 }
 
 /// @nodoc
@@ -106,6 +115,7 @@ class __$$_BaseStateCopyWithImpl<$Res>
     Object? currentLatitude = null,
     Object? currentLongitude = null,
     Object? cities = null,
+    Object? locationPermissionState = null,
   }) {
     return _then(_$_BaseState(
       citiesWeather: null == citiesWeather
@@ -124,6 +134,10 @@ class __$$_BaseStateCopyWithImpl<$Res>
           ? _value._cities
           : cities // ignore: cast_nullable_to_non_nullable
               as List<City>,
+      locationPermissionState: null == locationPermissionState
+          ? _value.locationPermissionState
+          : locationPermissionState // ignore: cast_nullable_to_non_nullable
+              as LocationPermissionState,
     ));
   }
 }
@@ -133,9 +147,10 @@ class __$$_BaseStateCopyWithImpl<$Res>
 class _$_BaseState implements _BaseState {
   const _$_BaseState(
       {final List<Weather> citiesWeather = const [],
-      this.currentLatitude = 0,
-      this.currentLongitude = 0,
-      final List<City> cities = const []})
+      this.currentLatitude = 21.0245,
+      this.currentLongitude = 105.84117,
+      final List<City> cities = const [],
+      this.locationPermissionState = LocationPermissionState.unknown})
       : _citiesWeather = citiesWeather,
         _cities = cities;
 
@@ -164,8 +179,12 @@ class _$_BaseState implements _BaseState {
   }
 
   @override
+  @JsonKey()
+  final LocationPermissionState locationPermissionState;
+
+  @override
   String toString() {
-    return 'BaseState(citiesWeather: $citiesWeather, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude, cities: $cities)';
+    return 'BaseState(citiesWeather: $citiesWeather, currentLatitude: $currentLatitude, currentLongitude: $currentLongitude, cities: $cities, locationPermissionState: $locationPermissionState)';
   }
 
   @override
@@ -179,7 +198,10 @@ class _$_BaseState implements _BaseState {
                 other.currentLatitude == currentLatitude) &&
             (identical(other.currentLongitude, currentLongitude) ||
                 other.currentLongitude == currentLongitude) &&
-            const DeepCollectionEquality().equals(other._cities, _cities));
+            const DeepCollectionEquality().equals(other._cities, _cities) &&
+            (identical(
+                    other.locationPermissionState, locationPermissionState) ||
+                other.locationPermissionState == locationPermissionState));
   }
 
   @override
@@ -188,7 +210,8 @@ class _$_BaseState implements _BaseState {
       const DeepCollectionEquality().hash(_citiesWeather),
       currentLatitude,
       currentLongitude,
-      const DeepCollectionEquality().hash(_cities));
+      const DeepCollectionEquality().hash(_cities),
+      locationPermissionState);
 
   @JsonKey(ignore: true)
   @override
@@ -202,7 +225,8 @@ abstract class _BaseState implements BaseState {
       {final List<Weather> citiesWeather,
       final double currentLatitude,
       final double currentLongitude,
-      final List<City> cities}) = _$_BaseState;
+      final List<City> cities,
+      final LocationPermissionState locationPermissionState}) = _$_BaseState;
 
   @override
   List<Weather> get citiesWeather;
@@ -212,6 +236,8 @@ abstract class _BaseState implements BaseState {
   double get currentLongitude;
   @override
   List<City> get cities;
+  @override
+  LocationPermissionState get locationPermissionState;
   @override
   @JsonKey(ignore: true)
   _$$_BaseStateCopyWith<_$_BaseState> get copyWith =>

@@ -1,7 +1,6 @@
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/daily_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_aqi_response.dart';
 import 'package:weather_app_flutter_monstarlab/data/remote/models/response/hourly_response.dart';
-import 'package:weather_app_flutter_monstarlab/utils/constants/string.dart';
 
 import '../../domain/repositories/weather_repository.dart';
 import '../remote/models/response/aqi_response.dart';
@@ -22,7 +21,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return _weatherApiClient.getCurrentWeatherFromCoordinate(
       lat,
       lon,
-      apiKey,
     );
   }
 
@@ -32,7 +30,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return _weatherApiClient.getCurrentWeatherFromCityList(
       city,
       cities,
-      apiKey,
     );
   }
 
@@ -41,7 +38,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return _weatherApiClient.getDailyForecast(
       city,
       days,
-      apiKey,
     );
   }
 
@@ -50,7 +46,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
     return _weatherApiClient.getHourlyForecast(
       city,
       hours,
-      apiKey,
     );
   }
 
@@ -60,7 +55,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
       lat,
       lon,
       city,
-      apiKey,
     );
   }
 
@@ -72,7 +66,6 @@ class WeatherRepositoryImpl implements WeatherRepository {
       lon,
       city,
       hours,
-      apiKey,
     );
   }
 }

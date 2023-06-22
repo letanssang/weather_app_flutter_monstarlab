@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:weather_app_flutter_monstarlab/data/local/shared_preferences_helper/shared_preferences_helper.dart';
 import 'package:weather_app_flutter_monstarlab/domain/entities/weather.dart';
 import 'package:weather_app_flutter_monstarlab/presentation/views/screens/home/components/detail_weather_information.dart';
@@ -13,6 +15,7 @@ import 'package:weather_app_flutter_monstarlab/utils/constants/numbers.dart';
 
 import '../../../../di/dependency_injection.dart';
 import '../../../../domain/enums/fetching_state.dart';
+import '../../../../domain/enums/location_permission_state.dart';
 import '../../../../domain/use_cases/get_weather_from_city_list_use_case.dart';
 import '../../../../domain/use_cases/get_weather_from_coordinate_use_case.dart';
 import '../../../base/base_state.dart';
@@ -48,6 +51,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   final pageController = PageController();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -66,12 +70,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
+  void showLocationPermissionDialog(
+      String title, String content, Function() onPressed, context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(content),
+        actions: [
+          Center(
+              child: TextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop();
+                    await onPressed();
+                  },
+                  child: const Text('Ok')))
+        ],
+      ),
+    );
+  }
+
+  Future<void> refresh() async {
+    await ref.read(baseViewModelProvider.notifier).determinePosition();
+    await ref.read(homeViewModelProvider.notifier).fetchWeathers();
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(homeViewModelProvider.select((value) => value.currentPage),
         (_, next) {
       if (next % 1 == 0 && next < maxCities) {
         pageController.jumpToPage(next.round());
+      }
+    });
+    ref.listen(
+        baseViewModelProvider.select((value) => value.locationPermissionState),
+        (_, next) {
+      if (next == LocationPermissionState.disabled) {
+        showLocationPermissionDialog(
+            AppLocalizations.of(context)!.locationDisableTitle,
+            AppLocalizations.of(context)!.locationDisableDescription,
+            Geolocator.openLocationSettings,
+            context);
+      } else if (next == LocationPermissionState.denied) {
+        showLocationPermissionDialog(
+            AppLocalizations.of(context)!.locationPermissionTitle,
+            AppLocalizations.of(context)!.locationPermissionDescription,
+            openAppSettings,
+            context);
+      } else if (next == LocationPermissionState.granted) {
+        refresh();
       }
     });
     final state = ref.watch(homeViewModelProvider);
@@ -94,11 +142,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     final weather = weathers[index];
                     final colorIndex = weather.weather.code ~/ 100;
                     return RefreshIndicator(
-                      onRefresh: () async {
-                        await ref
-                            .read(homeViewModelProvider.notifier)
-                            .fetchWeathers();
-                      },
+                      onRefresh: refresh,
                       child: Container(
                         decoration: BoxDecoration(
                             gradient: LinearGradient(
